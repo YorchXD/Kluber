@@ -15,6 +15,7 @@
     />
 
     <EditText
+        android:id="@+id/EditT_Usuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Usuario"
@@ -22,6 +23,7 @@
     />
 
     <EditText
+        android:id="@+id/EditT_Contrasena"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Contraseña"
@@ -29,6 +31,7 @@
     />
     
     <Button
+        android:id="@+id/Btn_Iniciar"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="Iniciar"
