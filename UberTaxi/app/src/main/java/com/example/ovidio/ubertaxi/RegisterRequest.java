@@ -11,18 +11,22 @@ import java.util.HashMap;
 
 public class RegisterRequest extends StringRequest {
 
-    private static final String REGISTER_REQUEST_URL = "http://localhost/Register.php";
+    private static final String REGISTER_REQUEST_URL = "http://192.168.42.80/Register.php";
 
     private HashMap<String,String> params;
 
-    public RegisterRequest(String name, String username, int age, String password, Response.Listener<String> listener)
+    public RegisterRequest(String nombre, String correo, String telefono, String clave, String direccion,String apPaterno,
+                           String apMaterno,Response.Listener<String> listener)
     {
         super(Method.POST, REGISTER_REQUEST_URL, listener, null);
         params = new HashMap<>();
-        params.put("name",name);
-        params.put("username",username);
-        params.put("edad",age+"");//el +"" es para transformar un int en String
-        params.put("password",password);
+        params.put("nombre",nombre);
+        params.put("correo",correo);
+        params.put("telefono",telefono);//el +"" es para transformar un int en String
+        params.put("direccion",direccion);
+        params.put("clave",clave);
+        params.put("apPaterno",apPaterno);
+        params.put("apMaterno",apMaterno);
     }
 
     @Override

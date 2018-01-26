@@ -17,7 +17,7 @@ import org.json.JSONObject;
 
 public class Registro extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText etNombre, etUsuario, etPassword, etEdad;
+    private EditText etNombre, etCorreo, etPassword, etTelefono, etApPaterno, etApMAterno, etDireccion;
     private Button btnRegistrar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,21 +25,16 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
         setContentView(R.layout.activity_registro);
 
         etNombre = (EditText) findViewById(R.id.editT_Nombre);
-        etUsuario = (EditText) findViewById(R.id.editT_Usuario);
+        etCorreo = (EditText) findViewById(R.id.editT_Correo);
         etPassword = (EditText) findViewById(R.id.editT_Contrasena);
-        etEdad = (EditText) findViewById(R.id.editT_Edad);
+        etTelefono = (EditText) findViewById(R.id.editT_Telefono);
+        etApPaterno = (EditText) findViewById(R.id.editT_ApPaterno);
+        etApMAterno = (EditText) findViewById(R.id.editT_ApMaterno);
+        etDireccion = (EditText) findViewById(R.id.editT_direccion);
 
         btnRegistrar = (Button) findViewById(R.id.Btn_Registrar);
 
         btnRegistrar.setOnClickListener(this);
-        /*btnRegistrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Registro.this,MainActivity.class);
-                Registro.this.startActivity(intent);
-
-            }
-        });*/
 
     }
 
@@ -47,9 +42,13 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
     public void onClick(View view)
     {
         final String name= etNombre.getText().toString();
-        final String userName= etUsuario.getText().toString();
+        final String correo= etCorreo.getText().toString();
         final String password= etPassword.getText().toString();
-        final int age= Integer.parseInt(etEdad.getText().toString());
+        //final String telefono= "/+56";
+        final String telefono= etTelefono.getText().toString();
+        final String apPaterno= etApPaterno.getText().toString();
+        final String apMaterno= etApMAterno.getText().toString();
+        final String direccion= etDireccion.getText().toString();
 
         Response.Listener<String> responseListener = new Response.Listener<String>(){
 
@@ -61,7 +60,7 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
 
                     if(success)
                     {
-                        Intent intent = new Intent(Registro.this,MainActivity.class);
+                        Intent intent = new Intent(Registro.this,MainActivity.class); //abre otro activiy (MainActivity)
                         Registro.this.startActivity(intent);
                     }
                     else
@@ -78,7 +77,8 @@ public class Registro extends AppCompatActivity implements View.OnClickListener 
             }
         };
 
-        RegisterRequest registerRequest = new RegisterRequest(name, userName,age, password, responseListener);
+        RegisterRequest registerRequest = new RegisterRequest(name, correo,telefono, password,direccion, apPaterno,
+                apMaterno,responseListener);
 
         RequestQueue queue = Volley.newRequestQueue(Registro.this);
         queue.add(registerRequest);
