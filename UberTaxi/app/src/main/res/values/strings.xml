@@ -7,7 +7,7 @@
     <string name="tv_preguntaRegistro">¿No tiene una cuenta?</string>
     <string name="btnString_iniciar">Entrar</string>
     <string name="et_clave">Contraseña</string>
-    <string name="et_usuario">Usuario</string>
+    <string name="et_usuario">Correo</string>
     <string name="tv_recuperarClave">¿Olvidó su contraseña?</string>
 
     <!--Recursos para el registro-->
@@ -20,4 +20,8 @@
     <string name="et_telefono">Teléfono</string>
     <string name="et_claveRegistro">Contraseña</string>
     <string name="btn_text_registrar">Registrar</string>
+
+    <!--Recursos para el Usuario-->
+    <string name="tv_bienvenido">Bienvenido</string>
+
 </resources>
