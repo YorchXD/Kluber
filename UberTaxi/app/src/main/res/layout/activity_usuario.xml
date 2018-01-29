@@ -31,7 +31,7 @@
             android:id="@+id/textV_Nombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="* "
+            android:text=""
             android:textSize="22sp"
             />
     </LinearLayout>
@@ -44,14 +44,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Usuario: "
+            android:text="Correo: "
             android:textSize="22sp"
             />
         <TextView
-            android:id="@+id/textV_Usuario"
+            android:id="@+id/textV_Correo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="* "
+            android:text=""
             android:textSize="22sp"
             />
     </LinearLayout>
@@ -71,7 +71,7 @@
             android:id="@+id/textV_Contrasena"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="* "
+            android:text=""
             android:textSize="22sp"
             />
     </LinearLayout>
@@ -84,14 +84,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edad: "
+            android:text="Telefono: "
             android:textSize="22sp"
             />
         <TextView
-            android:id="@+id/textV_Edad"
+            android:id="@+id/textV_Telefono"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="* "
+            android:text=""
             android:textSize="22sp"
             />
     </LinearLayout>
