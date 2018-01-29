@@ -15,12 +15,12 @@ public class LoginRequest extends StringRequest{
 
     private HashMap<String,String> params;
 
-    public LoginRequest(String correo,String clave, Response.Listener<String> listener)
+    public LoginRequest(String correo,String password, Response.Listener<String> listener)
     {
         super(Request.Method.POST, lOGIN_REQUEST_URL, listener, null);
         params = new HashMap<>();
         params.put("correo",correo);
-        params.put("clave",clave);
+        params.put("clave",password);
     }
 
     @Override
