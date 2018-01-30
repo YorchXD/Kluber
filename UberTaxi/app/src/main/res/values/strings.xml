@@ -1,0 +1,27 @@
+<resources>
+
+    <string name="app_name">UberTaxi</string>
+
+    <!--Recursos para el main-->
+    <string name="tv_registrar">Registrese aquí</string>
+    <string name="tv_preguntaRegistro">¿No tiene una cuenta?</string>
+    <string name="btnString_iniciar">Entrar</string>
+    <string name="et_clave">Contraseña</string>
+    <string name="et_usuario">Correo</string>
+    <string name="tv_recuperarClave">¿Olvidó su contraseña?</string>
+
+    <!--Recursos para el registro-->
+    <string name="tv_tituloRegistro">Registro de Usuario</string>
+    <string name="et_nombre">Nombre</string>
+    <string name="et_apPaterno">Apellido Paterno</string>
+    <string name="et_apMaterno">Apellido Materno</string>
+    <string name="et_correo">Correo</string>
+    <string name="et_direccion">Dirección</string>
+    <string name="et_telefono">Teléfono</string>
+    <string name="et_claveRegistro">Contraseña</string>
+    <string name="btn_text_registrar">Registrar</string>
+
+    <!--Recursos para el Usuario-->
+    <string name="tv_bienvenido">Bienvenido</string>
+
+</resources>
