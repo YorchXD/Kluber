@@ -15,7 +15,7 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/EditT_Usuario"
+            android:id="@+id/EditT_Correo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/et_usuario"

@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class RegisterRequest extends StringRequest {
 
-    private static final String REGISTER_REQUEST_URL = "http://192.168.0.16/Register.php";
+    private static final String REGISTER_REQUEST_URL = CommandNames.url+"Register.php";
 
     private HashMap<String,String> params;
 
