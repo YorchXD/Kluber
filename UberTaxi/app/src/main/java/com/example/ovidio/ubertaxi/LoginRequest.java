@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 
 public class LoginRequest extends StringRequest{
-    private static final String lOGIN_REQUEST_URL = "http://192.168.0.13/Login.php";
+    private static final String lOGIN_REQUEST_URL = CommandNames.url+"Login.php";
 
     private HashMap<String,String> params;
 
