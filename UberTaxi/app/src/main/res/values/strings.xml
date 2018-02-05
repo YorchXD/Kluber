@@ -23,5 +23,6 @@
 
     <!--Recursos para el Usuario-->
     <string name="tv_bienvenido">Bienvenido</string>
+    <string name="todo">TODO</string>
 
 </resources>
