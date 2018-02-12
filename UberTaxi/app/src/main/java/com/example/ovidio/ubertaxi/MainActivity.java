@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                                 String nombre = jsonResponse.getString("nombre");
                                 String telefono = jsonResponse.getString("telefono");
 
-                                Intent intent = new Intent(MainActivity.this,Usuario.class);
+                                Intent intent = new Intent(MainActivity.this,Home.class);
 
                                 intent.putExtra("nombre",nombre);
                                 intent.putExtra("correo",correo);
