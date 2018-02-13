@@ -2,10 +2,13 @@ package com.example.ovidio.ubertaxi;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -30,6 +33,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -100,6 +104,9 @@ public class Home extends AppCompatActivity
 
         inicio = (PlaceAutocompleteFragment)getFragmentManager().findFragmentById(R.id.ftInicio);
 
+        inicio.getView().setBackgroundColor(Color.WHITE);
+
+
         inicio.setOnPlaceSelectedListener(new PlaceSelectionListener() {
 
 
@@ -123,6 +130,8 @@ public class Home extends AppCompatActivity
         });
 
         fin = (PlaceAutocompleteFragment)getFragmentManager().findFragmentById(R.id.ftFin);
+
+        fin.getView().setBackgroundColor(Color.WHITE);
 
         fin.setOnPlaceSelectedListener(new PlaceSelectionListener() {
 
@@ -220,15 +229,58 @@ public class Home extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
+            return;
+        }
+
+        LocationManager locman = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+
+        double latitud;
+        double longitud;
+        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        final boolean gpsEnabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        Location location;
+        if(!gpsEnabled)
+        {
+            location = locman.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            latitud = location.getLatitude();
+            longitud = location.getLongitude();
+        }
+        else
+        {
+            location = locman.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            latitud = location.getLatitude();
+            longitud = location.getLongitude();
+        }
+
+        //mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) location);
+        //mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) location);
+        //Location location = locman.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+
+        Log.d("coordenadas", "latitud: " + latitud + " longitud: " + longitud);
+
+        LatLng hcmus = new LatLng(latitud, longitud);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hcmus, 18));
+
+
         mMap.getUiSettings().setZoomControlsEnabled(true);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
             return;
         }
+
+
         mMap.setMyLocationEnabled(true);
-        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
-            public void onMapLongClick(LatLng latLng)
+            public void onMapClick(LatLng latLng)
             {
                 //Reset marker when already 2
                 if (coordenadasInicio!=null && coordenadasFin!=null) {
@@ -382,6 +434,21 @@ public class Home extends AppCompatActivity
                 Log.d("datos", "distanciaString: " + distanciaString+ " distanciaInt: " +distanciaInt + " tiempoString: " + tiempoString);
                 ((TextView) findViewById(R.id.tvDuration)).setText(tiempoString);
                 ((TextView) findViewById(R.id.tvDistance)).setText(distanciaString);
+
+                int calculoCosto=500;
+
+                if(distanciaInt>=200)
+                {
+                    int num = distanciaInt/200;
+                    calculoCosto = calculoCosto+(num*120); //calculo aproximado de recorrido
+                }
+
+                String stgCosto= String.valueOf(calculoCosto);
+
+
+                ((TextView) findViewById(R.id.tvCosto)).setText(stgCosto);
+
+
 
                 lists.remove(lists.size()-1);
             }
