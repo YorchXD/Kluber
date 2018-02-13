@@ -56,9 +56,10 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginBottom="17dp"
+        android:background="@color/colorPrimary"
         android:text="@string/btnString_iniciar"
         android:textSize="20sp"
-        android:theme="@style/BtnRaised"/>
+        android:theme="@style/BtnRaised" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
