@@ -3,6 +3,7 @@ package com.example.ovidio.ubertaxi;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -15,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -29,6 +31,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -51,7 +56,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -66,10 +73,16 @@ public class Home extends AppCompatActivity
     LatLng coordenadasInicio;
     LatLng coordenadasFin;
 
+    private boolean sePidioTaxi, seMarcoDestino;
+
     private PlaceAutocompleteFragment inicio;
     private PlaceAutocompleteFragment fin;
 
-    private Button btnFindPath;
+    private Button btnFindPath, btnPedirTaxi;
+
+    private String IdRecorrido, Fecha, Hora, LugarInicio, LugarDestino;
+
+    private String Direccion, direccionOrigen, direccionDestino;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +91,18 @@ public class Home extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        sePidioTaxi=false;
+        seMarcoDestino = false;
 
+        IdRecorrido = "";
+        Fecha="";
+        Hora = "";
+        LugarInicio="";
+        LugarDestino="";
+
+        Direccion = "";
+        direccionOrigen = "";
+        direccionDestino = "";
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -157,6 +181,205 @@ public class Home extends AppCompatActivity
         });
 
 
+        btnPedirTaxi = (Button) findViewById(R.id.btn_pedir_taxi);
+        btnPedirTaxi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(seMarcoDestino == false)
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
+                    builder.setMessage("Error Registro")
+                            .setNegativeButton("Debe seleccionar oringen y destino", null)
+                            .create().show();
+                }
+
+                if(sePidioTaxi==false && seMarcoDestino== true)
+                {
+
+                    ingresarDatosRecorrido();
+
+                }
+
+            }
+        });
+
+    }
+
+
+    public void ingresarDatosRecorrido()
+    {
+        final Date Fecha = new Date();
+
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm:ss");
+
+        Log.d("Fecha","Hora: "+hourFormat.format(Fecha));
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+
+
+        final String fecha= dateFormat.format(Fecha);
+        final String hora= hourFormat.format(Fecha);
+        final String inicio= direccionOrigen;
+        final String destino= direccionDestino;
+
+        Log.d("direccionOrigen",direccionOrigen);
+
+        if(inicio =="" || destino =="")
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
+            builder.setMessage("Error Registro")
+                    .setNegativeButton("Debe ingresar dirección inicio y destino", null)
+                    .create().show();
+        }
+        else
+        {
+
+
+            Log.d("Cualquier cosa1", "cosa");
+            Response.Listener<String> responseListener = new Response.Listener<String>() {
+
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject jsonResponse = new JSONObject(response);
+                        boolean success = jsonResponse.getBoolean("success");
+
+                        if (success) {
+
+                            Log.d("success", "" + success);
+
+                            Log.d("fecha", fecha);
+
+                            consultaRecorrido(fecha, hora, inicio, destino);
+
+                        } else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
+                            builder.setMessage("Error Registro")
+                                    .setNegativeButton("Intente nuevamente", null)
+                                    .create().show();
+                        }
+
+                    } catch (JSONException e) {
+                        Log.d("Cualquier cosa2", "cosa");
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+            RecorridoRequest recorridoRequest = new RecorridoRequest(fecha, hora, inicio, destino, responseListener);
+
+
+            RequestQueue queue = Volley.newRequestQueue(Home.this);
+            queue.add(recorridoRequest);
+        }
+    }
+
+
+    public void consultaRecorrido(String fecha1, String hora1, String lugarInicio1, String lugarDestino1)
+    {
+
+        final String fecha= fecha1;
+        final String hora= hora1;
+        final String lugarInicio= lugarInicio1;
+        final String lugarDestino= lugarDestino1;
+
+        Log.d("Cualquier cosa1","cosa");
+        Response.Listener<String> responseListener = new Response.Listener<String>(){
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    boolean success = jsonResponse.getBoolean("success");
+
+                    Log.d("Cualquier cosa","cosa");
+
+                    if(success)
+                    {
+
+                        Log.d("success",""+success);
+
+                        String id =jsonResponse.getString("id");
+                        Log.d("idddd",""+ id);
+
+                        ingresarDatosPersonaRecorrido(id);
+
+                        IdRecorrido = id;
+
+                        sePidioTaxi=true;
+
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
+                        builder.setMessage("PEIDO TAXI EXITOSO")
+                                .setNegativeButton("Se ha pedido taxi a operadora, espere un momento", null)
+                                .create().show();
+
+                    }
+                    else
+                    {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
+                        builder.setMessage("Error Registro")
+                                .setNegativeButton("Intentelo nuevamente", null)
+                                .create().show();
+                    }
+
+                } catch (JSONException e) {
+                    Log.d("Cualquier cosa2","cosa");
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        ConsultaRecorridoRequest consultaRecorridoRequest = new ConsultaRecorridoRequest(fecha, hora, lugarInicio, lugarDestino, responseListener);
+
+
+
+        RequestQueue queue = Volley.newRequestQueue(Home.this);
+        queue.add(consultaRecorridoRequest);
+    }
+
+
+    public void ingresarDatosPersonaRecorrido(String idRecorrido)
+    {
+        Bundle extras = getIntent().getExtras();
+        final String recorrido = idRecorrido;
+        final String persona=getIntent().getStringExtra("correo"); //capta el dato correo del activity MainActivity
+
+        Response.Listener<String> responseListener = new Response.Listener<String>(){
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    boolean success = jsonResponse.getBoolean("success");
+
+                    if(success)
+                    {
+                        Log.d("success","");
+                        String refRecorrido = jsonResponse.getString("refRecorrido");
+
+                        Log.d("refRecorrido",""+refRecorrido);
+                    }
+                    else
+                    {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
+                        builder.setMessage("Error Registro")
+                                .setNegativeButton("Intente nuevamente", null)
+                                .create().show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        PersonaRecorridoRequest personaRecorridoRequest = new PersonaRecorridoRequest(recorrido,persona,responseListener);
+
+        RequestQueue queue = Volley.newRequestQueue(Home.this);
+
+        queue.add(personaRecorridoRequest);
     }
 
     @Override
@@ -293,12 +516,14 @@ public class Home extends AppCompatActivity
                 {
                     coordenadasInicio=latLng;
                     inicio.setText(conversorDireccion(coordenadasInicio.latitude, coordenadasInicio.longitude));
+                    direccionOrigen = Direccion;
                     pintarCoordenadas();
                 }
                 else
                 {
                     coordenadasFin=latLng;
                     fin.setText(conversorDireccion(coordenadasFin.latitude, coordenadasFin.longitude));
+                    direccionDestino = Direccion;
                     pintarCoordenadas();
                     trazarRecorrido();
                 }
@@ -497,7 +722,9 @@ public class Home extends AppCompatActivity
             markerOptionsInicio.position(coordenadasInicio);
             //Add first marker to the map
             markerOptionsInicio.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+            markerOptionsInicio.title(direccionOrigen);
             mMap.addMarker(markerOptionsInicio);
+            seMarcoDestino=false;
         }
 
         if(coordenadasFin!=null)
@@ -505,7 +732,9 @@ public class Home extends AppCompatActivity
             MarkerOptions markerOptionsFin = new MarkerOptions();
             markerOptionsFin.position(coordenadasFin);
             markerOptionsFin.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+            markerOptionsFin.title(direccionDestino);
             mMap.addMarker(markerOptionsFin);
+            seMarcoDestino=true;
         }
 
     }
@@ -539,6 +768,8 @@ public class Home extends AppCompatActivity
                 e.printStackTrace();
             }
         }
+
+        Direccion = direccion;
         return direccion;
     }
 
