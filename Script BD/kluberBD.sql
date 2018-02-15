@@ -1,7 +1,7 @@
-﻿/*
+/*
 Navicat MySQL Data Transfer
 
-Source Server         : TaxiUber
+Source Server         : Kluber
 Source Server Version : 50505
 Source Host           : localhost:3306
 Source Database       : kluber
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2018-01-24 12:33:36
+Date: 2018-02-15 13:17:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -37,20 +37,20 @@ INSERT INTO `admin` VALUES ('yorch', '456');
 -- ----------------------------
 DROP TABLE IF EXISTS `adminrecorrido`;
 CREATE TABLE `adminrecorrido` (
-  `refRecorrido` varchar(256) DEFAULT NULL,
+  `refRecorrido` int(20) DEFAULT NULL,
   `refAdmin` varchar(256) DEFAULT NULL,
-  KEY `refRecorrido` (`refRecorrido`),
   KEY `refAdmin` (`refAdmin`),
-  CONSTRAINT `adminrecorrido_ibfk_1` FOREIGN KEY (`refRecorrido`) REFERENCES `recorrido` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `adminrecorrido_ibfk_2` FOREIGN KEY (`refAdmin`) REFERENCES `admin` (`usuario`) ON UPDATE CASCADE
+  KEY `recorrido` (`refRecorrido`),
+  CONSTRAINT `adminrecorrido_ibfk_2` FOREIGN KEY (`refAdmin`) REFERENCES `admin` (`usuario`) ON UPDATE CASCADE,
+  CONSTRAINT `recorrido` FOREIGN KEY (`refRecorrido`) REFERENCES `recorrido` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of adminrecorrido
 -- ----------------------------
-INSERT INTO `adminrecorrido` VALUES ('1', 'fito');
-INSERT INTO `adminrecorrido` VALUES ('2', 'yorch');
-INSERT INTO `adminrecorrido` VALUES ('3', 'blake');
+INSERT INTO `adminrecorrido` VALUES (null, 'fito');
+INSERT INTO `adminrecorrido` VALUES (null, 'yorch');
+INSERT INTO `adminrecorrido` VALUES (null, 'blake');
 
 -- ----------------------------
 -- Table structure for boleta
@@ -83,12 +83,12 @@ INSERT INTO `boleta` VALUES ('6', '2018-01-30', '500', '200', '200', '50', '30',
 -- ----------------------------
 DROP TABLE IF EXISTS `boletarecorrido`;
 CREATE TABLE `boletarecorrido` (
-  `refRecorrido` varchar(256) DEFAULT NULL,
+  `refRecorrido` int(20) DEFAULT NULL,
   `refBoleta` varchar(256) DEFAULT NULL,
   KEY `refRecorrido` (`refRecorrido`),
   KEY `refBoleta` (`refBoleta`),
-  CONSTRAINT `boletarecorrido_ibfk_1` FOREIGN KEY (`refRecorrido`) REFERENCES `recorrido` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `boletarecorrido_ibfk_2` FOREIGN KEY (`refBoleta`) REFERENCES `boleta` (`id`) ON UPDATE CASCADE
+  CONSTRAINT `boletarecorrido_ibfk_2` FOREIGN KEY (`refBoleta`) REFERENCES `boleta` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `recorr` FOREIGN KEY (`refRecorrido`) REFERENCES `recorrido` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
@@ -127,7 +127,7 @@ INSERT INTO `empresa` VALUES ('555', 'comp@gmail.com', 'computacionTec', 'peña 
 -- ----------------------------
 DROP TABLE IF EXISTS `empresarecorrido`;
 CREATE TABLE `empresarecorrido` (
-  `refRecorrido` varchar(256) DEFAULT NULL,
+  `refRecorrido` int(20) DEFAULT NULL,
   `refEmpresa` varchar(256) DEFAULT NULL,
   `refPasajeros` varchar(256) DEFAULT NULL,
   KEY `refRecorrido` (`refRecorrido`),
@@ -262,19 +262,21 @@ CREATE TABLE `persona` (
 -- Records of persona
 -- ----------------------------
 INSERT INTO `persona` VALUES ('ddd@gmail.com', 'diego', 'cardenas', 'pizarro', 'camilo henriquez 65', '666', '6464');
+INSERT INTO `persona` VALUES ('f', 'f', 'f', 'f', 'f', '5', 'f');
 INSERT INTO `persona` VALUES ('ggg@gmail.com', 'juan', 'soto', 'soto', 'san martin 2', '333', '1234');
 INSERT INTO `persona` VALUES ('iii@gmail.com', 'ignacio', 'nuñez', 'diaz', 'o\'higgins 45', '444', '1111');
+INSERT INTO `persona` VALUES ('jjj', 'r', '', '', '', '', '');
 
 -- ----------------------------
 -- Table structure for personarecorrido
 -- ----------------------------
 DROP TABLE IF EXISTS `personarecorrido`;
 CREATE TABLE `personarecorrido` (
-  `refRecorrido` varchar(256) DEFAULT NULL,
+  `refRecorrido` int(20) DEFAULT NULL,
   `refPersona` varchar(256) DEFAULT NULL,
   KEY `refRecorrido` (`refRecorrido`),
   KEY `refPersona` (`refPersona`),
-  CONSTRAINT `personarecorrido_ibfk_1` FOREIGN KEY (`refRecorrido`) REFERENCES `recorrido` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `idRecorrido` FOREIGN KEY (`refRecorrido`) REFERENCES `recorrido` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `personarecorrido_ibfk_2` FOREIGN KEY (`refPersona`) REFERENCES `persona` (`correo`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -284,29 +286,112 @@ CREATE TABLE `personarecorrido` (
 INSERT INTO `personarecorrido` VALUES ('1', 'ddd@gmail.com');
 INSERT INTO `personarecorrido` VALUES ('2', 'ggg@gmail.com');
 INSERT INTO `personarecorrido` VALUES ('3', 'iii@gmail.com');
+INSERT INTO `personarecorrido` VALUES (null, 'f');
+INSERT INTO `personarecorrido` VALUES (null, 'iii@gmail.com');
+INSERT INTO `personarecorrido` VALUES (null, 'f');
+INSERT INTO `personarecorrido` VALUES (null, 'f');
+INSERT INTO `personarecorrido` VALUES ('1', 'f');
+INSERT INTO `personarecorrido` VALUES ('2', 'f');
+INSERT INTO `personarecorrido` VALUES ('2', 'ggg@gmail.com');
+INSERT INTO `personarecorrido` VALUES ('3', 'f');
+INSERT INTO `personarecorrido` VALUES ('4', 'f');
+INSERT INTO `personarecorrido` VALUES ('5', 'f');
+INSERT INTO `personarecorrido` VALUES ('5', 'f');
+INSERT INTO `personarecorrido` VALUES ('111', 'f');
+INSERT INTO `personarecorrido` VALUES ('112', 'jjj');
+INSERT INTO `personarecorrido` VALUES ('113', 'jjj');
+INSERT INTO `personarecorrido` VALUES ('114', 'jjj');
+INSERT INTO `personarecorrido` VALUES ('115', 'jjj');
+INSERT INTO `personarecorrido` VALUES ('116', 'jjj');
+INSERT INTO `personarecorrido` VALUES ('117', 'f');
+INSERT INTO `personarecorrido` VALUES ('118', 'f');
+INSERT INTO `personarecorrido` VALUES ('137', 'f');
+INSERT INTO `personarecorrido` VALUES ('138', 'f');
+INSERT INTO `personarecorrido` VALUES ('139', 'f');
+INSERT INTO `personarecorrido` VALUES ('140', 'f');
+INSERT INTO `personarecorrido` VALUES ('141', 'f');
+INSERT INTO `personarecorrido` VALUES ('142', 'f');
+INSERT INTO `personarecorrido` VALUES ('143', 'f');
+INSERT INTO `personarecorrido` VALUES ('144', 'f');
+INSERT INTO `personarecorrido` VALUES ('145', 'f');
+INSERT INTO `personarecorrido` VALUES ('146', 'f');
+INSERT INTO `personarecorrido` VALUES ('147', 'f');
 
 -- ----------------------------
 -- Table structure for recorrido
 -- ----------------------------
 DROP TABLE IF EXISTS `recorrido`;
 CREATE TABLE `recorrido` (
-  `id` varchar(256) NOT NULL,
+  `id` int(20) NOT NULL AUTO_INCREMENT,
   `fecha` date NOT NULL,
   `hora` time NOT NULL,
   `lugarInicio` varchar(100) NOT NULL,
   `lugarDestino` varchar(100) NOT NULL,
+  `latitudInicio` varchar(200) NOT NULL,
+  `longitudInicio` varchar(200) NOT NULL,
+  `latitudDestino` varchar(200) NOT NULL,
+  `longitudDestino` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=148 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of recorrido
 -- ----------------------------
-INSERT INTO `recorrido` VALUES ('1', '2018-01-24', '09:33:20', 'Curico', 'Talca');
-INSERT INTO `recorrido` VALUES ('2', '2018-01-25', '11:33:47', 'Av. Circunvalacion 32', 'Camilo Henriquez 56');
-INSERT INTO `recorrido` VALUES ('3', '2018-01-29', '12:38:12', 'San Martin 132', 'Prat 345');
-INSERT INTO `recorrido` VALUES ('4', '2018-01-26', '10:17:36', 'los niches 59', 'san martin 678');
-INSERT INTO `recorrido` VALUES ('5', '2018-01-29', '12:18:32', 'yungay 65', 'prat 999');
-INSERT INTO `recorrido` VALUES ('6', '2018-01-30', '14:19:19', 'peña 89', 'sarmiento 387');
+INSERT INTO `recorrido` VALUES ('1', '2018-01-24', '09:33:20', 'Curico', 'Talca', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('2', '2018-01-25', '11:33:47', 'Av. Circunvalacion 32', 'Camilo Henriquez 56', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('3', '2018-01-29', '12:38:12', 'San Martin 132', 'Prat 345', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('4', '2018-01-26', '10:17:36', 'los niches 59', 'san martin 678', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('5', '2018-01-29', '12:18:32', 'yungay 65', 'prat 999', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('6', '2018-01-30', '14:19:19', 'peña 89', 'sarmiento 387', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('99', '2018-02-14', '17:06:02', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '21 Nte. A, Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('100', '2018-02-14', '17:07:57', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('101', '2018-02-14', '17:13:11', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '21 Nte. A, Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('102', '2018-02-14', '17:15:22', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '24 Ote., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('103', '2018-02-14', '17:16:21', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '24 Ote., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('104', '2018-02-14', '17:18:47', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', 'CircunvalaciÃ³n 2475, Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('105', '2018-02-14', '17:20:14', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', 'Av. 21 Nte., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('106', '2018-02-14', '17:30:29', '19 Norte A, Talca, VII RegiÃ³n, Chile', 'Av. 21 Nte., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('107', '2018-02-14', '17:37:43', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '23 1/2 Ote., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('108', '2018-02-14', '17:39:14', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('109', '2018-02-14', '17:46:51', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('110', '2018-02-14', '17:49:13', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '21 Nte. A, Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('111', '2018-02-14', '17:52:41', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('112', '2018-02-14', '17:57:54', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('113', '2018-02-14', '18:07:02', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', 'Av. 21 Nte., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('114', '2018-02-14', '18:08:24', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('115', '2018-02-14', '18:10:02', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '24 Ote., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('116', '2018-02-14', '18:12:12', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('117', '2018-02-14', '18:13:55', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', 'Av. 21 Nte., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('118', '2018-02-14', '18:31:38', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '23 Ote., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('119', '2018-02-15', '10:00:14', 'Unnamed Road, ChÃ©pica, VI RegiÃ³n, Chile', 'Av. 21 Nte., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('120', '2018-02-15', '10:00:17', 'Unnamed Road, ChÃ©pica, VI RegiÃ³n, Chile', 'Av. 21 Nte., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('121', '2018-02-15', '10:00:24', 'Unnamed Road, ChÃ©pica, VI RegiÃ³n, Chile', 'Av. 21 Nte., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('122', '2018-02-15', '10:00:25', 'Unnamed Road, ChÃ©pica, VI RegiÃ³n, Chile', 'Av. 21 Nte., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('123', '2018-02-15', '10:00:25', 'Unnamed Road, ChÃ©pica, VI RegiÃ³n, Chile', 'Av. 21 Nte., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('124', '2018-02-15', '10:00:25', 'Unnamed Road, ChÃ©pica, VI RegiÃ³n, Chile', 'Av. 21 Nte., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('125', '2018-02-15', '10:01:45', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', 'Av. 21 Nte., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('126', '2018-02-15', '10:01:47', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', 'Av. 21 Nte., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('127', '2018-02-15', '10:01:47', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', 'Av. 21 Nte., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('128', '2018-02-15', '10:03:36', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('129', '2018-02-15', '10:06:23', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('130', '2018-02-15', '10:11:35', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', 'Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('131', '2018-02-15', '10:11:39', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', 'Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('132', '2018-02-15', '10:11:39', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', 'Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('133', '2018-02-15', '10:11:40', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', 'Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('134', '2018-02-15', '10:11:57', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', 'Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('135', '2018-02-15', '10:14:44', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', 'Av. 21 Nte., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('136', '2018-02-15', '10:17:10', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', 'Av. 21 Nte., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('137', '2018-02-15', '10:57:53', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '23 1/2 Ote., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('138', '2018-02-15', '11:17:48', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', 'Av. 21 Nte., Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('139', '2018-02-15', '11:34:12', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '', '', '', '');
+INSERT INTO `recorrido` VALUES ('140', '2018-02-15', '11:46:08', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '-35.40927221123707', '-71.6194847971201', '-35.407028703458', '-71.61983717232943');
+INSERT INTO `recorrido` VALUES ('141', '2018-02-15', '11:47:41', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '24 Ote., Talca, VII RegiÃ³n, Chile', '-35.40956542024607', '-71.61964070051908', '-35.410453785111656', '-71.62139989435673');
+INSERT INTO `recorrido` VALUES ('142', '2018-02-15', '11:48:46', 'Calle 13 Ote. 3262, Talca, VII RegiÃ³n, Chile', 'Pasaje Doce 12 1/2 Oriente C 3224, Talca, VII RegiÃ³n, Chile', '-35.40982966267957', '-71.63536079227924', '-35.4086849702286', '-71.63662645965815');
+INSERT INTO `recorrido` VALUES ('143', '2018-02-15', '12:18:42', 'Diego Portales 1110, CuricÃ³, VII RegiÃ³n, Chile', 'Alameda - 2 Nte., Talca, VII RegiÃ³n, Chile', '-34.9779853', '-71.2528803', '-35.42324440000001', '-71.6484804');
+INSERT INTO `recorrido` VALUES ('144', '2018-02-15', '12:24:07', 'Alameda - 2 Nte., Talca, VII RegiÃ³n, Chile', 'Diego Portales 1110, CuricÃ³, VII RegiÃ³n, Chile', '-35.42324440000001', '-71.6484804', '-34.9779853', '-71.2528803');
+INSERT INTO `recorrido` VALUES ('145', '2018-02-15', '12:28:54', 'Alameda - 2 Nte., Talca, VII RegiÃ³n, Chile', 'Diego Portales 1110, CuricÃ³, VII RegiÃ³n, Chile', '-35.42324440000001', '-71.6484804', '-34.9779853', '-71.2528803');
+INSERT INTO `recorrido` VALUES ('146', '2018-02-15', '12:37:47', '21 Nte. A, Talca, VII RegiÃ³n, Chile', 'Pje B 1998, Talca, VII RegiÃ³n, Chile', '-35.41171376536334', '-71.6197369247675', '-35.41646932334171', '-71.6455940902233');
+INSERT INTO `recorrido` VALUES ('147', '2018-02-15', '12:39:47', 'Alameda - 2 Nte., Talca, VII RegiÃ³n, Chile', 'Diego Portales 1110, CuricÃ³, VII RegiÃ³n, Chile', '-35.42324440000001', '-71.6484804', '-34.9779853', '-71.2528803');
 
 -- ----------------------------
 -- Table structure for taxi
@@ -354,7 +439,7 @@ INSERT INTO `taxista` VALUES ('432', 'ddd@gmail.com', 'cesar', 'gutierrez', 'rey
 -- ----------------------------
 DROP TABLE IF EXISTS `taxistarecorrido`;
 CREATE TABLE `taxistarecorrido` (
-  `refRecorrido` varchar(256) DEFAULT NULL,
+  `refRecorrido` int(20) DEFAULT NULL,
   `refTaxista` varchar(256) DEFAULT NULL,
   KEY `refRecorrido` (`refRecorrido`),
   KEY `refTaxista` (`refTaxista`),
