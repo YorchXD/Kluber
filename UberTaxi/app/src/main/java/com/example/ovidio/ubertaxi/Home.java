@@ -140,6 +140,9 @@ public class Home extends AppCompatActivity
                 //Save first point select
                 coordenadasInicio=place.getLatLng();
 
+                conversorDireccion(coordenadasInicio.latitude,coordenadasInicio.longitude);
+                direccionOrigen = Direccion;
+
                 Log.d("CoordenadasInicio", "lat "+coordenadasInicio.latitude + " lng: " + coordenadasInicio.longitude );
                 pintarCoordenadas();
 
@@ -167,6 +170,10 @@ public class Home extends AppCompatActivity
                 //Save first point select
                 coordenadasFin=place.getLatLng();
 
+                conversorDireccion(coordenadasFin.latitude,coordenadasFin.longitude);
+
+                direccionDestino = Direccion;
+
                 Log.d("CoordenadasInicio", "lat "+coordenadasFin.latitude + " lng: " + coordenadasFin.longitude );
                 pintarCoordenadas();
 
@@ -189,7 +196,7 @@ public class Home extends AppCompatActivity
                 if(seMarcoDestino == false)
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
-                    builder.setMessage("Error Registro")
+                    builder.setMessage("Error Registro1")
                             .setNegativeButton("Debe seleccionar oringen y destino", null)
                             .create().show();
                 }
@@ -222,13 +229,20 @@ public class Home extends AppCompatActivity
         final String hora= hourFormat.format(Fecha);
         final String inicio= direccionOrigen;
         final String destino= direccionDestino;
+        final String latitudOrig= String.valueOf(coordenadasInicio.latitude);
+        final String longitudOrig= String.valueOf(coordenadasInicio.longitude);
+        final String latitudDes= String.valueOf(coordenadasFin.latitude);
+        final String longitudDes= String.valueOf(coordenadasFin.longitude);
+
+        Log.d("latitudOrig",latitudOrig);
+
 
         Log.d("direccionOrigen",direccionOrigen);
 
         if(inicio =="" || destino =="")
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
-            builder.setMessage("Error Registro")
+            builder.setMessage("Error Registro2")
                     .setNegativeButton("Debe ingresar dirección inicio y destino", null)
                     .create().show();
         }
@@ -267,8 +281,8 @@ public class Home extends AppCompatActivity
                 }
             };
 
-            RecorridoRequest recorridoRequest = new RecorridoRequest(fecha, hora, inicio, destino, responseListener);
-
+            RecorridoRequest recorridoRequest = new RecorridoRequest(fecha, hora, inicio, destino,
+                    latitudOrig, longitudOrig, latitudDes, longitudDes,responseListener);
 
             RequestQueue queue = Volley.newRequestQueue(Home.this);
             queue.add(recorridoRequest);
@@ -284,7 +298,7 @@ public class Home extends AppCompatActivity
         final String lugarInicio= lugarInicio1;
         final String lugarDestino= lugarDestino1;
 
-        Log.d("Cualquier cosa1","cosa");
+        Log.d("Cualquier cosaaaaa","cosa");
         Response.Listener<String> responseListener = new Response.Listener<String>(){
 
             @Override
@@ -298,7 +312,7 @@ public class Home extends AppCompatActivity
                     if(success)
                     {
 
-                        Log.d("success",""+success);
+                        Log.d("successsss",""+success);
 
                         String id =jsonResponse.getString("id");
                         Log.d("idddd",""+ id);
@@ -311,7 +325,7 @@ public class Home extends AppCompatActivity
 
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
-                        builder.setMessage("PEIDO TAXI EXITOSO")
+                        builder.setMessage("PEDIDO TAXI EXITOSO")
                                 .setNegativeButton("Se ha pedido taxi a operadora, espere un momento", null)
                                 .create().show();
 
@@ -319,7 +333,7 @@ public class Home extends AppCompatActivity
                     else
                     {
                         AlertDialog.Builder builder = new AlertDialog.Builder(Home.this);
-                        builder.setMessage("Error Registro")
+                        builder.setMessage("Error de pedido")
                                 .setNegativeButton("Intentelo nuevamente", null)
                                 .create().show();
                     }
@@ -707,7 +721,7 @@ public class Home extends AppCompatActivity
                 mMap.addPolyline(polylineOptions);
 
             } else {
-                Toast.makeText(getApplicationContext(), "Direction not found!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Direcccion no encontrada!", Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -778,6 +792,8 @@ public class Home extends AppCompatActivity
         if(coordenadasInicio!=null && coordenadasFin!=null)
         {
             trazarRecorrido();
+            seMarcoDestino = true;
+            Log.d("seMarcoDestinoSend",String.valueOf(seMarcoDestino));
         }
         else
         {

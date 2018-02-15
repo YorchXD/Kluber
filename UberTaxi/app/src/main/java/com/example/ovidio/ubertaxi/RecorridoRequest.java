@@ -15,7 +15,9 @@ public class RecorridoRequest extends StringRequest {
 
     private HashMap<String,String> params;
 
-    public RecorridoRequest(String fecha, String hora, String lugarInicio, String lugarDestino, Response.Listener<String> listener)
+    public RecorridoRequest(String fecha, String hora, String lugarInicio, String lugarDestino,
+                            String latitudInicio, String longitudInicio, String latitudDestino, String longitudDestino,
+                            Response.Listener<String> listener)
     {
         super(Method.POST, REGISTER_REQUEST_URL, listener, null);
         params = new HashMap<>();
@@ -23,6 +25,10 @@ public class RecorridoRequest extends StringRequest {
         params.put("hora",hora);
         params.put("lugarInicio",lugarInicio);
         params.put("lugarDestino",lugarDestino);
+        params.put("latitudInicio",latitudInicio);
+        params.put("longitudInicio",longitudInicio);
+        params.put("latitudDestino",latitudDestino);
+        params.put("longitudDestino",longitudDestino);
     }
 
     @Override

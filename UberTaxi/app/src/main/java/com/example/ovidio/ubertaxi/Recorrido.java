@@ -100,12 +100,7 @@ public class Recorrido extends AppCompatActivity implements View.OnClickListener
             }
         };
 
-        RecorridoRequest recorridoRequest = new RecorridoRequest(fecha, hora,inicio, destino,responseListener);
 
-
-
-        RequestQueue queue = Volley.newRequestQueue(Recorrido.this);
-        queue.add(recorridoRequest);
 
     }
 
@@ -148,13 +143,6 @@ public class Recorrido extends AppCompatActivity implements View.OnClickListener
                 }
             }
         };
-
-        RecorridoRequest recorridoRequest = new RecorridoRequest(fecha, hora,inicio, destino,responseListener);
-
-
-
-        RequestQueue queue = Volley.newRequestQueue(Recorrido.this);
-        queue.add(recorridoRequest);
 
 
 
