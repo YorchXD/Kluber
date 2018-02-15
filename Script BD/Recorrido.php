@@ -3,11 +3,15 @@
     
     $fecha = $_POST["fecha"];
     $hora = $_POST["hora"];
-    $lugarDestino = $_POST["lugarDestino"];
     $lugarInicio = $_POST["lugarInicio"];
     $lugarDestino = $_POST["lugarDestino"];
-    $statement = mysqli_prepare($con, "INSERT INTO recorrido (fecha, hora,lugarInicio, lugarDestino) VALUES (?, ?, ?, ?)");
-    mysqli_stmt_bind_param($statement, "ssss", $fecha, $hora,$lugarInicio, $lugarDestino);
+    $latitudInicio = $_POST["latitudInicio"];
+    $longitudInicio = $_POST["longitudInicio"];
+    $latitudDestino = $_POST["latitudDestino"];
+    $longitudDestino = $_POST["longitudDestino"];
+
+    $statement = mysqli_prepare($con, "INSERT INTO recorrido (fecha, hora,lugarInicio, lugarDestino,latitudInicio, longitudInicio, latitudDestino, longitudDestino) VALUES (?, ?, ?, ?,?,?,?,?)");
+    mysqli_stmt_bind_param($statement, "ssssssss", $fecha, $hora,$lugarInicio, $lugarDestino,$latitudInicio, $longitudInicio, $latitudDestino, $longitudDestino);
     mysqli_stmt_execute($statement);
 
     
