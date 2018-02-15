@@ -9,4 +9,5 @@
     <color name="colorDivider">#BDBDBD</color>
     <color name="colorTextIcon">#FFFFFF</color>
     <color name="colorFondoBienvenida">#fef768</color>
+    <color name="colorAnarajandoPrinicipal">@android:color/holo_orange_light</color>
 </resources>

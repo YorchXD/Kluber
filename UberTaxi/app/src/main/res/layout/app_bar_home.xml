@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="#271A02"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
@@ -27,88 +27,58 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="70dp"
-        app:cardElevation="10dp" >
+        android:layout_marginTop="60dp"
+         >
 
         <LinearLayout
-            android:orientation="vertical"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            tools:context="cl.kable.mapayorch.MapsActivity"
+            android:background="#271A02"
+            android:orientation="vertical" >
 
-
-            <LinearLayout
-                android:weightSum="6"
+            <fragment
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:id="@+id/ftInicio"
+                android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+                android:hint="Ingrese dirección origen" />
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:src="@drawable/map_placeholder_red" />
-
-                <fragment
-                    android:id="@+id/ftInicio"
-                    android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="5"
-                    android:tag="inicio" />
-
-            </LinearLayout>
-
-            <View
+            <fragment
+                android:id="@+id/ftFin"
+                android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorDivider"/>
+                android:layout_height="30dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginStart="5dp"
+                android:hint="Ingrese dirección destino" />
 
-            <LinearLayout
-                android:weightSum="6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:src="@drawable/map_placeholder_green" />
-
-                <fragment
-                    android:id="@+id/ftFin"
-                    android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="5"
-                    android:tag="Fin" />
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
+                android:background="@android:color/holo_orange_light"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btnFindPath"
-                    android:layout_width="61dp"
+                    android:layout_width="63dp"
                     android:layout_height="wrap_content"
-                    android:background="?attr/colorPrimary"
-                    android:text="Buscar"
-                    android:textColor="@android:color/background_light" />
+                    android:background="#271A02"
+                    android:text="Ruta"
+                    android:textColor="#f7c83c" />
 
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
                     android:src="@drawable/ic_distance" />
 
@@ -117,12 +87,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="0 km" />
+                    android:text="0 km"
+                    android:textColor="#0e0e0e" />
 
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:padding="5dp"
                     android:src="@drawable/ic_clock" />
@@ -132,10 +103,31 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="0 min" />
+                    android:text="0 min"
+                    android:textColor="#0e0e0e" />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_costo" />
+
+                <TextView
+                    android:id="@+id/tvCosto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="$ 0"
+                    android:textColor="#0e0e0e" />
+
 
 
             </LinearLayout>
+
+
+
 
 
 
