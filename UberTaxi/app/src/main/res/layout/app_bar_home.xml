@@ -78,7 +78,6 @@
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
                     android:src="@drawable/ic_distance" />
 
@@ -93,7 +92,6 @@
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:padding="5dp"
                     android:src="@drawable/ic_clock" />
@@ -109,7 +107,6 @@
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
                     android:padding="5dp"
                     android:src="@drawable/ic_costo" />
