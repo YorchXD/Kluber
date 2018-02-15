@@ -11,7 +11,7 @@
 
 
     mysqli_stmt_store_result($statement);
-    mysqli_stmt_bind_result($statement, $id, $fecha, $hora, $lugarInicio, $lugarDestino);
+    mysqli_stmt_bind_result($statement, $id, $fecha, $hora, $lugarInicio, $lugarDestino, $latitudInicio, $longitudInicio, $latitudDestino, $longitudDestino);
     
     $response = array();
     $response["success"] = false;  
