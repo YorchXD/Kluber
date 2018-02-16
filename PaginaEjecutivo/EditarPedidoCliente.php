@@ -10,6 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="Imagenes\fonts.css">
 
 
+	<title>Bootstrap Example</title>
 	  <meta charset="utf-8">
 	  <meta name="viewport" content="width=device-width, initial-scale=1">
 	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -44,15 +45,35 @@
 
 
 	<div id="div1" class="container" style="text-align: center;">
-	  <h2 style="text-align: center;">Registro Solicitud Cliente</h2>
+	  <h2 style="text-align: center;">Editar Pedido Cliente</h2>
+
+	  <div class="container" style="text-align: center;">
+	  	<h4 style="text-align: center;">Ingrese Número del pedido</h4>
+
+	  </div>
+
+	  <form class="form-horizontal" action="/action_page.php">
+
+		  <div class="form-group">
+		      
+		      <div id="div5" class="col-sm-15">
+		        <input type="Pedido" class="form-control" id="Pedido" placeholder="Número Pedido" name="Pedido">
+		      </div>
+		   </div>
+
+		</form>
+
+	  <div class="form-group" id="div4">     
+
+	    <div class="col-sm-offset-2 col-sm-10">
+	        <button id="Boton1" type="submit" class="btn btn-warning">Buscar</button>
+	      </div>
+	    </div>
 
 
-	  
-	</div>
+	  <div id="div2" class="container" style="text-align: center;">
 
-	<div id="div2" class="container" style="text-align: center;">
-
-		<h4 style="text-align: center;">Ingrese datos</h4>
+	  	<h4 style="text-align: center;">Ingrese nuevos datos a modificar</h4>
 
 		<form class="form-horizontal" action="/action_page.php">
 	    <div class="form-group">
@@ -99,6 +120,16 @@
 
 
 	</div>
+	
+
+	</div>
+
+
+	
+
+	
+
+	
 
 </body>
 </html>

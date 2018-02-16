@@ -45,7 +45,7 @@
 
 
 	<div id="div1" class="container" style="text-align: center;">
-	  <h2 style="text-align: center;">Eliminar Chofer</h2>
+	  <h2 style="text-align: center;">Eliminar Pedido</h2>
 
 
 	  
