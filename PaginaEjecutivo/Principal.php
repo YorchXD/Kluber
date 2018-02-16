@@ -10,12 +10,17 @@
 	<title></title>
 	<link rel="stylesheet" href="stylePrincipal.css">
 	<link rel="stylesheet" type="text/css" href="Imagenes\fonts.css">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 	<header>
 		<div class="contenedorEncabezado">
 			<div class="logotipo">
-				Kluber
+				Kluber-Radio Taxi Genesis
 			</div>
 			<div class="loginBox">
 				<div class="glass">
@@ -55,24 +60,163 @@
 		</nav>
 	</header>
 
-	<section class="contenido wrapper">
-		<p>
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec placerat risus quis tortor bibendum sodales. Vivamus cursus rutrum tellus et scelerisque. Fusce id aliquet magna. Donec vitae ipsum nec nibh tristique malesuada eget efficitur tellus. Aliquam tristique nulla eget tortor maximus, eget vulputate massa gravida. Phasellus enim odio, iaculis eu pharetra in, convallis quis ante. Maecenas viverra ipsum in risus eleifend, non pulvinar enim lacinia. Morbi dignissim sapien hendrerit consectetur auctor. Suspendisse ac eros mi. Mauris nec luctus metus, non rhoncus urna. Duis bibendum, ante commodo egestas tempor, erat arcu ultricies augue, consectetur semper nunc lorem in eros. Etiam molestie imperdiet leo eu sollicitudin. Aliquam imperdiet odio sit amet arcu lacinia auctor. 
-		</p>
-		<p>
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec placerat risus quis tortor bibendum sodales. Vivamus cursus rutrum tellus et scelerisque. Fusce id aliquet magna. Donec vitae ipsum nec nibh tristique malesuada eget efficitur tellus. Aliquam tristique nulla eget tortor maximus, eget vulputate massa gravida. Phasellus enim odio, iaculis eu pharetra in, convallis quis ante. Maecenas viverra ipsum in risus eleifend, non pulvinar enim lacinia. Morbi dignissim sapien hendrerit consectetur auctor. Suspendisse ac eros mi. Mauris nec luctus metus, non rhoncus urna. Duis bibendum, ante commodo egestas tempor, erat arcu ultricies augue, consectetur semper nunc lorem in eros. Etiam molestie imperdiet leo eu sollicitudin. Aliquam imperdiet odio sit amet arcu lacinia auctor. 
-		</p>
-		<p>
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec placerat risus quis tortor bibendum sodales. Vivamus cursus rutrum tellus et scelerisque. Fusce id aliquet magna. Donec vitae ipsum nec nibh tristique malesuada eget efficitur tellus. Aliquam tristique nulla eget tortor maximus, eget vulputate massa gravida. Phasellus enim odio, iaculis eu pharetra in, convallis quis ante. Maecenas viverra ipsum in risus eleifend, non pulvinar enim lacinia. Morbi dignissim sapien hendrerit consectetur auctor. Suspendisse ac eros mi. Mauris nec luctus metus, non rhoncus urna. Duis bibendum, ante commodo egestas tempor, erat arcu ultricies augue, consectetur semper nunc lorem in eros. Etiam molestie imperdiet leo eu sollicitudin. Aliquam imperdiet odio sit amet arcu lacinia auctor. 
-		</p>
-		<p>
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec placerat risus quis tortor bibendum sodales. Vivamus cursus rutrum tellus et scelerisque. Fusce id aliquet magna. Donec vitae ipsum nec nibh tristique malesuada eget efficitur tellus. Aliquam tristique nulla eget tortor maximus, eget vulputate massa gravida. Phasellus enim odio, iaculis eu pharetra in, convallis quis ante. Maecenas viverra ipsum in risus eleifend, non pulvinar enim lacinia. Morbi dignissim sapien hendrerit consectetur auctor. Suspendisse ac eros mi. Mauris nec luctus metus, non rhoncus urna. Duis bibendum, ante commodo egestas tempor, erat arcu ultricies augue, consectetur semper nunc lorem in eros. Etiam molestie imperdiet leo eu sollicitudin. Aliquam imperdiet odio sit amet arcu lacinia auctor. 
-		</p>
+	
+	<div class="container">
+		  <h3 >Lista de pedido</h3>
+		  <table class="table">
+		    <thead>
+		      <tr>
+		        <th>#</th>
+		        <th>Nombre</th>
+		        <th>Apellido</th>
+		        <th>Dirección Inicial</th>
+		        <th>Dirección Destino</th>
+		        <th>Teléfono</th>
+		        <th>Taxista</th>
+		        <th>Estado</th>
+		        <th>Tiempo</th>
+		      </tr>
+		    </thead>
+		    <tbody>      
+		      <tr class="success">
+		        <td>Success</td>
+		        <td>Doe</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		      </tr>
+		      <tr class="success">
+		        <td>Success</td>
+		        <td>Doe</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		      </tr>
+		      <tr class="danger">
+		        <td>Danger</td>
+		        <td>Moe</td>
+		        <td>mary@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		      </tr>
+		    </tbody>
+		  </table>
+	</div>
 
-		<p>
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec placerat risus quis tortor bibendum sodales. Vivamus cursus rutrum tellus et scelerisque. Fusce id aliquet magna. Donec vitae ipsum nec nibh tristique malesuada eget efficitur tellus. Aliquam tristique nulla eget tortor maximus, eget vulputate massa gravida. Phasellus enim odio, iaculis eu pharetra in, convallis quis ante. Maecenas viverra ipsum in risus eleifend, non pulvinar enim lacinia. Morbi dignissim sapien hendrerit consectetur auctor. Suspendisse ac eros mi. Mauris nec luctus metus, non rhoncus urna. Duis bibendum, ante commodo egestas tempor, erat arcu ultricies augue, consectetur semper nunc lorem in eros. Etiam molestie imperdiet leo eu sollicitudin. Aliquam imperdiet odio sit amet arcu lacinia auctor. 
-		</p>
-	</section>
+	<div class="container" style="text-align: center;">
+	  <button type="button" class="btn btn-warning">Enviar</button>  
+	  <button type="button" class="btn btn-default">Cancelar</button>
+	</div>
+
+	<div class="container">
+		  <h3 >Lista de choferes</h3>
+		  <table class="table">
+		    <thead>
+		      <tr>
+		        <th># Taxi</th>
+		        <th>Nombre</th>
+		        <th>Apellido</th>
+		        <th>Ubicación</th>
+		        <th>Estado</th>
+		      </tr>
+		    </thead>
+		    <tbody>    
+		      <tr class="success">
+		        <td>Success</td>
+		        <td>Doe</td>
+		        <td>john@example.com</td>
+		        <td>23 Norte</td>
+		        <td>Disponible</td>
+		      </tr>
+		      <tr class="danger">
+		        <td>Danger</td>
+		        <td>Moe</td>
+		        <td>mary@example.com</td>
+		        <td>23 Norte</td>
+		        <td>Ocupado</td>
+		      </tr>
+		      <tr class="active">
+		        <td>Active</td>
+		        <td>Activeson</td>
+		        <td>act@example.com</td>
+		        <td>23 Norte</td>
+		        <td>No Disponible</td>
+		      </tr>
+		    </tbody>
+		  </table>
+	</div>
+
+
+		<div class="container">
+		  <h3 style="text-align: center;">Historial de pedidos durante el día</h3>
+		  <table class="table">
+		    <thead>
+		      <tr>
+		        <th>#</th>
+		        <th>Nombre</th>
+		        <th>Apellido</th>
+		        <th>Dirección Inicial</th>
+		        <th>Dirección Destino</th>
+		        <th>Teléfono</th>
+		        <th>Taxista</th>
+		        <th>Estado</th>
+		        <th>Tiempo</th>
+		      </tr>
+		    </thead>
+		    <tbody>      
+		      <tr class="active">
+		        <td>Success</td>
+		        <td>Doe</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		      </tr>
+		      <tr class="active">
+		        <td>Success</td>
+		        <td>Doe</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		      </tr>
+		      <tr class="active">
+		        <td>Danger</td>
+		        <td>Moe</td>
+		        <td>mary@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		        <td>john@example.com</td>
+		      </tr>
+		    </tbody>
+		  </table>
+	</div>
+
+	<div class="container" style="text-align: center;">
+	  <button type="button" class="btn btn-warning">Mostrar</button>  
+	</div>
+
 
 	<footer>Derechos Reservados | kable &copy</footer>
 

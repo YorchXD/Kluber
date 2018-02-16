@@ -236,3 +236,53 @@ footer{
 	width: 100%;
 	color: #fff;
 }
+
+
+
+div#div1
+{
+position:absolute;
+left: 300px;
+top: 100px;
+width: 200px;
+}
+
+div#div2
+{
+position:absolute;
+left: 700px;
+top: 100px;
+width: 200px;
+}
+
+div#div3
+{
+position:absolute;
+left: 50px;
+top: 500px;
+}
+
+div#divBoton
+{
+position:absolute;
+top: 400px;
+}
+
+button#Boton1
+{
+position:absolute;
+left: 540px;
+}
+
+button#Boton2
+{
+position:absolute;
+left: 640px;
+}
+
+button#Boton3
+{
+position:absolute;
+left: 500px;
+width: 200px;
+}
