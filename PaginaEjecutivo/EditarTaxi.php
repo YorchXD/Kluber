@@ -101,7 +101,7 @@
 	    
 	    <div class="form-group" id="div3">        
 	      <div class="col-sm-offset-2 col-sm-10">
-	        <button id="Boton1" type="submit" class="btn btn-warning">Registrar</button>
+	        <button id="Boton1" type="submit" class="btn btn-warning">Editar</button>
 	      </div>
 	    </div>
 	  </form>
