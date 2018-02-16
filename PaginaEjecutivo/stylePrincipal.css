@@ -1,22 +1,112 @@
-*{
+*
+{
 	margin: 0;
 	padding: 0;
 	font-family: sans-serif;
-	box-sizing: border-box;
+}
+
+body
+{
+	background: #fffffa;
 }
 
 header
 {
 	width: 100%;
-	height: 50px;
-	/*background: #FEBC1D;*/
+	background: #271A02;
 }
 
+
+.contenedorEncabezado
+{
+	margin: auto;
+	padding: 20px;
+	overflow: hidden;
+	width: 90%;
+}
+
+
+header .logotipo
+{
+	color: #f2f2f2;
+	font-size: 50px;
+	float: left;
+	line-height: 144px;
+}
+
+.loginBox
+{
+	background: transparent;
+	box-shadow: 0 10px 20px rgba(0,0,0,.5);
+	border-radius: 5px;
+	transition: .5s;
+	float: right;
+}
+
+.loginBox:hover
+{
+	box-shadow: 0 10px 20px rgba(0,0,0,0);
+	background: rgba(255,255,255,1);
+}
+
+.glass
+{
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;;
+	background: rgba(255,255,255,.3);
+	border-radius: 5px;
+	transition: .5s
+
+}
+
+.glass:hover
+{
+	box-shadow: 0 10px 20px rgba(255,255,255,0);
+}
+
+.user
+{
+	padding-top: 10px;
+	margin: 0 auto;
+	display: block;
+	margin-bottom: 20px;
+}
+
+.bienvenida
+{
+	text-align: center;
+	color: #271A02;
+}
+
+.botonesPerfil
+{
+ 	text-align:center;
+}
+
+.btn{
+    background-color: #FEBC1D;
+    border-radius: 6px;
+    border: 2px solid #FEBC1D;
+    padding: 5px 10px;
+    margin: 3px;
+	*display: inline;
+	display: inline-block;
+    
+}
+
+.abtn
+{
+
+ 	text-decoration: none;
+    color: #271A02;
+}
+
+  /*----------------------------Menu-------------------------------*/
 nav
 {
-	margin: 20px auto;
-	width: 90%;
-	max-width: 1000px;
+	margin:auto;
+	width: 100%;
 }
 
 nav ul
@@ -129,9 +219,20 @@ nav ul li a .colorTaxi
 	background: #37a4d9;
 }
 
+/*--------------------------Fin menu---------------------------*/
 
+.wrapper
+{
+	width: 90%;
+	margin: auto;
+	overflow: hidden;
+}
 
-
-
-
-
+footer{
+	align-self: flex-end;
+	background-color: rgba(84, 36, 19, 0.5); 
+	line-height: 3;
+	text-align: center;
+	width: 100%;
+	color: #fff;
+}
