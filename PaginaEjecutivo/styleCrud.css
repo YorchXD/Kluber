@@ -1,0 +1,284 @@
+*
+{
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+}
+
+body
+{
+	background: #fffffa;
+	min-width: 130vh;
+	min-height: 100vh;
+}
+
+header
+{
+	width: 100%;
+	background: #271A02;
+}
+
+
+.contenedorEncabezado
+{
+	margin: auto;
+	padding: 20px;
+	overflow: hidden;
+	width: 90%;
+}
+
+
+header .logotipo
+{
+	color: #f2f2f2;
+	font-size: 50px;
+	float: left;
+	line-height: 144px;
+}
+
+.loginBox
+{
+	background: transparent;
+	box-shadow: 0 10px 20px rgba(0,0,0,.5);
+	border-radius: 5px;
+	transition: .5s;
+	float: right;
+}
+
+.loginBox:hover
+{
+	box-shadow: 0 10px 20px rgba(0,0,0,0);
+	background: rgba(255,255,255,1);
+}
+
+.glass
+{
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;;
+	background: rgba(255,255,255,.3);
+	border-radius: 5px;
+	transition: .5s
+
+}
+
+.glass:hover
+{
+	box-shadow: 0 10px 20px rgba(255,255,255,0);
+}
+
+.user
+{
+	padding-top: 10px;
+	margin: 0 auto;
+	display: block;
+	margin-bottom: 20px;
+}
+
+.bienvenida
+{
+	text-align: center;
+	color: #271A02;
+}
+
+.botonesPerfil
+{
+ 	text-align:center;
+ 	
+ 	padding: 3px;
+}
+
+.btn{
+    background-color: #FEBC1D;
+    border-radius: 6px;
+    border: 2px solid #FEBC1D;
+	*display: inline;
+	display: inline-block;
+    
+}
+
+.abtn
+{
+    color: #271A02;
+}
+
+  /*----------------------------Menu-------------------------------*/
+nav
+{
+	margin:auto;
+	width: 100%;
+}
+
+nav ul
+{
+	list-style: none;
+}
+
+nav >ul
+{
+	display: table;
+	overflow: hidden;
+	width: 100%;
+	background: #000;
+	position: relative;
+}
+
+nav > ul li
+{
+	display: table-cell;
+}
+
+/*SubMenu*/
+
+nav > ul > li:hover > ul
+{
+	display: block;
+	height: 100%;
+}
+
+nav ul > li > ul
+{
+	display: block;
+	position: absolute;
+	background: #000;
+	left: 0;
+	right: 0;
+	overflow: hidden;
+	height: 0%;
+	-webkit-transition: all .3s ease;
+	-moz-transition: all .3s ease;
+	-ms-transition: all .3s ease;
+	-o-transition: all .3s ease;
+	transition: all .3s ease;
+}
+
+nav > ul li a
+{
+	color: #fff;
+	display: block;
+	line-height: 20px;
+	padding: 20px;
+	position: relative;
+	text-align: center;
+	text-decoration: none;
+	-webkit-transition: all .3s ease;
+	-moz-transition: all .3s ease;
+	-ms-transition: all .3s ease;
+	-o-transition: all .3s ease;
+	transition: all .3s ease;
+}
+
+nav > ul > li > ul >li a:hover
+{
+	background: #5da5a2;
+}
+
+nav >ul > li > a span
+{
+	background: #174459;
+	display: block;
+	height: 100%;
+	width: 100%;
+	left: 0;
+	position: absolute;
+	top: -55px;
+	-webkit-transition: all .3s ease;
+	-moz-transition: all .3s ease;
+	-ms-transition: all .3s ease;
+	-o-transition: all .3s ease;
+	transition: all .3s ease;
+}
+
+nav >ul > li > a span .icon
+{
+	display: block;
+	line-height: 60px;
+}
+
+nav > ul > li > a:hover > span
+{
+	top: 0;
+}
+
+/*Colores*/
+
+nav ul li a .colorInicio
+{
+	background: #0e5061;
+}
+nav ul li a .colorHistorial
+{
+	background: #5da5a2;
+}
+nav ul li a .colorChofer
+{
+	background: #f25724;
+}
+nav ul li a .colorTaxi
+{
+	background: #37a4d9;
+}
+
+/*--------------------------Fin menu---------------------------*/
+
+.registroTaxitaForm
+{
+	width: 50%;
+	margin: auto;
+	padding: 5px;
+	overflow: hidden;
+}
+
+#botonRegistro
+{
+	border: none;
+	outline: none;
+	height: 40px;
+	font-size: 16px;
+	background: rgba(214, 124, 0, 0.9);
+	color: #fff;
+	cursor: pointer;
+}
+
+footer{
+	align-self: flex-end;
+	background-color: rgba(84, 36, 19, 0.5); 
+	line-height: 3;
+	text-align: center;
+	width: 100%;
+	color: #fff;
+}
+
+h4
+{
+	text-align: center;
+}
+
+h2
+{
+	text-align: center;
+}
+
+/*Cuando se utilicen texto, tablas o formularios que sean mas grande que el body, se debe utilizar este estilo de footer <footer></footer>*/
+footer{
+	align-self: flex-end;
+	background-color: rgba(84, 36, 19, 0.5); 
+	line-height: 3;
+	text-align: center;
+	width: 100%;
+	color: #fff;
+}
+
+
+/*Cuando se utilicen texto, tablas o formularios que sean mas pequeñp que el body, se debe utilizar este estilo de footer <div class="footer"></div>*/
+.footer{
+	align-self: flex-end;
+	background-color: rgba(84, 36, 19, 0.5); 
+	line-height: 3;
+	text-align: center;
+	width: 100%;
+	bottom: 0;
+	position: absolute;
+	min-width: 130vh;
+	color: #fff;
+}
