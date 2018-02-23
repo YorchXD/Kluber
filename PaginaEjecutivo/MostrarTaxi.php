@@ -19,35 +19,14 @@
 
 	</head>
 	<body>
-
 		<?php
 
 		  include("conexion.php");
 
-		  if(isset($_POST["botonRegistro"]))
-		  {
+		  $registros=$base->query("select * from taxi")->fetchAll(PDO::FETCH_OBJ);
 
-		    $patente = $_POST["patente"];
+	  	?>
 
-		    $marca = $_POST["marca"];
-
-		    $modelo = $_POST["modelo"];
-
-		    $numTaxi = $_POST["numTaxi"];
-
-		    $anio = $_POST["anio"];
-
-		   	$sql="insert into taxi (patente, marca, modelo, numTaxi, anio) values (:pat, :mar, :mod, :numT, :anio)";
-
-		    $resultado = $base->prepare($sql);
-
-		    $resultado->execute(array(":pat"=>$patente, ":mar"=>$marca, ":mod"=>$modelo, ":numT"=>$numTaxi, ":anio"=>$anio));
-
-		    header("Location:MostrarTaxi.php");
-
-		  }
-
-		?>
 
 		<header>
 			<div class="contenedorEncabezado">
@@ -94,37 +73,45 @@
 			</nav>
 		</header>
 
-
 		<div>
-			<h2>Registrar Taxi</h2>
-			
-			<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
-			
-			    <div class="registroTaxitaForm">
-			        <input type="Patente" class="form-control" id="patente" placeholder="patente" name="patente">
-			    </div>
-			    <div class="registroTaxitaForm">         
-			        <input type="Marca" class="form-control" id="marca" placeholder="marca" name="marca">
-			    </div>
-			    <div class="registroTaxitaForm">         
-			        <input type="Modelo" class="form-control" id="modelo" placeholder="modelo" name="modelo">
-			    </div>
-			
-			    <div class="registroTaxitaForm">         
-			        <input type="NumeroTaxi" class="form-control" id="numTaxi" placeholder="número Taxi" name="numTaxi">
-			    </div>
+			<div class="wrapper">
+				<h2 >Lista de Taxis</h2>
+				<table class="table">
+				    <thead>
+				      	<tr>
+	  				        <th>Patente</th>
+					        <th>Marca</th>
+					        <th>Modelo</th>
+					        <th>Número Taxi</th>
+					        <th>Año</th>
+				     	</tr>
+				    </thead>
 
-			    <div class="registroTaxitaForm">         
-			        <input type="anio" class="form-control" id="anio" placeholder="Año" name="anio">
-			    </div>
-			    
-				<center>
-					<button name="botonRegistro" id="botonRegistro" type="submit" class="btn btn-warning">Registrar</button>
-				</center>
-			</form>
+
+			<?php foreach ($registros as $taxi):?> 
+
+
+
+				    <tbody>      
+				      	<tr class="success">
+					        <td><?php echo $taxi->patente ?></td>
+					        <td><?php echo $taxi->marca ?></td>
+					        <td><?php echo $taxi->modelo ?></td>
+					        <td><?php echo $taxi->numTaxi ?></td>
+					        <td><?php echo $taxi->anio ?></td>
+				      	</tr>
+				    </tbody>
+
+		    <?php endforeach; ?>
+
+	    	</table>
+
+			</div>
 		</div>
 
-		<div class="footer">Derechos Reservados | kable &copy</div>
+
+		
+		<footer>Derechos Reservados | kable &copy</footer>
 
 
 	</body>

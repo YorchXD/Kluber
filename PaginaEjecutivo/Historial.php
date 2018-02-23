@@ -26,6 +26,53 @@
 
 </head>
 <body>
+
+
+	<?php
+
+	  include("conexion.php");
+
+	  $registros=$base->query("select * from pedido")->fetchAll(PDO::FETCH_OBJ);
+
+	  $registroDisponibilidad=$base->query("select * from disponibilidadchoferes")->fetchAll(PDO::FETCH_OBJ);
+
+		//-----------------------------
+		$now = time();
+		$num = date("w");
+
+		$WeekMon  = mktime(0, 0, 0, date("m", $now)  , date("d", $now), date("Y", $now));    //monday week begin calculation
+		$todayh = getdate($WeekMon); //monday week begin reconvert
+
+		$d = $todayh['mday'];
+		$m = $todayh['mon'];
+		$y = $todayh['year'];
+
+		if($m<10)
+		{
+			$m="0$m";
+		}
+		else
+		{
+			$m="$m";
+		}
+
+		if($d<10)
+		{
+			$d="0$d";
+		}
+		else
+		{
+			$d="$d";
+		}
+
+		$y="$y";
+
+		$fechaActual="$y-$m-$d";
+		//echo $fechaActual;
+		//echo "$d-$m-$y"; //getdate converted day
+
+  	?>
+
 	<header>
 		<div class="contenedorEncabezado">
 			<div class="logotipo">
@@ -53,6 +100,7 @@
 				<li><a href="Historial.php"><span class="colorHistorial"><i class="icon icon-open-book"></i></span>Historial</a></li>
 				<li><a href="#"><span class="colorChofer"><i class="icon icon-person_pin"></i></span>Chofer</a>
 					<ul>
+						<li><a href="MostrarTaxista.php" class="colorChofer">Ver</a></li>
 						<li><a href="RegistroTaxista.php" class="colorChofer">Registrar</a></li>
 						<li><a href="EditarTaxista.php" class="colorChofer">Editar</a></li>
 						<li><a href="EliminarTaxista.php" class="colorChofer">Eliminar</a></li>
@@ -60,6 +108,7 @@
 				</li>
 				<li><a href="#"><span class="colorTaxi"><i class="icon icon-local_taxi"></i></span>Taxi</a>
 					<ul>
+						<li><a href="MostrarTaxi.php">Ver</a></li>
 						<li><a href="RegistroTaxi.php">Registrar</a></li>
 						<li><a href="EditarTaxi.php">Editar</a></li>
 						<li><a href="EliminarTaxi.php">Eliminar</a></li>
@@ -69,104 +118,143 @@
 		</nav>
 	</header>
 
-	<div class="container">
-        <div class='fechaDesde'>
-            <div class="form-group">
-                <label>Desde:</label>
-                <div class='input-group date' id='datetimepicker6'>
-                    <input type='text' class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-            </div>
-        </div>
-        <div class='fechaHasta'>
-            <div class="form-group">
-                <label>Hasta:</label>
-                <div class='input-group date' id='datetimepicker7'>
-                    <input type='text' class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-            </div>
-        </div> 
-    </div>
+	
 
-    <script type="text/javascript">
-        $(function () {
-            $('#datetimepicker6').datetimepicker({format: 'DD/MM/YYYY'});
-            $('#datetimepicker7').datetimepicker({format: 'DD/MM/YYYY'});
-  
-        });
-    </script>
-    
+	<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
 
-	<div class="botones">
-		<div class="btn"><a class="abtn" href="#"></a>Mostrar</div>
-		<div class="btn"><a class="abtn" href="#">Cancelar</a></div>
-	</div>
+		<div class="container">
+	        <div class='fechaDesde'>
+	            <div class="form-group">
+	                <label>Desde:</label>
+	                <div class='input-group date' id='datetimepicker6' >
+	                    <input type='text' class="form-control" name='datetimepicker6'/>
+	                    <span class="input-group-addon">
+	                        <span class="glyphicon glyphicon-calendar"></span>
+	                    </span>
+	                </div>
+	            </div>
+	        </div>
+	        <div class='fechaHasta'>
+	            <div class="form-group">
+	                <label>Hasta:</label>
+	                <div class='input-group date' id='datetimepicker7' >
+	                    <input type='text' class="form-control" name='datetimepicker7'/>
+	                    <span class="input-group-addon">
+	                        <span class="glyphicon glyphicon-calendar"></span>
+	                    </span>
+	                </div>
+	            </div>
+	        </div> 
+	    </div>
 
-
-	<div class="wrapper">
-	  <h2>Historial de pedidos durante el dd/mm/yyyy hasta el dd/mm/yyyy</h2>
-	  <table class="table">
-		    <thead>
-		      <tr>
-		        <th>#</th>
-		        <th>Nombre</th>
-		        <th>Apellido</th>
-		        <th>Dirección Inicial</th>
-		        <th>Dirección Destino</th>
-		        <th>Teléfono</th>
-		        <th>Taxista</th>
-		        <th>Estado</th>
-		        <th>Tiempo</th>
-		      </tr>
-		    </thead>
-		    <tbody>      
-		      <tr class="active">
-		        <td>Success</td>
-		        <td>Doe</td>
-		        <td>john@example.com</td>
-		        <td>john@example.com</td>
-		        <td>john@example.com</td>
-		        <td>john@example.com</td>
-		        <td>john@example.com</td>
-		        <td>john@example.com</td>
-		        <td>john@example.com</td>
-		      </tr>
-		      <tr class="active">
-		        <td>Success</td>
-		        <td>Doe</td>
-		        <td>john@example.com</td>
-		        <td>john@example.com</td>
-		        <td>john@example.com</td>
-		        <td>john@example.com</td>
-		        <td>john@example.com</td>
-		        <td>john@example.com</td>
-		        <td>john@example.com</td>
-		      </tr>
-		      <tr class="active">
-		        <td>Danger</td>
-		        <td>Moe</td>
-		        <td>mary@example.com</td>
-		        <td>john@example.com</td>
-		        <td>john@example.com</td>
-		        <td>john@example.com</td>
-		        <td>john@example.com</td>
-		        <td>john@example.com</td>
-		        <td>john@example.com</td>
-		      </tr>
-		    </tbody>
-		  </table>
-
+	    <script type="text/javascript">
+	        $(function () {
+	            $('#datetimepicker6').datetimepicker({format: 'DD-MM-YYYY'});
+	            $('#datetimepicker7').datetimepicker({format: 'DD-MM-YYYY'});	  
+	        });
+	    </script>
+	    
 		<div class="botones">
-			<div class="btn"><a class="abtn" href="#"></a>Excel</div>
+			<button name="botonMostrar" id="botonMostrar" type="submit" class="btn btn-warning">Mostrar</button>
 		</div>
 
-	</div>
+
+		<div class="wrapper">
+				<h2>Historial de pedidos durante el día</h2>
+
+
+
+				  	<table class="table">
+				    	<thead>
+					      	<tr>
+						        <th>#</th>
+						        <th>Nombre Cliente</th>
+						        <th>Apellido Cliente</th>
+						        <th>Dirección Inicial</th>
+						        <th>Dirección Destino</th>
+						        <th>Teléfono</th>
+						        <th>Rut Taxista</th>
+						        <th>Nombre Taxista</th>
+						        <th>Apellido Taxista</th>
+						        <th>Estado</th>
+						        <th>Fecha Pedido</th>
+						        <th>Hora Pedido</th>
+						        <th>Tiempo Transcurrido</th>
+					     	</tr>
+					    </thead>
+					   
+					   	<?php if(isset($_POST["botonMostrar"]))
+			  				  {
+			  				  		$fechaDesde = date('Y-m-d', strtotime($_POST["datetimepicker6"]));
+			  				  		$fechaHasta = date('Y-m-d', strtotime($_POST["datetimepicker7"]));
+
+			  				  		//echo "fecha Desde $fechaDesde y fecha Hasta $fechaHasta";
+
+			  			?>  
+
+						    <?php foreach ($registros as $pedido):?> 
+
+						   		<?php 
+
+						    	  $rutTaxista = $pedido->RefChoferTaxista;
+
+								  $RegistroTaxista=$base->query("select * from taxista where rut='$rutTaxista'")->fetchAll(PDO::FETCH_OBJ);
+
+								  $nombreTaxista = $RegistroTaxista[0]->nombre;
+
+								  $apellidoTaxista = $RegistroTaxista[0]->apPaterno;
+
+
+								  $fecha = $pedido->fecha;
+
+								  //echo "fecha $fecha";
+
+								?> 
+
+
+								<?php if( $fecha >= $fechaDesde && $fecha<=$fechaHasta)
+					  					{		
+					  						//echo $fechaActual;
+				  				 	?>  
+
+				  					<?php if( $pedido->estado == 'finalizado')
+					  					{		
+					  						$color="active";
+				  				 	?> 
+
+					  				 	<tbody> 
+									      	<tr class=<?php echo $color ?>>
+										        <td><?php echo $pedido->id ?></td>
+										        <td><?php echo $pedido->nombre ?></td>
+										        <td><?php echo $pedido->apellido ?></td>
+										        <td><?php echo $pedido->direccionInicial ?></td>
+										        <td><?php echo $pedido->direccionFinal ?></td>
+										        <td><?php echo $pedido->telefono ?></td>
+										        <td><?php echo $pedido->RefChoferTaxista ?></td>
+										        <td><?php echo $nombreTaxista ?></td>
+									        	<td><?php echo $apellidoTaxista ?></td>
+										        <td><?php echo $pedido->estado ?></td>
+										        <td><?php echo $fecha  ?></td>
+										        <td><?php echo $pedido->hora ?></td>
+										        <td><?php echo $pedido->duracion ?></td>										        
+									      	</tr>
+									    </tbody>
+
+									<?php } ?>
+								<?php } ?>
+					    	<?php endforeach; ?>
+						<?php } ?>
+				  	</table>
+				
+			</div>
+
+			<div class="botones">
+				<div class="btn" name="botonExcel"><a class="abtn" href="#"></a>Excel</div>
+			</div>
+
+		</div>
+
+	</form>
 	
 	<footer>Derechos Reservados | kable &copy</footer>
 </body>

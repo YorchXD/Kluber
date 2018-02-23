@@ -21,6 +21,70 @@
 
 </head>
 <body>
+
+	<?php
+
+	  include("conexion.php");
+
+
+	  $rut = "Rut";
+
+	  $correo = "Correo";
+
+	  $nombre = "Nombre";
+
+	  $apPaterno = "ApellidoPaterno";
+
+	  $apMaterno = "ApellidoMaterno";
+
+	  $telefono = "Telefono";
+
+	  $clave = "Clave";
+
+	  $taxi = "PatenteTaxi";
+
+	  if(isset($_POST["botonBuscar"]))
+	  {
+	    $correo = $_POST["correo"];
+
+	    $registros=$base->query("select * from taxista where correo='$correo'")->fetchAll(PDO::FETCH_OBJ);
+
+	    if($registros!=null)
+	    {
+		    $rut = $registros[0]->rut;
+
+		    $nombre = $registros[0]->nombre;
+
+		    $apPaterno = $registros[0]->apPaterno;
+
+		    $apMaterno = $registros[0]->apMaterno;
+
+		    $telefono = $registros[0]->telefono;
+
+		    $clave = $registros[0]->clave;
+
+		    $taxi = $registros[0]->RefTaxi;
+		}
+		else
+		{
+			$correo = "Correo";
+		}
+
+	  }
+
+	  if(isset($_POST["botonEliminar"]))
+	  {
+
+	  	$correo = $_POST["Correo"];
+
+  		$base->query("delete from taxista where correo='$correo'");
+
+	    header("Location:MostrarTaxista.php");
+
+	  }
+
+	?>
+
 	<header>
 		<div class="contenedorEncabezado">
 			<div class="logotipo">
@@ -48,6 +112,7 @@
 				<li><a href="Historial.php"><span class="colorHistorial"><i class="icon icon-open-book"></i></span>Historial</a></li>
 				<li><a href="#"><span class="colorChofer"><i class="icon icon-person_pin"></i></span>Chofer</a>
 					<ul>
+						<li><a href="MostrarTaxista.php" class="colorChofer">Ver</a></li>
 						<li><a href="RegistroTaxista.php" class="colorChofer">Registrar</a></li>
 						<li><a href="EditarTaxista.php" class="colorChofer">Editar</a></li>
 						<li><a href="EliminarTaxista.php" class="colorChofer">Eliminar</a></li>
@@ -55,6 +120,7 @@
 				</li>
 				<li><a href="#"><span class="colorTaxi"><i class="icon icon-local_taxi"></i></span>Taxi</a>
 					<ul>
+						<li><a href="MostrarTaxi.php">Ver</a></li>
 						<li><a href="RegistroTaxi.php">Registrar</a></li>
 						<li><a href="EditarTaxi.php">Editar</a></li>
 						<li><a href="EliminarTaxi.php">Eliminar</a></li>
@@ -68,24 +134,56 @@
 	<div>
 		<h2>Eliminar Chofer</h2>
 		
-		<form action="/action_page.php">
+		
+  		<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+  		
+  			<div class="registroTaxitaForm">
+		       		<input type="text" class="form-control" id="correo" placeholder="Correo Electrónico" name="correo">
+		   </div>
+
+		   <center>
+				<button name="botonBuscar" id="botonBuscar" type="submit" class="btn btn-warning">Buscar</button>
+			</center>
+
 		      
-		    <div class="registroTaxitaForm">       
-		        <input type="Correo" class="form-control" id="Correo" placeholder="Correo Electrónico" name="Correo">
+		    <div class="registroTaxitaForm">
+			    <input type="Rut" class="form-control" id="Rut" placeholder="Rut" name="Rut" value=<?php echo $rut?> readonly="readonly">
 		    </div>
 		
+		    <div class="registroTaxitaForm">
+			    <input type="Nombre" class="form-control" id="Nombre" placeholder="Nombre" name="Nombre" value=<?php echo $nombre?> readonly="readonly">
+		    </div>
 		
-		    <div class="registroTaxitaForm">        
-		        <input type="Contrasena" class="form-control" id="Contrasena" placeholder="Contraseña" name="Contrasena">
+		    <div class="registroTaxitaForm">         
+		        <input type="ApellidoPaterno" class="form-control" id="ApellidoPaterno" placeholder="Apellido Paterno" name="ApellidoPaterno" value=<?php echo $apPaterno?> readonly="readonly">
+		    </div>
+		    <div class="registroTaxitaForm">         
+		        <input type="ApellidoMaterno" class="form-control" id="ApellidoMaterno" placeholder="Apellido Materno" name="ApellidoMaterno" value=<?php echo $apMaterno?> readonly="readonly">
+		    </div>
+		
+		    <div class="registroTaxitaForm">         
+		        <input type="Correo" class="form-control" id="Correo" placeholder="Correo Electrónico" name="Correo" value=<?php echo $correo?> readonly="readonly">
+		    </div>
+		
+		    <div class="registroTaxitaForm">         
+		        <input type="Contrasena" class="form-control" id="Contrasena" placeholder="Contraseña" name="Contrasena" value=<?php echo $clave?> readonly="readonly">
+		    </div>
+		
+		    <div class="registroTaxitaForm">         
+		        <input type="Telefono" class="form-control" id="Telefono" placeholder="Teléfono" name="Telefono" value=<?php echo $telefono?> readonly="readonly">
+		    </div>
+		
+		    <div class="registroTaxitaForm">         
+		        <input type="NumeroTaxi" class="form-control" id="NumeroTaxi" placeholder="Patente Taxi" name="NumeroTaxi" value=<?php echo $taxi?> readonly="readonly">
 		    </div>
 		    
 		    <center>
-				<button id="botonRegistro" type="submit" class="btn btn-warning">Eliminar</button>
-			</center>
-		  	</form>
+					<button name="botonEliminar" id="botonEliminar" type="submit" class="btn btn-warning">Eliminar</button>
+				</center>
+		</form>
 	</div>
 
-  	<div class="footer">Derechos Reservados | kable &copy</div>
+  	<footer>Derechos Reservados | kable &copy</footer>
 
 
 

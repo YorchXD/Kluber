@@ -17,6 +17,42 @@
 
 </head>
 <body>
+
+	<?php
+
+		  include("conexion.php");
+
+		  if(isset($_POST["botonRegistro"]))
+		  {
+
+		    $rut = $_POST["Rut"];
+
+		    $correo = $_POST["Correo"];
+
+		    $nombre = $_POST["Nombre"];
+
+		    $apPaterno = $_POST["ApellidoPaterno"];
+
+		    $apMaterno = $_POST["ApellidoMaterno"];
+
+		    $telefono = $_POST["Telefono"];
+
+		    $clave = $_POST["Contrasena"];
+
+		    $taxi = $_POST["NumeroTaxi"];
+
+		   	$sql="insert into taxista (rut, correo, nombre,apPaterno, apMaterno, telefono, clave, RefTaxi) values (:ru, :corr, :nom, :apPat, :apMat, :tel, :cla, :tax)";
+
+		    $resultado = $base->prepare($sql);
+
+		    $resultado->execute(array(":ru"=>$rut, ":corr"=>$correo, ":nom"=>$nombre,":apPat"=>$apPaterno, ":apMat"=>$apMaterno, ":tel"=>$telefono, ":cla"=>$clave, ":tax"=>$taxi));
+
+		    header("Location:MostrarTaxista.php");
+
+		  }
+
+	?>
+
 	<header>
 		<div class="contenedorEncabezado">
 			<div class="logotipo">
@@ -44,6 +80,7 @@
 				<li><a href="Historial.php"><span class="colorHistorial"><i class="icon icon-open-book"></i></span>Historial</a></li>
 				<li><a href="#"><span class="colorChofer"><i class="icon icon-person_pin"></i></span>Chofer</a>
 					<ul>
+						<li><a href="MostrarTaxista.php" class="colorChofer">Ver</a></li>
 						<li><a href="RegistroTaxista.php" class="colorChofer">Registrar</a></li>
 						<li><a href="EditarTaxista.php" class="colorChofer">Editar</a></li>
 						<li><a href="EliminarTaxista.php" class="colorChofer">Eliminar</a></li>
@@ -51,6 +88,7 @@
 				</li>
 				<li><a href="#"><span class="colorTaxi"><i class="icon icon-local_taxi"></i></span>Taxi</a>
 					<ul>
+						<li><a href="MostrarTaxi.php">Ver</a></li>
 						<li><a href="RegistroTaxi.php">Registrar</a></li>
 						<li><a href="EditarTaxi.php">Editar</a></li>
 						<li><a href="EliminarTaxi.php">Eliminar</a></li>
@@ -64,7 +102,11 @@
 	<div>
 		<h2>Registrar Chofer</h2>
 		
-		<form action="/action_page.php">
+		<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+
+			<div class="registroTaxitaForm">
+			    <input type="Rut" class="form-control" id="Rut" placeholder="Rut" name="Rut">
+		    </div>
 		
 		    <div class="registroTaxitaForm">
 			    <input type="Nombre" class="form-control" id="Nombre" placeholder="Nombre" name="Nombre">
@@ -90,17 +132,17 @@
 		    </div>
 		
 		    <div class="registroTaxitaForm">         
-		        <input type="NumeroTaxi" class="form-control" id="NumeroTaxi" placeholder="Número Taxi" name="NumeroTaxi">
+		        <input type="NumeroTaxi" class="form-control" id="NumeroTaxi" placeholder="Patente Taxi" name="NumeroTaxi">
 		    </div>
 		
 			<center>
-				<button id="botonRegistro" type="submit" class="btn btn-warning">Registrar</button>
+				<button id="botonRegistro" name="botonRegistro" type="submit" class="btn btn-warning">Registrar</button>
 			</center>
 		
 		</form>
 	</div>
 	
-	<div class="footer">Derechos Reservados | kable &copy</div>
+	<footer>Derechos Reservados | kable &copy</footer>
 
 </body>
 </html>
