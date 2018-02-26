@@ -105,6 +105,7 @@
 						<li><a href="EliminarTaxi.php">Eliminar</a></li>
 					</ul>
 				</li>
+				<li><a href="SolicitarTaxi.php"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a></li>
 			</ul>				
 		</nav>
 	</header>

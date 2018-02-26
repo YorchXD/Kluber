@@ -129,3 +129,5 @@
 
 	</body>
 </html>
+
+					<li><a href="SolicitarTaxi.php"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a></li>

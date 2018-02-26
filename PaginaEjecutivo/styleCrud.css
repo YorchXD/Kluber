@@ -204,7 +204,7 @@ nav > ul > li > a:hover > span
 
 nav ul li a .colorInicio
 {
-	background: #0e5061;
+	background: #E80505;
 }
 nav ul li a .colorHistorial
 {
@@ -219,6 +219,10 @@ nav ul li a .colorTaxi
 	background: #37a4d9;
 }
 
+nav ul li a .colorSolicitarTaxi
+{
+	background: #e4da07;
+}
 /*--------------------------Fin menu---------------------------*/
 
 .registroTaxitaForm
