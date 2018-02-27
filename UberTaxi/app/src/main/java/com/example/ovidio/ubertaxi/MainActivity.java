@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         tv_registrar=findViewById(R.id.registrar);
 
@@ -65,8 +67,11 @@ public class MainActivity extends AppCompatActivity {
                                 String nombre = jsonResponse.getString("nombre");
                                 String telefono = jsonResponse.getString("telefono");
 
-                                Intent intent = new Intent(MainActivity.this,Usuario.class);
+                                Log.d("Nombre",""+nombre);
 
+                                Intent intent = new Intent(MainActivity.this,Home.class);
+
+                                /*Para pasar los datos(nombre,correo,telefono,clave) al otro activity (Home)*/
                                 intent.putExtra("nombre",nombre);
                                 intent.putExtra("correo",correo);
                                 intent.putExtra("telefono",telefono);
@@ -78,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                             {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                                 builder.setMessage("Error Login")
-                                        .setNegativeButton("Retry", null)
+                                        .setNegativeButton("Intente nuevamente", null)
                                         .create().show();
                             }
 

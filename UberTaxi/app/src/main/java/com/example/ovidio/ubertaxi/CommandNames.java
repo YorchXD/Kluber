@@ -1,11 +1,9 @@
 package com.example.ovidio.ubertaxi;
 
 /**
- * Created by ovidio on 30/01/2018.
+ * Created by YorchXD on 30-01-2018.
  */
 
 public class CommandNames {
-
-    public static final String url = "http://192.168.0.13/";
-
+    public static final String url = "http://192.168.0.13//Usuario/";
 }

@@ -107,9 +107,10 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginBottom="54dp"
+        android:background="@color/colorPrimary"
         android:text="@string/btn_text_registrar"
         android:textSize="20sp"
-        android:theme="@style/BtnRaised"/>
+        android:theme="@style/BtnRaised" />
 
 
 </RelativeLayout>
