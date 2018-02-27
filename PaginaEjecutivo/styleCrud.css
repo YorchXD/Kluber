@@ -138,11 +138,8 @@ nav > ul > li:hover > ul
 
 nav ul > li > ul
 {
-	display: block;
-	position: absolute;
-	background: #000;
-	left: 0;
-	right: 0;
+	display: none;
+	position: relative;
 	overflow: hidden;
 	height: 0%;
 	-webkit-transition: all .3s ease;
@@ -204,7 +201,7 @@ nav > ul > li > a:hover > span
 
 nav ul li a .colorInicio
 {
-	background: #0e5061;
+	background: #E80505;
 }
 nav ul li a .colorHistorial
 {
@@ -218,6 +215,24 @@ nav ul li a .colorTaxi
 {
 	background: #37a4d9;
 }
+nav ul li a .colorSolicitarTaxi
+{
+  background: #e4da07;
+}
+
+/*colores del submenu*/
+nav ul li ul .submenuTaxi
+{
+  background: #37a4d9;
+  text-decoration: none;
+}
+
+nav ul li ul .submenuChofer
+{
+  background: #f25724;
+  text-decoration: none;
+}
+
 
 /*--------------------------Fin menu---------------------------*/
 

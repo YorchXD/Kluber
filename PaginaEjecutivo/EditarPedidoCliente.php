@@ -26,19 +26,22 @@
 				<li><a href="#"><span class="colorInicio"><i class="icon icon-home"></i></span>Inicio</a></li>
 				<li><a href="#"><span class="colorHistorial"><i class="icon icon-open-book"></i></span>Historial</a></li>
 				<li><a href="#"><span class="colorChofer"><i class="icon icon-person_pin"></i></span>Chofer</a>
-					<ul>
-						<li><a href="#" class="colorChofer">Registrar</a></li>
-						<li><a href="#" class="colorChofer">Editar</a></li>
-						<li><a href="#" class="colorChofer">Eliminar</a></li>
+					<ul class="submenuChofer">
+						<li><a href="MostrarTaxista.php" class="submenuChofer">Ver</a></li>
+						<li><a href="RegistroTaxista.php" class="submenuChofer">Registrar</a></li>
+						<li><a href="EditarTaxista.php" class="submenuChofer">Editar</a></li>
+						<li><a href="EliminarTaxista.php" class="submenuChofer">Eliminar</a></li>
 					</ul>
 				</li>
 				<li><a href="#"><span class="colorTaxi"><i class="icon icon-local_taxi"></i></span>Taxi</a>
-					<ul>
-						<li><a href="#">Registrar</a></li>
-						<li><a href="#">Editar</a></li>
-						<li><a href="#">Eliminar</a></li>
+					<ul class="submenuTaxi">
+						<li><a href="MostrarTaxi.php" class="submenuTaxi">Ver</a></li>
+						<li><a href="RegistroTaxi.php" class="submenuTaxi">Registrar</a></li>
+						<li><a href="EditarTaxi.php" class="submenuTaxi">Editar</a></li>
+						<li><a href="EliminarTaxi.php" class="submenuTaxi">Eliminar</a></li>
 					</ul>
 				</li>
+				<li><a href="SolicitarTaxi.php"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a></li>
 			</ul>				
 		</nav>
 	</header>
