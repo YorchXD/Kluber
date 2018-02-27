@@ -26,7 +26,6 @@
 	    $(document).on("click","#botonSolicitar", mostrarAlerta);
 	    function mostrarAlerta(){
 	        mostrarAlerta2();          //aquí estamos activando la función del otro archivo
-	        setTimeout(console.log('esperando'),10000);
 	    }
 	</script>
 
@@ -83,7 +82,7 @@
 			<div class="formulario">
 				<h2>Solicitar taxi</h2>
 				
-				<form>
+				<form action = "Principal.php">
 				
 				    <div class="solicitud">
 					    <input type="Nombre" class="form-control" id="Nombre" placeholder="Nombre" name="Nombre">
@@ -126,7 +125,7 @@
 		
 	</div>
 
-	<div class="footer">Derechos Reservados | kable &copy</div>
+	<footer>Derechos Reservados | kable &copy</footer>
 
 
 </body>

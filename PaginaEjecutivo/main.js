@@ -263,15 +263,21 @@ function mostrarAlerta2()
 	nombreValue = document.getElementById('Nombre').value;
 	apellidoValue = document.getElementById('Apellido').value;
 	telefonoValue = document.getElementById('Telefono').value;
-	var origen = ''+origenValue;
-	var destino = ''+destinoValue;
+
+	var latOrigen= ''+origenValue.lat();
+	var lngOrigen= ''+origenValue.lng();
+	var latDestino= ''+destinoValue.lat();
+	var lngDestino= ''+destinoValue.lng();
+
+	var direccionOrigen= document.getElementById('autocompleteInicio').value;
+	var direccionDestino= document.getElementById('autocompleteDestino').value;
 	
 
 	if (nombreValue!='' && apellidoValue!='' &&telefonoValue!='' && distanciaValue!=-1) 
 	{
 
 		if (confirm("¿Seguro que desean enviar la solicitud?")) {
-		    $.post("EnvioSolicitudTaxi.php",{nombre: nombreValue, apellido: apellidoValue, telefono: telefonoValue, origen: origen, destino: destino, distancia: distanciaValue, fecha: fechaValue, hora: horaValue}, function(respuesta){
+		    $.post("EnvioSolicitudTaxi.php",{nombre: nombreValue, apellido: apellidoValue, telefono: telefonoValue, distancia: distanciaValue, fecha: fechaValue, hora: horaValue, latOrigen: latOrigen, lngOrigen: lngOrigen, latDestino: latDestino, lngDestino: lngDestino, direccionOrigen: direccionOrigen, direccionDestino: direccionDestino }, function(respuesta){
 				
 				//alert(respuesta); //Mostramos un alert del resultado devuelto por el php
 				alert("Datos guardado exitosamente");
