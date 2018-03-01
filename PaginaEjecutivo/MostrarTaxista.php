@@ -77,56 +77,57 @@
 		<div>
 			<div class="wrapper">
 				<h2 >Lista de Taxistas</h2>
-				<table class="table">
-				    <thead>
-				      	<tr>
-	  				        <th>Rut</th>
-					        <th>Correo</th>
-					        <th>Nombre</th>
-					        <th>Apellido Paterno</th>
-					        <th>Apellido Materno</th>
-					        <th>Teléfono</th>
-					        <th>Clave</th>
-					        <th>Taxi Patente</th>
-					        <th>Estado Taxista</th>
-				     	</tr>
-				    </thead>
+				<div id="divtabla" class="wrapper">
+					<table class="table" class="wrapper">
+					    <thead>
+					      	<tr>
+		  				        <th>Rut</th>
+						        <th>Correo</th>
+						        <th>Nombre</th>
+						        <th>Apellido Paterno</th>
+						        <th>Apellido Materno</th>
+						        <th>Teléfono</th>
+						        <th>Clave</th>
+						        <th>Taxi Patente</th>
+						        <th>Estado Taxista</th>
+					     	</tr>
+					    </thead>
 
 
-			<?php foreach ($registros as $taxista):?> 
+						<?php foreach ($registros as $taxista):?> 
 
 
 
-				    <tbody>    
+							    <tbody>    
 
-					    <?php
-						    if( $taxista->estado == 'habilitado')
-		  					{
-		  						$color="success";
-		  						
-		  					}
-		  					if( $taxista->estado == 'deshabilitado')
-		  					{		
-		  						$color="active";
-		  					}
-	  					?>  
-				      	<tr class=<?php echo $color ?>>
-					        <td><?php echo $taxista->rut ?></td>
-					        <td><?php echo $taxista->correo ?></td>
-					        <td><?php echo $taxista->nombre ?></td>
-					        <td><?php echo $taxista->apPaterno ?></td>
-					        <td><?php echo $taxista->apMaterno ?></td>
-					        <td><?php echo $taxista->telefono ?></td>
-					        <td><?php echo $taxista->clave ?></td>
-					        <td><?php echo $taxista->RefTaxi ?></td>
-					        <td><?php echo $taxista->estado ?></td>
-				      	</tr>
-				    </tbody>
+								    <?php
+									    if( $taxista->estado == 'habilitado')
+					  					{
+					  						$color="success";
+					  						
+					  					}
+					  					if( $taxista->estado == 'deshabilitado')
+					  					{		
+					  						$color="active";
+					  					}
+				  					?>  
+							      	<tr class=<?php echo $color ?>>
+								        <td><?php echo $taxista->rut ?></td>
+								        <td><?php echo $taxista->correo ?></td>
+								        <td><?php echo $taxista->nombre ?></td>
+								        <td><?php echo $taxista->apPaterno ?></td>
+								        <td><?php echo $taxista->apMaterno ?></td>
+								        <td><?php echo $taxista->telefono ?></td>
+								        <td><?php echo $taxista->clave ?></td>
+								        <td><?php echo $taxista->RefTaxi ?></td>
+								        <td><?php echo $taxista->estado ?></td>
+							      	</tr>
+							    </tbody>
 
-		    <?php endforeach; ?>
+					    <?php endforeach; ?>
 
-	    	</table>
-
+		    		</table>
+		    	</div>
 			</div>
 		</div>
 

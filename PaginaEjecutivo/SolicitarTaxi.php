@@ -23,10 +23,50 @@
 	<script src="localizacion.js"></script>
 	<script src="main.js"></script>
 	<script>
-	    $(document).on("click","#botonSolicitar", mostrarAlerta);
-	    function mostrarAlerta(){
-	        mostrarAlerta2();          //aquí estamos activando la función del otro archivo
+	    //$(document).on("click","#botonSolicitar", mostrarAlerta);
+	    
+
+		function mostrarAlerta(){
+			nombreValue = document.getElementById('Nombre').value;
+			apellidoValue = document.getElementById('Apellido').value;
+			telefonoValue = document.getElementById('Telefono').value;
+			direccionOrigen= document.getElementById('autocompleteInicio').value;
+			direccionDestino= document.getElementById('autocompleteDestino').value;
+			if(nombreValue!='' && apellidoValue!='' && telefonoValue!='' && direccionOrigen!='' && direccionDestino!='')
+			{
+				return mostrarAlerta2();
+			}
+			else
+			{
+				alert("Verifica que los campos no esten vacios");
+				return false;
+			}
+	    	//return false;
+	    	/*validar2 = false;
+	    	
+	    	if(validar)
+	    	{
+	    		validar2=validar;
+	    	}
+	    	else
+	    	{
+	    		validar2=validar;
+	    	}
+
+	    	return validar2;*/
+	    	//alert(mostrarAlerta2());
+	    	/*if(mostrarAlerta2())//aquí estamos activando la función del otro archivo
+	    	{
+	    		alert("Prueba True");
+	    		return true;
+	    	}
+	    	else
+	    	{
+	    		alert("prueba False");
+	    		return false;
+	    	}*/
 	    }
+	                  
 	</script>
 
 </head>
@@ -82,7 +122,7 @@
 			<div class="formulario">
 				<h2>Solicitar taxi</h2>
 				
-				<form action = "Principal.php">
+				<form action="Principal.php" onsubmit="return mostrarAlerta()">
 				
 				    <div class="solicitud">
 					    <input type="Nombre" class="form-control" id="Nombre" placeholder="Nombre" name="Nombre">

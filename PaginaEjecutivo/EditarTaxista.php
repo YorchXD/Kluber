@@ -129,6 +129,29 @@
 
 			    $resultado->execute(array(":ru"=>$rut, ":corr"=>$correo, ":nom"=>$nombre,":apPat"=>$apPaterno, ":apMat"=>$apMaterno, ":tel"=>$telefono, ":cla"=>$clave, ":tax"=>$taxi, ":est"=>$estado));
 
+			    if($estado=="deshabilitado")
+		  		{
+		  			$registroTaxista = $base->query("select * from taxista where correo='$correo'")->fetchAll(PDO::FETCH_OBJ);
+
+		  			$rutTaxista = $registroTaxista[0]->rut;
+
+		  			$base->query("update disponibilidadchoferes set estado='no disponible'  where RefTaxista='$rutTaxista'");
+		  		}
+
+		  		if($estado=="habilitado")
+		  		{
+		  			$registroTaxista = $base->query("select * from taxista where correo='$correo'")->fetchAll(PDO::FETCH_OBJ);
+
+		  			$rutTaxista = $registroTaxista[0]->rut;
+
+		  			$registroDisponibilidad = $base->query("select * from disponibilidadchoferes where RefTaxista='$rutTaxista'")->fetchAll(PDO::FETCH_OBJ);
+
+		  			if($registroDisponibilidad[0]->estado!="ocupado")
+		  			{
+		  				$base->query("update disponibilidadchoferes set estado='disponible' where RefTaxista='$rutTaxista'");
+		  			}
+		  		}
+
 			    echo "<script>
 	                alert('Se ha editado taxista con exito');
 	                window.location= 'MostrarTaxista.php'

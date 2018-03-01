@@ -54,7 +54,7 @@
 
 			    echo "<script>
 	                alert('Se registro taxi con exito');
-	                window.location= 'MostrarTaxi.php'
+	                window.location= 'MostrarTaxi.php';
 	    		</script>";
 	    	}
 

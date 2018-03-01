@@ -77,36 +77,37 @@
 		<div>
 			<div class="wrapper">
 				<h2 >Lista de Taxis</h2>
-				<table class="table">
-				    <thead>
-				      	<tr>
-	  				        <th>Patente</th>
-					        <th>Marca</th>
-					        <th>Modelo</th>
-					        <th>Número Taxi</th>
-					        <th>Año</th>
-				     	</tr>
-				    </thead>
+				<div id="divtabla" class="wrapper">
+					<table class="table">
+					    <thead>
+					      	<tr>
+		  				        <th>Patente</th>
+						        <th>Marca</th>
+						        <th>Modelo</th>
+						        <th>Número Taxi</th>
+						        <th>Año</th>
+					     	</tr>
+					    </thead>
 
 
-			<?php foreach ($registros as $taxi):?> 
+						<?php foreach ($registros as $taxi):?> 
 
 
 
-				    <tbody>      
-				      	<tr class="success">
-					        <td><?php echo $taxi->patente ?></td>
-					        <td><?php echo $taxi->marca ?></td>
-					        <td><?php echo $taxi->modelo ?></td>
-					        <td><?php echo $taxi->numTaxi ?></td>
-					        <td><?php echo $taxi->anio ?></td>
-				      	</tr>
-				    </tbody>
+							    <tbody>      
+							      	<tr class="success">
+								        <td><?php echo $taxi->patente ?></td>
+								        <td><?php echo $taxi->marca ?></td>
+								        <td><?php echo $taxi->modelo ?></td>
+								        <td><?php echo $taxi->numTaxi ?></td>
+								        <td><?php echo $taxi->anio ?></td>
+							      	</tr>
+							    </tbody>
 
-		    <?php endforeach; ?>
+					    <?php endforeach; ?>
 
-	    	</table>
-
+		    		</table>
+		    	</div>
 			</div>
 		</div>
 

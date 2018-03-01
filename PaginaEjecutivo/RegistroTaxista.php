@@ -61,6 +61,14 @@
 
 			    $resultado->execute(array(":ru"=>$rut, ":corr"=>$correo, ":nom"=>$nombre,":apPat"=>$apPaterno, ":apMat"=>$apMaterno, ":tel"=>$telefono, ":cla"=>$clave, ":tax"=>$taxi, ":est"=>$estado));
 
+
+
+			    $sql2="insert into disponibilidadchoferes (RefTaxista, ubicacion, estado,tiempoDisponible) values (:rutTax, :ub, :est, :tiemDis)";
+
+			    $resultado2 = $base->prepare($sql2);
+
+			    $resultado2->execute(array(":rutTax"=>$rut, ":ub"=>"", ":est"=>"no disponible",":tiemDis"=>"00:00:00"));
+
 				echo "<script>
 	                alert('Se registro taxista con exito');
 	                window.location= 'MostrarTaxista.php'
@@ -155,7 +163,7 @@
 		    <div class="registroTaxitaForm"> 
 
 			    <select class="registroTaxitaForm" name="comboboxTaxis">
-			    	<optgroup label="Escoja Pantente del taxi">
+			    	<optgroup label="Escoja correo del taxista">
 
 		    		<?php foreach ($registros as $taxi):?>
 						<option  value=<?php echo $taxi->patente?>><?php echo $taxi->patente?></option>

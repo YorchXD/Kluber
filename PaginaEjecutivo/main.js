@@ -7,6 +7,9 @@ var telefonoValue = null;
 var tiempoValue = null;
 var fechaValue = null;
 var horaValue = null;
+var validar = false;
+
+
 
 
 google.maps.event.addDomListener(window, "load", function(){
@@ -259,41 +262,64 @@ function obtenerFechaHora() {
 
 function mostrarAlerta2() 
 {
-	obtenerFechaHora();
-	nombreValue = document.getElementById('Nombre').value;
-	apellidoValue = document.getElementById('Apellido').value;
-	telefonoValue = document.getElementById('Telefono').value;
-
-	var latOrigen= ''+origenValue.lat();
-	var lngOrigen= ''+origenValue.lng();
-	var latDestino= ''+destinoValue.lat();
-	var lngDestino= ''+destinoValue.lng();
-
-	var direccionOrigen= document.getElementById('autocompleteInicio').value;
-	var direccionDestino= document.getElementById('autocompleteDestino').value;
-	
-
-	if (nombreValue!='' && apellidoValue!='' &&telefonoValue!='' && distanciaValue!=-1) 
+	if(distanciaValue!=-1)
 	{
+		obtenerFechaHora();
+		nombreValue = document.getElementById('Nombre').value;
+		apellidoValue = document.getElementById('Apellido').value;
+		telefonoValue = document.getElementById('Telefono').value;
 
+		var latOrigen= ''+origenValue.lat();
+		var lngOrigen= ''+origenValue.lng();
+		var latDestino= ''+destinoValue.lat();
+		var lngDestino= ''+destinoValue.lng();
+
+		var direccionOrigen= document.getElementById('autocompleteInicio').value;
+		var direccionDestino= document.getElementById('autocompleteDestino').value;
+	
+	
 		if (confirm("¿Seguro que desean enviar la solicitud?")) {
-		    $.post("EnvioSolicitudTaxi.php",{nombre: nombreValue, apellido: apellidoValue, telefono: telefonoValue, distancia: distanciaValue, fecha: fechaValue, hora: horaValue, latOrigen: latOrigen, lngOrigen: lngOrigen, latDestino: latDestino, lngDestino: lngDestino, direccionOrigen: direccionOrigen, direccionDestino: direccionDestino }, function(respuesta){
-				
-				//alert(respuesta); //Mostramos un alert del resultado devuelto por el php
-				alert("Datos guardado exitosamente");
-			});
+		    $.post("EnvioSolicitudTaxi.php",{nombre: nombreValue, apellido: apellidoValue, telefono: telefonoValue, distancia: distanciaValue, fecha: fechaValue, hora: horaValue, latOrigen: latOrigen, lngOrigen: lngOrigen, latDestino: latDestino, lngDestino: lngDestino, direccionOrigen: direccionOrigen, direccionDestino: direccionDestino }, validarEnvio);
+		    alert("verificando datos...");
+
+		    if(validar)
+		    {
+		    	return true;
+		    }
+		    else
+		    {
+		    	return false;
+		    }
+
 		} 
 		else 
 		{
 		    alert("Error, los datos no fueron enviados");
-		} 
-
-		alert('Guardando datos...');
+		    return false;
+		}
 	}
 	else
-    {
-    	alert("Verifica que los campos no esten vacios");
-    }
+	{
+		alert("Direccion de origen o destino invalida");
+		return false;
+	}
+
+}
+
+function validarEnvio(respuesta){			
+	//alert(respuesta); //Mostramos un alert del resultado devuelto por el php
+	if(respuesta=="true")
+	{
+		alert("La solicitud fue hecha exitosamente");
+		validar = true;
+		
+	}
+	else
+	{
+		alert("No se pude enviar solicitud por que no hay taxista disponible");
+		validar = false;
+	}
+
 }
 
 
