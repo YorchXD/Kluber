@@ -59,6 +59,7 @@
 							<li><a href="RegistroTaxista.php" class="submenuChofer">Registrar</a></li>
 							<li><a href="EditarTaxista.php" class="submenuChofer">Editar</a></li>
 							<li><a href="EliminarTaxista.php" class="submenuChofer">Eliminar</a></li>
+							<li><a href="EditarTaxistaDisponibilidad.php" class="submenuChofer">Editar Disponibilidad</a></li>
 						</ul>
 					</li>
 					<li><a href="#"><span class="colorTaxi"><i class="icon icon-local_taxi"></i></span>Taxi</a>
@@ -69,7 +70,14 @@
 							<li><a href="EliminarTaxi.php" class="submenuTaxi">Eliminar</a></li>
 						</ul>
 					</li>
-					<li><a href="SolicitarTaxi.php"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a></li>
+					<li><a href="#"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a>
+						<ul class="submenuSolicitarTaxi">
+							<li><a href="SolicitarTaxi.php" class="submenuSolicitarTaxi">Solicitar</a></li>
+							<li><a href="#" class="submenuSolicitarTaxi">Editar</a></li>
+							<li><a href="#" class="submenuSolicitarTaxi">Eliminar</a></li>
+						</ul>
+
+					</li>
 				</ul>				
 			</nav>
 		</header>
@@ -77,36 +85,37 @@
 		<div>
 			<div class="wrapper">
 				<h2 >Lista de Taxis</h2>
-				<table class="table">
-				    <thead>
-				      	<tr>
-	  				        <th>Patente</th>
-					        <th>Marca</th>
-					        <th>Modelo</th>
-					        <th>Número Taxi</th>
-					        <th>Año</th>
-				     	</tr>
-				    </thead>
+				<div id="divtabla" class="wrapper">
+					<table class="table">
+					    <thead>
+					      	<tr>
+		  				        <th>Patente</th>
+						        <th>Marca</th>
+						        <th>Modelo</th>
+						        <th>Número Taxi</th>
+						        <th>Año</th>
+					     	</tr>
+					    </thead>
 
 
-			<?php foreach ($registros as $taxi):?> 
+						<?php foreach ($registros as $taxi):?> 
 
 
 
-				    <tbody>      
-				      	<tr class="success">
-					        <td><?php echo $taxi->patente ?></td>
-					        <td><?php echo $taxi->marca ?></td>
-					        <td><?php echo $taxi->modelo ?></td>
-					        <td><?php echo $taxi->numTaxi ?></td>
-					        <td><?php echo $taxi->anio ?></td>
-				      	</tr>
-				    </tbody>
+							    <tbody>      
+							      	<tr class="success">
+								        <td><?php echo $taxi->patente ?></td>
+								        <td><?php echo $taxi->marca ?></td>
+								        <td><?php echo $taxi->modelo ?></td>
+								        <td><?php echo $taxi->numTaxi ?></td>
+								        <td><?php echo $taxi->anio ?></td>
+							      	</tr>
+							    </tbody>
 
-		    <?php endforeach; ?>
+					    <?php endforeach; ?>
 
-	    	</table>
-
+		    		</table>
+		    	</div>
 			</div>
 		</div>
 

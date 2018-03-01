@@ -37,12 +37,6 @@
 
 	  $apMaterno = "ApellidoMaterno";
 
-	  $telefono = "Telefono";
-
-	  $clave = "Clave";
-
-	  $taxi = "PatenteTaxi";
-
 	  $estado = "Estado";
 
 	  $RegistroTaxista=$base->query("select * from taxista")->fetchAll(PDO::FETCH_OBJ);
@@ -51,23 +45,21 @@
 	  {
 	    $correo = $_POST["comboboxTaxista"];
 
-	    $registros=$base->query("select * from taxista where correo='$correo'")->fetchAll(PDO::FETCH_OBJ);
+	    $registrosTaxista2=$base->query("select * from taxista where correo='$correo'")->fetchAll(PDO::FETCH_OBJ);
+
+	    $rutTaxista2 = $registrosTaxista2[0]->rut;
+
+	    $registros=$base->query("select * from disponibilidadchoferes where RefTaxista='$rutTaxista2'")->fetchAll(PDO::FETCH_OBJ);
 
 	    if($registros!=null)
 	    {
-		    $rut = $registros[0]->rut;
+		    $rut = $registros[0]->RefTaxista;
 
-		    $nombre = $registros[0]->nombre;
+		    $nombre = $registrosTaxista2[0]->nombre;
 
-		    $apPaterno = $registros[0]->apPaterno;
+		    $apPaterno = $registrosTaxista2[0]->apPaterno;
 
-		    $apMaterno = $registros[0]->apMaterno;
-
-		    $telefono = $registros[0]->telefono;
-
-		    $clave = $registros[0]->clave;
-
-		    $taxi = $registros[0]->RefTaxi;
+		    $apMaterno = $registrosTaxista2[0]->apMaterno;
 
 		    $estado = $registros[0]->estado;
 		}
@@ -78,39 +70,41 @@
 
 	  }
 
-	  if(isset($_POST["botonEliminar"]))
+	  if(isset($_POST["botonEditar"]))
 	  {
 
 	  	$correo = $_POST["Correo"];
 
-	  	 $estado = $_POST["Estado"];
+	  	$estado = $_POST["comboboxEstado"];
 
   		//$base->query("delete from taxista where correo='$correo'");
 
   		
+		/*if($_POST["comboboxEstado"]=="Habilitado")
+	    {
+	    	$estado = "habilitado";
+	    }
+	    if ($_POST["comboboxEstado"]=="Deshabilitado")
+	    {
+	    	$estado = "deshabilitado";
+	    }*/
 
+		$registroTaxista = $base->query("select * from taxista where correo='$correo'")->fetchAll(PDO::FETCH_OBJ);
 
-  		if($estado=="habilitado")
-  		{
+		$rutTaxista = $registroTaxista[0]->rut;
 
-  			$base->query("update taxista set estado='deshabilitado'  where correo='$correo'");
+		$base->query("update disponibilidadchoferes set estado='$estado', tiempoDisponible='00:00:00' where RefTaxista='$rutTaxista'");
 
-  			$registroTaxista = $base->query("select * from taxista where correo='$correo'")->fetchAll(PDO::FETCH_OBJ);
-
-  			$rutTaxista = $registroTaxista[0]->rut;
-
-  			$base->query("update disponibilidadchoferes set estado='no disponible'  where RefTaxista='$rutTaxista'");
-
-  			 echo "<script>
-	                alert('taxista deshabilitado con exito');
-	                window.location= 'MostrarTaxista.php'
-	    		</script>";
+		 echo "<script>
+            alert('se cambio el estado del taxista a \"$estado\" con exito');
+            window.location= 'Principal.php'
+		</script>";
   			//$sql="update taxista set estado=:'deshabilitado'  where correo=:'$correo'";
 
 		    //$resultado = $base->prepare($sql);
 
 		    //$resultado->execute(array(":est"=>"deshabilitado"));
-  		}
+
 
 	    //header("Location:MostrarTaxista.php");
 
@@ -174,7 +168,7 @@
 
 
 	<div>
-		<h2>Deshabiltar Chofer</h2>
+		<h2>Editar Disponibildad Chofer</h2>
 		
 		
   		<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
@@ -218,25 +212,34 @@
 		        <input type="Correo" class="form-control" id="Correo" placeholder="Correo Electrónico" name="Correo" value=<?php echo $correo?> readonly="readonly">
 		    </div>
 		
-		    <div class="registroTaxitaForm">         
-		        <input type="Contrasena" class="form-control" id="Contrasena" placeholder="Contraseña" name="Contrasena" value=<?php echo $clave?> readonly="readonly">
-		    </div>
-		
-		    <div class="registroTaxitaForm">         
-		        <input type="Telefono" class="form-control" id="Telefono" placeholder="Teléfono" name="Telefono" value=<?php echo $telefono?> readonly="readonly">
-		    </div>
-		
-		    <div class="registroTaxitaForm">         
-		        <input type="NumeroTaxi" class="form-control" id="NumeroTaxi" placeholder="Patente Taxi" name="NumeroTaxi" value=<?php echo $taxi?> readonly="readonly">
-		    </div>
+		    <div class="registroTaxitaForm"> 
 
-		    <div class="registroTaxitaForm">         
-		        <input type="Estado" class="form-control" id="Estado" placeholder="Estado Taxista" name="Estado" value=<?php echo $estado?> readonly="readonly">
-		    </div>
+			    <select class="registroTaxitaForm" name="comboboxEstado">
+			    	<optgroup label=<?php echo $estado?>>
+			    	<?php if  ($estado == "ocupado")
+			    	{?>
+						<option  value="ocupado">ocupado</option>
+						<option value="no disponible">no disponible</option>
+						<option value="disponible">disponible</option>
+					<?php  }?>
+					<?php if  ($estado == "no disponible")
+			    	{?>
+						<option value="no disponible">no disponible</option>
+						<option  value="ocupado">ocupado</option>
+						<option value="disponible">disponible</option>
+					<?php  }?>
+					<?php if  ($estado == "disponible")
+			    	{?>
+			    		<option value="disponible">disponible</option>
+						<option value="no disponible">no disponible</option>
+						<option  value="ocupado">ocupado</option>						
+					<?php  }?>
+				</select> 
+			</div>
 		    
 		    <center>
-					<button name="botonEliminar" id="botonEliminar" type="submit" class="btn btn-warning">Deshabilitar</button>
-				</center>
+					<button name="botonEditar" id="botonEditar" type="submit" class="btn btn-warning">Editar Estado</button>
+			</center>s
 		</form>
 	</div>
 

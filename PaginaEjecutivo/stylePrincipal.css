@@ -232,6 +232,11 @@ nav ul li ul .submenuChofer
   text-decoration: none;
 }
 
+nav ul li ul .submenuSolicitarTaxi
+{
+  background: #e4da07;
+  text-decoration: none;
+}
 
 /*--------------------------Fin menu---------------------------*/
 
@@ -795,3 +800,20 @@ footer{
 {
   margin-top: 3px;
 }
+
+
+#divtabla {
+     overflow:scroll;
+     height:300px;
+
+}
+#divtabla table {
+    background-color: #f3c961;
+
+}
+thead 
+{
+  color: #271A02;
+}
+
+

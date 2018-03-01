@@ -23,11 +23,50 @@
 	<script src="localizacion.js"></script>
 	<script src="main.js"></script>
 	<script>
-	    $(document).on("click","#botonSolicitar", mostrarAlerta);
-	    function mostrarAlerta(){
-	        mostrarAlerta2();          //aquí estamos activando la función del otro archivo
-	        setTimeout(console.log('esperando'),10000);
+	    //$(document).on("click","#botonSolicitar", mostrarAlerta);
+	    
+
+		function mostrarAlerta(){
+			nombreValue = document.getElementById('Nombre').value;
+			apellidoValue = document.getElementById('Apellido').value;
+			telefonoValue = document.getElementById('Telefono').value;
+			direccionOrigen= document.getElementById('autocompleteInicio').value;
+			direccionDestino= document.getElementById('autocompleteDestino').value;
+			if(nombreValue!='' && apellidoValue!='' && telefonoValue!='' && direccionOrigen!='' && direccionDestino!='')
+			{
+				return mostrarAlerta2();
+			}
+			else
+			{
+				alert("Verifica que los campos no esten vacios");
+				return false;
+			}
+	    	//return false;
+	    	/*validar2 = false;
+	    	
+	    	if(validar)
+	    	{
+	    		validar2=validar;
+	    	}
+	    	else
+	    	{
+	    		validar2=validar;
+	    	}
+
+	    	return validar2;*/
+	    	//alert(mostrarAlerta2());
+	    	/*if(mostrarAlerta2())//aquí estamos activando la función del otro archivo
+	    	{
+	    		alert("Prueba True");
+	    		return true;
+	    	}
+	    	else
+	    	{
+	    		alert("prueba False");
+	    		return false;
+	    	}*/
 	    }
+	                  
 	</script>
 
 </head>
@@ -63,6 +102,7 @@
 						<li><a href="RegistroTaxista.php" class="submenuChofer">Registrar</a></li>
 						<li><a href="EditarTaxista.php" class="submenuChofer">Editar</a></li>
 						<li><a href="EliminarTaxista.php" class="submenuChofer">Eliminar</a></li>
+						<li><a href="EditarTaxistaDisponibilidad.php" class="submenuChofer">Editar Disponibilidad</a></li>
 					</ul>
 				</li>
 				<li><a href="#"><span class="colorTaxi"><i class="icon icon-local_taxi"></i></span>Taxi</a>
@@ -73,7 +113,14 @@
 						<li><a href="EliminarTaxi.php" class="submenuTaxi">Eliminar</a></li>
 					</ul>
 				</li>
-				<li><a href="SolicitarTaxi.php"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a></li>
+				<li><a href="#"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a>
+					<ul class="submenuSolicitarTaxi">
+						<li><a href="SolicitarTaxi.php" class="submenuSolicitarTaxi">Solicitar</a></li>
+						<li><a href="#" class="submenuSolicitarTaxi">Editar</a></li>
+						<li><a href="#" class="submenuSolicitarTaxi">Eliminar</a></li>
+					</ul>
+
+				</li>
 			</ul>				
 		</nav>
 	</header>
@@ -83,7 +130,7 @@
 			<div class="formulario">
 				<h2>Solicitar taxi</h2>
 				
-				<form>
+				<form action="Principal.php" onsubmit="return mostrarAlerta()">
 				
 				    <div class="solicitud">
 					    <input type="Nombre" class="form-control" id="Nombre" placeholder="Nombre" name="Nombre">
@@ -126,7 +173,7 @@
 		
 	</div>
 
-	<div class="footer">Derechos Reservados | kable &copy</div>
+	<footer>Derechos Reservados | kable &copy</footer>
 
 
 </body>

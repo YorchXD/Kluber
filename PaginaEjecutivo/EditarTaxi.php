@@ -33,9 +33,11 @@
 
 	  $anio = "Año";
 
+	  $RegistroTaxis=$base->query("select * from taxi")->fetchAll(PDO::FETCH_OBJ);
+
 	  if(isset($_POST["botonBuscar"]))
 	  {
-	    $patente = $_POST["patente"];
+	    $patente = $_POST["comboboxTaxis"];
 
 	   
 	    $registros=$base->query("select * from taxi where patente='$patente'")->fetchAll(PDO::FETCH_OBJ);
@@ -71,13 +73,28 @@
 
       	$anio = $_POST["Anio"];
 
-     	$sql="update taxi set marca=:mar, modelo=:mod, numTaxi=:numT, anio=:an where patente=:pat";
+      	if($patente=="" || $patente=="Patente" || $marca=="" || $modelo=="" || $numTaxi=="" || $anio=="")
+	    {
+	    	echo "<script>
+                alert('Faltan campos a completar');
+    		</script>";
+	    }
+	    else
+	    {
 
-      	$resultado = $base->prepare($sql);
+	     	$sql="update taxi set marca=:mar, modelo=:mod, numTaxi=:numT, anio=:an where patente=:pat";
 
-      	$resultado->execute(array(":pat"=>$patente, ":mar"=>$marca, ":mod"=>$modelo, ":numT"=>$numTaxi, ":an"=>$anio));
+	      	$resultado = $base->prepare($sql);
 
-	    header("Location:MostrarTaxi.php");
+	      	$resultado->execute(array(":pat"=>$patente, ":mar"=>$marca, ":mod"=>$modelo, ":numT"=>$numTaxi, ":an"=>$anio));
+
+	      	echo "<script>
+	                alert('Se ha editado taxi con exito');
+	                window.location= 'MostrarTaxista.php'
+	    		</script>";
+
+		    //header("Location:MostrarTaxi.php");
+		}
 
 	  }
 
@@ -114,6 +131,7 @@
 						<li><a href="RegistroTaxista.php" class="submenuChofer">Registrar</a></li>
 						<li><a href="EditarTaxista.php" class="submenuChofer">Editar</a></li>
 						<li><a href="EliminarTaxista.php" class="submenuChofer">Eliminar</a></li>
+						<li><a href="EditarTaxistaDisponibilidad.php" class="submenuChofer">Editar Disponibilidad</a></li>
 					</ul>
 				</li>
 				<li><a href="#"><span class="colorTaxi"><i class="icon icon-local_taxi"></i></span>Taxi</a>
@@ -124,7 +142,14 @@
 						<li><a href="EliminarTaxi.php" class="submenuTaxi">Eliminar</a></li>
 					</ul>
 				</li>
-				<li><a href="SolicitarTaxi.php"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a></li>
+				<li><a href="#"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a>
+					<ul class="submenuSolicitarTaxi">
+						<li><a href="SolicitarTaxi.php" class="submenuSolicitarTaxi">Solicitar</a></li>
+						<li><a href="#" class="submenuSolicitarTaxi">Editar</a></li>
+						<li><a href="#" class="submenuSolicitarTaxi">Eliminar</a></li>
+					</ul>
+
+				</li>
 			</ul>				
 		</nav>
 	</header>
@@ -133,13 +158,21 @@
 
 		<h2>Editar Taxi</h2>
 
-		<h4>Ingrese patente del Taxi</h4>
+		<h4>Escoja patente del Taxi</h4>
 	  		
 	  		<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
-	  		
-	  			<div class="registroTaxitaForm">
-			       		<input type="text" class="form-control" id="patente" placeholder="Patente" name="patente">
-			   </div>
+
+		    <div class="registroTaxitaForm"> 
+
+			    <select class="registroTaxitaForm" name="comboboxTaxis">
+			    	<optgroup label="Escoja Pantente del taxi">
+
+		    		<?php foreach ($RegistroTaxis as $taxis):?>
+						<option  value=<?php echo $taxis->patente?>><?php echo $taxis->patente?></option>
+					<?php endforeach; ?>
+				</select> 
+
+			</div>
 
 			   <center>
 					<button name="botonBuscar" id="botonBuscar" type="submit" class="btn btn-warning">Buscar</button>
@@ -179,5 +212,3 @@
 
 	</body>
 </html>
-
-					

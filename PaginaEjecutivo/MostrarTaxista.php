@@ -59,6 +59,7 @@
 							<li><a href="RegistroTaxista.php" class="submenuChofer">Registrar</a></li>
 							<li><a href="EditarTaxista.php" class="submenuChofer">Editar</a></li>
 							<li><a href="EliminarTaxista.php" class="submenuChofer">Eliminar</a></li>
+							<li><a href="EditarTaxistaDisponibilidad.php" class="submenuChofer">Editar Disponibilidad</a></li>
 						</ul>
 					</li>
 					<li><a href="#"><span class="colorTaxi"><i class="icon icon-local_taxi"></i></span>Taxi</a>
@@ -69,7 +70,14 @@
 							<li><a href="EliminarTaxi.php" class="submenuTaxi">Eliminar</a></li>
 						</ul>
 					</li>
-					<li><a href="SolicitarTaxi.php"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a></li>
+					<li><a href="#"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a>
+						<ul class="submenuSolicitarTaxi">
+							<li><a href="SolicitarTaxi.php" class="submenuSolicitarTaxi">Solicitar</a></li>
+							<li><a href="#" class="submenuSolicitarTaxi">Editar</a></li>
+							<li><a href="#" class="submenuSolicitarTaxi">Eliminar</a></li>
+						</ul>
+
+					</li>
 				</ul>				
 			</nav>
 		</header>
@@ -77,42 +85,57 @@
 		<div>
 			<div class="wrapper">
 				<h2 >Lista de Taxistas</h2>
-				<table class="table">
-				    <thead>
-				      	<tr>
-	  				        <th>Rut</th>
-					        <th>Correo</th>
-					        <th>Nombre</th>
-					        <th>Apellido Paterno</th>
-					        <th>Apellido Materno</th>
-					        <th>Teléfono</th>
-					        <th>Clave</th>
-					        <th>Taxi Patente</th>
-				     	</tr>
-				    </thead>
+				<div id="divtabla" class="wrapper">
+					<table class="table" class="wrapper">
+					    <thead>
+					      	<tr>
+		  				        <th>Rut</th>
+						        <th>Correo</th>
+						        <th>Nombre</th>
+						        <th>Apellido Paterno</th>
+						        <th>Apellido Materno</th>
+						        <th>Teléfono</th>
+						        <th>Clave</th>
+						        <th>Taxi Patente</th>
+						        <th>Estado Taxista</th>
+					     	</tr>
+					    </thead>
 
 
-			<?php foreach ($registros as $taxista):?> 
+						<?php foreach ($registros as $taxista):?> 
 
 
 
-				    <tbody>      
-				      	<tr class="success">
-					        <td><?php echo $taxista->rut ?></td>
-					        <td><?php echo $taxista->correo ?></td>
-					        <td><?php echo $taxista->nombre ?></td>
-					        <td><?php echo $taxista->apPaterno ?></td>
-					        <td><?php echo $taxista->apMaterno ?></td>
-					        <td><?php echo $taxista->telefono ?></td>
-					        <td><?php echo $taxista->clave ?></td>
-					        <td><?php echo $taxista->RefTaxi ?></td>
-				      	</tr>
-				    </tbody>
+							    <tbody>    
 
-		    <?php endforeach; ?>
+								    <?php
+									    if( $taxista->estado == 'habilitado')
+					  					{
+					  						$color="success";
+					  						
+					  					}
+					  					if( $taxista->estado == 'deshabilitado')
+					  					{		
+					  						$color="active";
+					  					}
+				  					?>  
+							      	<tr class=<?php echo $color ?>>
+								        <td><?php echo $taxista->rut ?></td>
+								        <td><?php echo $taxista->correo ?></td>
+								        <td><?php echo $taxista->nombre ?></td>
+								        <td><?php echo $taxista->apPaterno ?></td>
+								        <td><?php echo $taxista->apMaterno ?></td>
+								        <td><?php echo $taxista->telefono ?></td>
+								        <td><?php echo $taxista->clave ?></td>
+								        <td><?php echo $taxista->RefTaxi ?></td>
+								        <td><?php echo $taxista->estado ?></td>
+							      	</tr>
+							    </tbody>
 
-	    	</table>
+					    <?php endforeach; ?>
 
+		    		</table>
+		    	</div>
 			</div>
 		</div>
 
