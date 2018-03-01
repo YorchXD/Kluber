@@ -37,13 +37,28 @@
 
 		    $anio = $_POST["anio"];
 
-		   	$sql="insert into taxi (patente, marca, modelo, numTaxi, anio) values (:pat, :mar, :mod, :numT, :anio)";
+		    if($patente=="" || $marca=="" || $modelo=="" || $numTaxi=="" || $anio=="")
+		    {
+		    	echo "<script>
+	                alert('Faltan campos a completar');
+	    		</script>";
+		    }
+		    else
+		    {
 
-		    $resultado = $base->prepare($sql);
+			   	$sql="insert into taxi (patente, marca, modelo, numTaxi, anio) values (:pat, :mar, :mod, :numT, :anio)";
 
-		    $resultado->execute(array(":pat"=>$patente, ":mar"=>$marca, ":mod"=>$modelo, ":numT"=>$numTaxi, ":anio"=>$anio));
+			    $resultado = $base->prepare($sql);
 
-		    header("Location:MostrarTaxi.php");
+			    $resultado->execute(array(":pat"=>$patente, ":mar"=>$marca, ":mod"=>$modelo, ":numT"=>$numTaxi, ":anio"=>$anio));
+
+			    echo "<script>
+	                alert('Se registro taxi con exito');
+	                window.location= 'MostrarTaxi.php';
+	    		</script>";
+	    	}
+
+		    //header("Location:MostrarTaxi.php");
 
 		  }
 
@@ -71,28 +86,28 @@
 			
 
 			<nav class="menu">
-				<ul>
-					<li><a href="Principal.php"><span class="colorInicio"><i class="icon icon-home"></i></span>Inicio</a></li>
-					<li><a href="Historial.php"><span class="colorHistorial"><i class="icon icon-open-book"></i></span>Historial</a></li>
-					<li><a href="#"><span class="colorChofer"><i class="icon icon-person_pin"></i></span>Chofer</a>
-						<ul class="submenuChofer">
-							<li><a href="MostrarTaxista.php" class="submenuChofer">Ver</a></li>
-							<li><a href="RegistroTaxista.php" class="submenuChofer">Registrar</a></li>
-							<li><a href="EditarTaxista.php" class="submenuChofer">Editar</a></li>
-							<li><a href="EliminarTaxista.php" class="submenuChofer">Eliminar</a></li>
-						</ul>
-					</li>
-					<li><a href="#"><span class="colorTaxi"><i class="icon icon-local_taxi"></i></span>Taxi</a>
-						<ul class="submenuTaxi">
-							<li><a href="MostrarTaxi.php" class="submenuTaxi">Ver</a></li>
-							<li><a href="RegistroTaxi.php" class="submenuTaxi">Registrar</a></li>
-							<li><a href="EditarTaxi.php" class="submenuTaxi">Editar</a></li>
-							<li><a href="EliminarTaxi.php" class="submenuTaxi">Eliminar</a></li>
-						</ul>
-					</li>
-					<li><a href="SolicitarTaxi.php"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a></li>
-				</ul>				
-			</nav>
+			<ul>
+				<li><a href="Principal.php"><span class="colorInicio"><i class="icon icon-home"></i></span>Inicio</a></li>
+				<li><a href="Historial.php"><span class="colorHistorial"><i class="icon icon-open-book"></i></span>Historial</a></li>
+				<li><a href="#"><span class="colorChofer"><i class="icon icon-person_pin"></i></span>Chofer</a>
+					<ul class="submenuChofer">
+						<li><a href="MostrarTaxista.php" class="submenuChofer">Ver</a></li>
+						<li><a href="RegistroTaxista.php" class="submenuChofer">Registrar</a></li>
+						<li><a href="EditarTaxista.php" class="submenuChofer">Editar</a></li>
+						<li><a href="EliminarTaxista.php" class="submenuChofer">Eliminar</a></li>
+					</ul>
+				</li>
+				<li><a href="#"><span class="colorTaxi"><i class="icon icon-local_taxi"></i></span>Taxi</a>
+					<ul class="submenuTaxi">
+						<li><a href="MostrarTaxi.php" class="submenuTaxi">Ver</a></li>
+						<li><a href="RegistroTaxi.php" class="submenuTaxi">Registrar</a></li>
+						<li><a href="EditarTaxi.php" class="submenuTaxi">Editar</a></li>
+						<li><a href="EliminarTaxi.php" class="submenuTaxi">Eliminar</a></li>
+					</ul>
+				</li>
+				<li><a href="SolicitarTaxi.php"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a></li>
+			</ul>				
+		</nav>
 		</header>
 
 
@@ -125,10 +140,8 @@
 			</form>
 		</div>
 
-		<div class="footer">Derechos Reservados | kable &copy</div>
+		<footer>Derechos Reservados | kable &copy</footer>
 
 
 	</body>
 </html>
-
-					

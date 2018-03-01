@@ -164,7 +164,7 @@
 				<h2>Historial de pedidos durante el día</h2>
 
 
-
+				<div id="divtabla" class="wrapper">
 				  	<table class="table">
 				    	<thead>
 					      	<tr>
@@ -246,7 +246,7 @@
 					    	<?php endforeach; ?>
 						<?php } ?>
 				  	</table>
-				
+			  	</div>				
 			</div>
 
 			<div class="botones">
@@ -260,5 +260,3 @@
 	<footer>Derechos Reservados | kable &copy</footer>
 </body>
 </html>
-
-				

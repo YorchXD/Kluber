@@ -795,3 +795,20 @@ footer{
 {
   margin-top: 3px;
 }
+
+
+#divtabla {
+     overflow:scroll;
+     height:300px;
+
+}
+#divtabla table {
+    background-color: #f3c961;
+
+}
+thead 
+{
+  color: #271A02;
+}
+
+

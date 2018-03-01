@@ -22,6 +22,10 @@
 
 		  include("conexion.php");
 
+		  $registros=$base->query("select * from taxi")->fetchAll(PDO::FETCH_OBJ);
+
+		  $taxi="";
+
 		  if(isset($_POST["botonRegistro"]))
 		  {
 
@@ -39,15 +43,39 @@
 
 		    $clave = $_POST["Contrasena"];
 
-		    $taxi = $_POST["NumeroTaxi"];
+		    $taxi = $_POST["comboboxTaxis"];
 
-		   	$sql="insert into taxista (rut, correo, nombre,apPaterno, apMaterno, telefono, clave, RefTaxi) values (:ru, :corr, :nom, :apPat, :apMat, :tel, :cla, :tax)";
+		    $estado = "habilitado";
 
-		    $resultado = $base->prepare($sql);
+		    if($rut=="" || $correo=="" || $nombre=="" || $apPaterno=="" || $apMaterno=="" || $telefono=="" || $clave=="" || $taxi=="" || $estado == "")
+		    {
+		    	echo "<script>
+	                alert('Faltan campos a completar');
+	    		</script>";
+		    }
+		    else
+		    {
+		    	$sql="insert into taxista (rut, correo, nombre,apPaterno, apMaterno, telefono, clave, RefTaxi, estado) values (:ru, :corr, :nom, :apPat, :apMat, :tel, :cla, :tax, :est)";
 
-		    $resultado->execute(array(":ru"=>$rut, ":corr"=>$correo, ":nom"=>$nombre,":apPat"=>$apPaterno, ":apMat"=>$apMaterno, ":tel"=>$telefono, ":cla"=>$clave, ":tax"=>$taxi));
+			    $resultado = $base->prepare($sql);
 
-		    header("Location:MostrarTaxista.php");
+			    $resultado->execute(array(":ru"=>$rut, ":corr"=>$correo, ":nom"=>$nombre,":apPat"=>$apPaterno, ":apMat"=>$apMaterno, ":tel"=>$telefono, ":cla"=>$clave, ":tax"=>$taxi, ":est"=>$estado));
+
+
+
+			    $sql2="insert into disponibilidadchoferes (RefTaxista, ubicacion, estado,tiempoDisponible) values (:rutTax, :ub, :est, :tiemDis)";
+
+			    $resultado2 = $base->prepare($sql2);
+
+			    $resultado2->execute(array(":rutTax"=>$rut, ":ub"=>"", ":est"=>"no disponible",":tiemDis"=>"00:00:00"));
+
+				echo "<script>
+	                alert('Se registro taxista con exito');
+	                window.location= 'MostrarTaxista.php'
+	    		</script>";
+		    }
+
+		    //header("Location:MostrarTaxista.php");
 
 		  }
 
@@ -131,10 +159,18 @@
 		    <div class="registroTaxitaForm">         
 		        <input type="Telefono" class="form-control" id="Telefono" placeholder="Teléfono" name="Telefono">
 		    </div>
-		
-		    <div class="registroTaxitaForm">         
-		        <input type="NumeroTaxi" class="form-control" id="NumeroTaxi" placeholder="Patente Taxi" name="NumeroTaxi">
-		    </div>
+
+		    <div class="registroTaxitaForm"> 
+
+			    <select class="registroTaxitaForm" name="comboboxTaxis">
+			    	<optgroup label="Escoja correo del taxista">
+
+		    		<?php foreach ($registros as $taxi):?>
+						<option  value=<?php echo $taxi->patente?>><?php echo $taxi->patente?></option>
+					<?php endforeach; ?>
+				</select> 
+
+			</div>
 		
 			<center>
 				<button id="botonRegistro" name="botonRegistro" type="submit" class="btn btn-warning">Registrar</button>
@@ -147,5 +183,3 @@
 
 </body>
 </html>
-
-				

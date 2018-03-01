@@ -21,10 +21,10 @@
 </head>
 <body>
 	<header>
-		<nav class="Historial">
+		<nav class="menu">
 			<ul>
-				<li><a href="#"><span class="colorInicio"><i class="icon icon-home"></i></span>Inicio</a></li>
-				<li><a href="#"><span class="colorHistorial"><i class="icon icon-open-book"></i></span>Historial</a></li>
+				<li><a href="Principal.php"><span class="colorInicio"><i class="icon icon-home"></i></span>Inicio</a></li>
+				<li><a href="Historial.php"><span class="colorHistorial"><i class="icon icon-open-book"></i></span>Historial</a></li>
 				<li><a href="#"><span class="colorChofer"><i class="icon icon-person_pin"></i></span>Chofer</a>
 					<ul class="submenuChofer">
 						<li><a href="MostrarTaxista.php" class="submenuChofer">Ver</a></li>

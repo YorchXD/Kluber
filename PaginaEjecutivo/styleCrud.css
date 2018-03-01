@@ -297,3 +297,26 @@ footer{
 	min-width: 130vh;
 	color: #fff;
 }
+
+
+
+#divtabla {
+     overflow:scroll;
+     height:300px;
+
+}
+#divtabla table {
+    background-color: #f3c961;
+
+}
+thead 
+{
+  color: #271A02;
+}
+
+.wrapper
+{
+	width: 90%;
+	margin: auto;
+	overflow: hidden;
+}

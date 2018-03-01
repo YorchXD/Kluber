@@ -43,9 +43,16 @@
 
 	  $taxi = "PatenteTaxi";
 
+	  $estado = "Estado";
+
+	  $RegistroTaxista=$base->query("select * from taxista")->fetchAll(PDO::FETCH_OBJ);
+
+	  $RegistroTaxis=$base->query("select * from taxi")->fetchAll(PDO::FETCH_OBJ);
+
+
 	  if(isset($_POST["botonBuscar"]))
 	  {
-	    $correo = $_POST["correo"];
+	    $correo = $_POST["comboboxTaxista"];
 
 	    $registros=$base->query("select * from taxista where correo='$correo'")->fetchAll(PDO::FETCH_OBJ);
 
@@ -65,6 +72,8 @@
 		    $clave = $registros[0]->clave;
 
 		    $taxi = $registros[0]->RefTaxi;
+
+		    $estado = $registros[0]->estado;
 		}
 		else
 		{
@@ -90,16 +99,76 @@
 
 		    $clave = $_POST["Contrasena"];
 
-		    $taxi = $_POST["NumeroTaxi"];
+		    $taxi = $_POST["comboboxTaxis"];
 
-		    $sql="update taxista set rut=:ru, correo=:corr, nombre=:nom, apPaterno=:apPat, apMaterno=:apMat, telefono=:tel, clave=:cla, RefTaxi=:tax  where correo=:corr";
 
-		    $resultado = $base->prepare($sql);
+		    
 
-		    $resultado->execute(array(":ru"=>$rut, ":corr"=>$correo, ":nom"=>$nombre,":apPat"=>$apPaterno, ":apMat"=>$apMaterno, ":tel"=>$telefono, ":cla"=>$clave, ":tax"=>$taxi));
 
-		    header("Location:MostrarTaxista.php");
+		    if($rut=="" || $correo=="" || $correo=="Correo" || $nombre=="" || $apPaterno=="" || $apMaterno=="" || $telefono=="" || $clave=="" || $taxi=="" || $estado == "")
+		    {
+		    	echo "<script>
+	                alert('Faltan campos a completar');
+	    		</script>";
+		    }
+		    else
+		    {		    
 
+		    	if($_POST["comboboxEstado"]=="Habilitado")
+			    {
+			    	$estado = "habilitado";
+			    }
+			    if ($_POST["comboboxEstado"]=="Deshabilitado")
+			    {
+			    	$estado = "deshabilitado";
+			    }
+			    
+			    $sql="update taxista set rut=:ru, correo=:corr, nombre=:nom, apPaterno=:apPat, apMaterno=:apMat, telefono=:tel, clave=:cla, RefTaxi=:tax, estado=:est  where correo=:corr";
+
+			    $resultado = $base->prepare($sql);
+
+			    $resultado->execute(array(":ru"=>$rut, ":corr"=>$correo, ":nom"=>$nombre,":apPat"=>$apPaterno, ":apMat"=>$apMaterno, ":tel"=>$telefono, ":cla"=>$clave, ":tax"=>$taxi, ":est"=>$estado));
+
+			    if($estado=="deshabilitado")
+		  		{
+		  			$registroTaxista = $base->query("select * from taxista where correo='$correo'")->fetchAll(PDO::FETCH_OBJ);
+
+		  			$rutTaxista = $registroTaxista[0]->rut;
+
+		  			$base->query("update disponibilidadchoferes set estado='no disponible'  where RefTaxista='$rutTaxista'");
+		  		}
+
+		  		if($estado=="habilitado")
+		  		{
+		  			$registroTaxista = $base->query("select * from taxista where correo='$correo'")->fetchAll(PDO::FETCH_OBJ);
+
+		  			$rutTaxista = $registroTaxista[0]->rut;
+
+		  			$registroDisponibilidad = $base->query("select * from disponibilidadchoferes where RefTaxista='$rutTaxista'")->fetchAll(PDO::FETCH_OBJ);
+
+		  			if($registroDisponibilidad[0]->estado!="ocupado")
+		  			{
+		  				$base->query("update disponibilidadchoferes set estado='disponible' where RefTaxista='$rutTaxista'");
+		  			}
+		  		}
+
+			    echo "<script>
+	                alert('Se ha editado taxista con exito');
+	                window.location= 'MostrarTaxista.php'
+	    		</script>";
+
+			    //header("Location:MostrarTaxista.php");
+			}
+
+	  }
+
+
+	  if(isset($_POST["botonMenu"]))
+	  {
+	  	//$estado = $_POST["Estado"];
+	  	$estado="Habilitado";
+
+	  	echo "prueba";
 	  }
 
 	?>
@@ -153,13 +222,21 @@
 	<div>
 	  	<h2>Editar Chofer</h2>
 	  	
-	  	<h4>Ingrese Correo del Chofer</h4>
+	  	<h4>Escoja Correo del Chofer</h4>
 	  	
 	  	<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
   		
-  			<div class="registroTaxitaForm">
-		       		<input type="text" class="form-control" id="correo" placeholder="Correo Electrónico" name="correo">
-		   </div>
+		    <div class="registroTaxitaForm"> 
+
+			    <select class="registroTaxitaForm" name="comboboxTaxista">
+			    	<optgroup label="Escoja correo">
+
+		    		<?php foreach ($RegistroTaxista as $taxista):?>
+						<option  value=<?php echo $taxista->correo?>><?php echo $taxista->correo?></option>
+					<?php endforeach; ?>
+				</select> 
+
+			</div>
 
 		   <center>
 				<button name="botonBuscar" id="botonBuscar" type="submit" class="btn btn-warning">Buscar</button>
@@ -192,14 +269,44 @@
 		    <div class="registroTaxitaForm">         
 		        <input type="Telefono" class="form-control" id="Telefono" placeholder="Teléfono" name="Telefono" value=<?php echo $telefono?>>
 		    </div>
-		
-		    <div class="registroTaxitaForm">         
-		        <input type="NumeroTaxi" class="form-control" id="NumeroTaxi" placeholder="Patente Taxi" name="NumeroTaxi" value=<?php echo $taxi?>>
-		    </div>
-		    
+
+		    <div class="registroTaxitaForm"> 
+
+			    <select class="registroTaxitaForm" name="comboboxTaxis">
+			    	<optgroup label="Escoja Pantente del taxi">
+
+		    		<option  value=<?php echo $taxi?>><?php echo $taxi?></option>
+
+		    		<?php foreach ($RegistroTaxis as $taxis):?>
+		    			<?php if($taxi!=$taxis->patente) 
+		    			{?>
+							<option  value=<?php echo $taxis->patente?>><?php echo $taxis->patente?></option>
+						<?php  }?>
+					<?php endforeach; ?>
+				</select> 
+
+			</div>
+
+			<div class="registroTaxitaForm"> 
+
+			    <select class="registroTaxitaForm" name="comboboxEstado">
+			    	<optgroup label=<?php echo $estado?>>
+			    	<?php if  ($estado == "habilitado")
+			    	{?>
+						<option  value="Habilitado">habilitado</option>
+						<option value="Deshabilitado">deshabilitado</option>
+					<?php  }?>
+					<?php if  ($estado == "deshabilitado")
+			    	{?>
+						<option value="Deshabilitado">deshabilitado</option>
+						<option  value="Habilitado">habilitado</option>
+					<?php  }?>
+				</select> 
+			</div>
+					    
 		    <center>
 					<button name="botonEditar" id="botonEditar" type="submit" class="btn btn-warning">Editar</button>
-				</center>
+			</center>
 		</form>
 	  </div>
 
@@ -210,5 +317,3 @@
 
 </body>
 </html>
-
-				

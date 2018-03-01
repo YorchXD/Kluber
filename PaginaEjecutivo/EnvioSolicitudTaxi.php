@@ -18,16 +18,50 @@
 
 
 
-    $taxista="1234";
+    $registrosDisponibilidad=$base->query("select * from disponibilidadchoferes")->fetchAll(PDO::FETCH_OBJ);
 
-    $sql="insert into pedido (nombre, apellido, direccionInicial, direccionFinal, telefono, RefChoferTaxista, estado, fecha, hora, latitudInicial, longitudInicial, latitudFinal, longitudFinal) values (:nom, :apell, :dirIni, :dirFin, :tel, :chofer, :est, :fech, :hor, :latIn, :lonIn, :latFin, :lonFin)";
+    $tiempoDisponible1="00:00:00";
 
-    $resultado = $base->prepare($sql);
+    $taxista="";
 
-    $resultado->execute(array(":nom"=>$nombre, ":apell"=>$apellido, ":dirIni"=>$origen,":dirFin"=>$destino, ":tel"=>$telefono, ":chofer"=>$taxista, ":est"=>$estado, ":fech"=>$fecha, ":hor"=>$hora, ":latIn"=>$latitudInicial, ":lonIn"=>$longitudInicial, ":latFin"=>$latitudFinal, ":lonFin"=>$longitudFinal));
+    foreach ($registrosDisponibilidad as $disponibilidad):
+        if($disponibilidad->estado=="disponible")
+        {
+            $tiempoDisponible2=$disponibilidad->tiempoDisponible;
 
-    header("Location:Principal.php");
+            if($tiempoDisponible2>=$tiempoDisponible1)
+            {
+                $taxista = $disponibilidad->RefTaxista;
+                $tiempoDisponible1=$tiempoDisponible2;
+            }
+        }
+    endforeach;
 
-    echo "Datos ".$_POST["nombre"];
+    if($taxista!="")
+    {
+
+        $sql="insert into pedido (nombre, apellido, direccionInicial, direccionFinal, telefono, RefChoferTaxista, estado, fecha, hora, latitudInicial, longitudInicial, latitudFinal, longitudFinal) values (:nom, :apell, :dirIni, :dirFin, :tel, :chofer, :est, :fech, :hor, :latIn, :lonIn, :latFin, :lonFin)";
+
+        $resultado = $base->prepare($sql);
+
+        $resultado->execute(array(":nom"=>$nombre, ":apell"=>$apellido, ":dirIni"=>$origen,":dirFin"=>$destino, ":tel"=>$telefono, ":chofer"=>$taxista, ":est"=>$estado, ":fech"=>$fecha, ":hor"=>$hora, ":latIn"=>$latitudInicial, ":lonIn"=>$longitudInicial, ":latFin"=>$latitudFinal, ":lonFin"=>$longitudFinal));
+
+
+        $base->query("update disponibilidadchoferes set estado='ocupado', tiempoDisponible='00:00:00' where RefTaxista='$taxista'");
+
+        //echo "La solicitud fue hecha exitosamente";
+
+        //return true;
+
+        echo "true";
+
+    }
+    else
+    {
+        //return false;
+        //echo "No se pude enviar solicitud por que no hay taxista disponible";
+        echo "false";
+    }
+
 
 ?>
