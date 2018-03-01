@@ -43,7 +43,6 @@
 
 	  $taxi = "PatenteTaxi";
 
-<<<<<<< HEAD
 	  $estado = "Estado";
 
 	  $RegistroTaxista=$base->query("select * from taxista")->fetchAll(PDO::FETCH_OBJ);
@@ -51,11 +50,6 @@
 	  if(isset($_POST["botonBuscar"]))
 	  {
 	    $correo = $_POST["comboboxTaxista"];
-=======
-	  if(isset($_POST["botonBuscar"]))
-	  {
-	    $correo = $_POST["correo"];
->>>>>>> master
 
 	    $registros=$base->query("select * from taxista where correo='$correo'")->fetchAll(PDO::FETCH_OBJ);
 
@@ -74,11 +68,8 @@
 		    $clave = $registros[0]->clave;
 
 		    $taxi = $registros[0]->RefTaxi;
-<<<<<<< HEAD
 
 		    $estado = $registros[0]->estado;
-=======
->>>>>>> master
 		}
 		else
 		{
@@ -92,7 +83,6 @@
 
 	  	$correo = $_POST["Correo"];
 
-<<<<<<< HEAD
 	  	 $estado = $_POST["Estado"];
 
   		//$base->query("delete from taxista where correo='$correo'");
@@ -123,11 +113,6 @@
   		}
 
 	    //header("Location:MostrarTaxista.php");
-=======
-  		$base->query("delete from taxista where correo='$correo'");
-
-	    header("Location:MostrarTaxista.php");
->>>>>>> master
 
 	  }
 
@@ -164,6 +149,7 @@
 						<li><a href="RegistroTaxista.php" class="submenuChofer">Registrar</a></li>
 						<li><a href="EditarTaxista.php" class="submenuChofer">Editar</a></li>
 						<li><a href="EliminarTaxista.php" class="submenuChofer">Eliminar</a></li>
+						<li><a href="EditarTaxistaDisponibilidad.php" class="submenuChofer">Editar Disponibilidad</a></li>
 					</ul>
 				</li>
 				<li><a href="#"><span class="colorTaxi"><i class="icon icon-local_taxi"></i></span>Taxi</a>
@@ -174,14 +160,20 @@
 						<li><a href="EliminarTaxi.php" class="submenuTaxi">Eliminar</a></li>
 					</ul>
 				</li>
-				<li><a href="SolicitarTaxi.php"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a></li>
+				<li><a href="#"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a>
+					<ul class="submenuSolicitarTaxi">
+						<li><a href="SolicitarTaxi.php" class="submenuSolicitarTaxi">Solicitar</a></li>
+						<li><a href="#" class="submenuSolicitarTaxi">Editar</a></li>
+						<li><a href="#" class="submenuSolicitarTaxi">Eliminar</a></li>
+					</ul>
+
+				</li>
 			</ul>				
 		</nav>
 	</header>
 
 
 	<div>
-<<<<<<< HEAD
 		<h2>Deshabiltar Chofer</h2>
 		
 		
@@ -201,16 +193,6 @@
 					</select> 
 
 				</div>
-=======
-		<h2>Eliminar Chofer</h2>
-		
-		
-  		<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
-  		
-  			<div class="registroTaxitaForm">
-		       		<input type="text" class="form-control" id="correo" placeholder="Correo Electrónico" name="correo">
-		   </div>
->>>>>>> master
 
 		   <center>
 				<button name="botonBuscar" id="botonBuscar" type="submit" class="btn btn-warning">Buscar</button>
@@ -247,7 +229,6 @@
 		    <div class="registroTaxitaForm">         
 		        <input type="NumeroTaxi" class="form-control" id="NumeroTaxi" placeholder="Patente Taxi" name="NumeroTaxi" value=<?php echo $taxi?> readonly="readonly">
 		    </div>
-<<<<<<< HEAD
 
 		    <div class="registroTaxitaForm">         
 		        <input type="Estado" class="form-control" id="Estado" placeholder="Estado Taxista" name="Estado" value=<?php echo $estado?> readonly="readonly">
@@ -255,11 +236,6 @@
 		    
 		    <center>
 					<button name="botonEliminar" id="botonEliminar" type="submit" class="btn btn-warning">Deshabilitar</button>
-=======
-		    
-		    <center>
-					<button name="botonEliminar" id="botonEliminar" type="submit" class="btn btn-warning">Eliminar</button>
->>>>>>> master
 				</center>
 		</form>
 	</div>
@@ -270,8 +246,3 @@
 
 </body>
 </html>
-<<<<<<< HEAD
-=======
-
-				
->>>>>>> master

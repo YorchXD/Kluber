@@ -23,13 +23,10 @@
 
 	  include("conexion.php");
 
-<<<<<<< HEAD
 	  $contadorActual=0;
 
 	  $contadorAnterior=0;
 
-=======
->>>>>>> master
 	  $registros=$base->query("select * from pedido")->fetchAll(PDO::FETCH_OBJ);
 
 	  $registroDisponibilidad=$base->query("select * from disponibilidadchoferes")->fetchAll(PDO::FETCH_OBJ);
@@ -102,6 +99,7 @@
 						<li><a href="RegistroTaxista.php" class="submenuChofer">Registrar</a></li>
 						<li><a href="EditarTaxista.php" class="submenuChofer">Editar</a></li>
 						<li><a href="EliminarTaxista.php" class="submenuChofer">Eliminar</a></li>
+						<li><a href="EditarTaxistaDisponibilidad.php" class="submenuChofer">Editar Disponibilidad</a></li>
 					</ul>
 				</li>
 				<li><a href="#"><span class="colorTaxi"><i class="icon icon-local_taxi"></i></span>Taxi</a>
@@ -112,7 +110,14 @@
 						<li><a href="EliminarTaxi.php" class="submenuTaxi">Eliminar</a></li>
 					</ul>
 				</li>
-				<li><a href="SolicitarTaxi.php"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a></li>
+				<li><a href="#"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a>
+					<ul class="submenuSolicitarTaxi">
+						<li><a href="SolicitarTaxi.php" class="submenuSolicitarTaxi">Solicitar</a></li>
+						<li><a href="#" class="submenuSolicitarTaxi">Editar</a></li>
+						<li><a href="#" class="submenuSolicitarTaxi">Eliminar</a></li>
+					</ul>
+
+				</li>
 			</ul>				
 		</nav>
 	</header>
@@ -122,7 +127,6 @@
 	<div>
 		<div class="wrapper">
 			<h2 >Lista de pedido</h2>
-<<<<<<< HEAD
 			<div id="divtabla" class="wrapper">
 				<table class="table">
 				    <thead >
@@ -290,72 +294,19 @@
 					    <tbody>  
 						    <?php
 							    if( $pedido->estado == 'disponible')
-=======
-			<table class="table">
-			    <thead>
-			      	<tr>
-				        <th>#</th>
-				        <th>Nombre Cliente</th>
-				        <th>Apellido Cliente</th>
-				        <th>Dirección Inicial</th>
-				        <th>Dirección Destino</th>
-				        <th>Teléfono</th>
-				        <th>Rut Taxista</th>
-				        <th>Nombre Taxista</th>
-				        <th>Apellido Taxista</th>
-				        <th>Estado</th>
-				        <th>Tiempo Transcurrido</th>
-				        <th>Hora Pedido</th>
-			     	</tr>
-			    </thead>
-
-			    <?php foreach ($registros as $pedido):?> 
-
-			    	<?php 
-
-			    	  $rutTaxista = $pedido->RefChoferTaxista;
-
-					  $RegistroTaxista=$base->query("select * from taxista where rut='$rutTaxista'")->fetchAll(PDO::FETCH_OBJ);
-
-					  $nombreTaxista = $RegistroTaxista[0]->nombre;
-
-					  $apellidoTaxista = $RegistroTaxista[0]->apPaterno;
-
-					?> 
-
-
-				    <tbody> 
-
-					    <?php if( $pedido->fecha == $fechaActual)
-		  					{		
-		  						//echo $fechaActual;
-	  				 	?>    
-
-						    <?php
-							    if( $pedido->estado == 'viajando')
->>>>>>> master
 			  					{
 			  						$color="success";
 			  						
 			  					}
-<<<<<<< HEAD
 			  					if( $pedido->estado == 'ocupado')
 			  					{		
 			  						$color="danger";
 			  					}
 			  					if( $pedido->estado == 'no disponible')
-=======
-			  					if( $pedido->estado == 'esperando')
-			  					{		
-			  						$color="danger";
-			  					}
-			  					if( $pedido->estado == 'finalizado')
->>>>>>> master
 			  					{		
 			  						$color="active";
 			  					}
 		  					?>
-<<<<<<< HEAD
 		  					<?php if($RegistroTaxista[0]->estado=="habilitado")
 						  	{?>
 						      	<tr class=<?php echo $color ?>>
@@ -374,105 +325,11 @@
 			    	<?php endforeach; ?>
 				</table>
 			</div>
-=======
-						      	<tr class=<?php echo $color ?>>
-							        <td><?php echo $pedido->id ?></td>
-							        <td><?php echo $pedido->nombre ?></td>
-							        <td><?php echo $pedido->apellido ?></td>
-							        <td><?php echo $pedido->direccionInicial ?></td>
-							        <td><?php echo $pedido->direccionFinal ?></td>
-							        <td><?php echo $pedido->telefono ?></td>
-							        <td><?php echo $pedido->RefChoferTaxista ?></td>
-							        <td><?php echo $nombreTaxista ?></td>
-							        <td><?php echo $apellidoTaxista ?></td>
-							        <td><?php echo $pedido->estado ?></td>
-							        <td><?php echo $pedido->duracion ?></td>
-							        <td><?php echo $pedido->hora ?></td>
-						      	</tr>
-						<?php } ?>
-				    </tbody>
-
-		    	<?php endforeach; ?>
-			</table>
-		</div>
-		
-		<div class="botones">
-			<div class="btn"><a class="abtn" href="#"></a>Enviar</div>
-			<div class="btn"><a class="abtn" href="#">Cancelar</a></div>
-		</div>
-		
-		<div class="wrapper">
-			<h2>Lista de choferes</h2>
-			<table class="table">
-			    <thead>
-			      	<tr>			      		
-				        <th># Taxi</th>
-				        <th>Patente Taxi</th>
-				        <th>Rut</th>
-				        <th>Nombre</th>
-				        <th>Apellido</th>
-				        <th>Ubicación</th>
-				        <th>Estado</th>
-			      	</tr>
-			    </thead>
-
-			    <?php foreach ($registroDisponibilidad as $pedido):?> 
-
-			    	<?php 
-
-			    	  $taxi = $pedido->RefTaxi;
-
-					  $RegistroTaxista=$base->query("select * from taxista where RefTaxi='$taxi'")->fetchAll(PDO::FETCH_OBJ);
-
-					  $rutTaxista = $RegistroTaxista[0]->rut;
-
-					  $nombreTaxista = $RegistroTaxista[0]->nombre;
-
-					  $apellidoTaxista = $RegistroTaxista[0]->apPaterno;
-
-
-					  $RegistroTaxi=$base->query("select * from taxi where patente='$taxi'")->fetchAll(PDO::FETCH_OBJ);
-
-					  $numeroTaxi = $RegistroTaxi[0]->numTaxi;
-
-					?> 
-
-				    <tbody>  
-					    <?php
-						    if( $pedido->estado == 'disponible')
-		  					{
-		  						$color="success";
-		  						
-		  					}
-		  					if( $pedido->estado == 'ocupado')
-		  					{		
-		  						$color="danger";
-		  					}
-		  					if( $pedido->estado == 'no disponible')
-		  					{		
-		  						$color="active";
-		  					}
-	  					?>
-					      	<tr class=<?php echo $color ?>>
-					      		<td><?php echo $numeroTaxi ?></td>
-						        <td><?php echo $pedido->RefTaxi ?></td>
-						        <td><?php echo $rutTaxista ?></td>
-						        <td><?php echo $nombreTaxista ?></td>
-						        <td><?php echo $apellidoTaxista ?></td>
-						        <td><?php echo $pedido->ubicacion ?></td>
-						        <td><?php echo $pedido->estado ?></td>
-					      	</tr>
-				    </tbody>
-
-		    	<?php endforeach; ?>
-			</table>
->>>>>>> master
 		</div>
 		
 		
 		<div class="wrapper">
 			<h2>Historial de pedidos durante el día</h2>
-<<<<<<< HEAD
 			<div id="divtabla" class="wrapper">
 			  	<table class="table">
 			    	<thead>
@@ -540,73 +397,6 @@
 			    	<?php endforeach; ?>
 			  	</table>
 			  </div>
-=======
-		  	<table class="table">
-		    	<thead>
-			      	<tr>
-				        <th>#</th>
-				        <th>Nombre Cliente</th>
-				        <th>Apellido Cliente</th>
-				        <th>Dirección Inicial</th>
-				        <th>Dirección Destino</th>
-				        <th>Teléfono</th>
-				        <th>Rut Taxista</th>
-				        <th>Nombre Taxista</th>
-				        <th>Apellido Taxista</th>
-				        <th>Estado</th>
-				        <th>Tiempo Transcurrido</th>
-				        <th>Hora Pedido</th>
-			     	</tr>
-			    </thead>
-			   
-			   <?php foreach ($registros as $pedido):?> 
-
-
-			   		<?php 
-
-			    	  $rutTaxista = $pedido->RefChoferTaxista;
-
-					  $RegistroTaxista=$base->query("select * from taxista where rut='$rutTaxista'")->fetchAll(PDO::FETCH_OBJ);
-
-					  $nombreTaxista = $RegistroTaxista[0]->nombre;
-
-					  $apellidoTaxista = $RegistroTaxista[0]->apPaterno;
-
-					?> 
-
-
-					<?php if( $pedido->fecha == $fechaActual)
-		  					{		
-		  						//echo $fechaActual;
-	  				 	?>  
-
-	  					<?php if( $pedido->estado == 'finalizado')
-		  					{		
-		  						$color="active";
-	  				 	?> 
-
-		  				 	<tbody> 
-						      	<tr class=<?php echo $color ?>>
-							        <td><?php echo $pedido->id ?></td>
-							        <td><?php echo $pedido->nombre ?></td>
-							        <td><?php echo $pedido->apellido ?></td>
-							        <td><?php echo $pedido->direccionInicial ?></td>
-							        <td><?php echo $pedido->direccionFinal ?></td>
-							        <td><?php echo $pedido->telefono ?></td>
-							        <td><?php echo $pedido->RefChoferTaxista ?></td>
-							        <td><?php echo $nombreTaxista ?></td>
-						        	<td><?php echo $apellidoTaxista ?></td>
-							        <td><?php echo $pedido->estado ?></td>
-							        <td><?php echo $pedido->duracion ?></td>
-							        <td><?php echo $pedido->hora ?></td>
-						      	</tr>
-						    </tbody>
-
-						<?php } ?>
-					<?php } ?>
-		    	<?php endforeach; ?>
-		  	</table>
->>>>>>> master
 		</div>
 		
 		
