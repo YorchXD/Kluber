@@ -50,6 +50,7 @@
 			
 
 			<nav class="menu">
+<<<<<<< HEAD
 			<ul>
 				<li><a href="Principal.php"><span class="colorInicio"><i class="icon icon-home"></i></span>Inicio</a></li>
 				<li><a href="Historial.php"><span class="colorHistorial"><i class="icon icon-open-book"></i></span>Historial</a></li>
@@ -72,11 +73,36 @@
 				<li><a href="SolicitarTaxi.php"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a></li>
 			</ul>				
 		</nav>
+=======
+				<ul>
+					<li><a href="Principal.php"><span class="colorInicio"><i class="icon icon-home"></i></span>Inicio</a></li>
+					<li><a href="Historial.php"><span class="colorHistorial"><i class="icon icon-open-book"></i></span>Historial</a></li>
+					<li><a href="#"><span class="colorChofer"><i class="icon icon-person_pin"></i></span>Chofer</a>
+						<ul class="submenuChofer">
+							<li><a href="MostrarTaxista.php" class="submenuChofer">Ver</a></li>
+							<li><a href="RegistroTaxista.php" class="submenuChofer">Registrar</a></li>
+							<li><a href="EditarTaxista.php" class="submenuChofer">Editar</a></li>
+							<li><a href="EliminarTaxista.php" class="submenuChofer">Eliminar</a></li>
+						</ul>
+					</li>
+					<li><a href="#"><span class="colorTaxi"><i class="icon icon-local_taxi"></i></span>Taxi</a>
+						<ul class="submenuTaxi">
+							<li><a href="MostrarTaxi.php" class="submenuTaxi">Ver</a></li>
+							<li><a href="RegistroTaxi.php" class="submenuTaxi">Registrar</a></li>
+							<li><a href="EditarTaxi.php" class="submenuTaxi">Editar</a></li>
+							<li><a href="EliminarTaxi.php" class="submenuTaxi">Eliminar</a></li>
+						</ul>
+					</li>
+					<li><a href="SolicitarTaxi.php"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a></li>
+				</ul>				
+			</nav>
+>>>>>>> master
 		</header>
 
 		<div>
 			<div class="wrapper">
 				<h2 >Lista de Taxistas</h2>
+<<<<<<< HEAD
 				<div id="divtabla" class="wrapper">
 					<table class="table" class="wrapper">
 					    <thead>
@@ -128,6 +154,44 @@
 
 		    		</table>
 		    	</div>
+=======
+				<table class="table">
+				    <thead>
+				      	<tr>
+	  				        <th>Rut</th>
+					        <th>Correo</th>
+					        <th>Nombre</th>
+					        <th>Apellido Paterno</th>
+					        <th>Apellido Materno</th>
+					        <th>Teléfono</th>
+					        <th>Clave</th>
+					        <th>Taxi Patente</th>
+				     	</tr>
+				    </thead>
+
+
+			<?php foreach ($registros as $taxista):?> 
+
+
+
+				    <tbody>      
+				      	<tr class="success">
+					        <td><?php echo $taxista->rut ?></td>
+					        <td><?php echo $taxista->correo ?></td>
+					        <td><?php echo $taxista->nombre ?></td>
+					        <td><?php echo $taxista->apPaterno ?></td>
+					        <td><?php echo $taxista->apMaterno ?></td>
+					        <td><?php echo $taxista->telefono ?></td>
+					        <td><?php echo $taxista->clave ?></td>
+					        <td><?php echo $taxista->RefTaxi ?></td>
+				      	</tr>
+				    </tbody>
+
+		    <?php endforeach; ?>
+
+	    	</table>
+
+>>>>>>> master
 			</div>
 		</div>
 

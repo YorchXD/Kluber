@@ -5,5 +5,5 @@ package com.example.ovidio.ubertaxi;
  */
 
 public class CommandNames {
-    public static final String url = "http://192.168.0.13/";
+    public static final String url = "http://192.168.0.13//Usuario/";
 }

@@ -22,10 +22,13 @@
 
 		  include("conexion.php");
 
+<<<<<<< HEAD
 		  $registros=$base->query("select * from taxi")->fetchAll(PDO::FETCH_OBJ);
 
 		  $taxi="";
 
+=======
+>>>>>>> master
 		  if(isset($_POST["botonRegistro"]))
 		  {
 
@@ -43,6 +46,7 @@
 
 		    $clave = $_POST["Contrasena"];
 
+<<<<<<< HEAD
 		    $taxi = $_POST["comboboxTaxis"];
 
 		    $estado = "habilitado";
@@ -76,6 +80,17 @@
 		    }
 
 		    //header("Location:MostrarTaxista.php");
+=======
+		    $taxi = $_POST["NumeroTaxi"];
+
+		   	$sql="insert into taxista (rut, correo, nombre,apPaterno, apMaterno, telefono, clave, RefTaxi) values (:ru, :corr, :nom, :apPat, :apMat, :tel, :cla, :tax)";
+
+		    $resultado = $base->prepare($sql);
+
+		    $resultado->execute(array(":ru"=>$rut, ":corr"=>$correo, ":nom"=>$nombre,":apPat"=>$apPaterno, ":apMat"=>$apMaterno, ":tel"=>$telefono, ":cla"=>$clave, ":tax"=>$taxi));
+
+		    header("Location:MostrarTaxista.php");
+>>>>>>> master
 
 		  }
 
@@ -159,6 +174,7 @@
 		    <div class="registroTaxitaForm">         
 		        <input type="Telefono" class="form-control" id="Telefono" placeholder="Teléfono" name="Telefono">
 		    </div>
+<<<<<<< HEAD
 
 		    <div class="registroTaxitaForm"> 
 
@@ -171,6 +187,12 @@
 				</select> 
 
 			</div>
+=======
+		
+		    <div class="registroTaxitaForm">         
+		        <input type="NumeroTaxi" class="form-control" id="NumeroTaxi" placeholder="Patente Taxi" name="NumeroTaxi">
+		    </div>
+>>>>>>> master
 		
 			<center>
 				<button id="botonRegistro" name="botonRegistro" type="submit" class="btn btn-warning">Registrar</button>
@@ -183,3 +205,8 @@
 
 </body>
 </html>
+<<<<<<< HEAD
+=======
+
+				
+>>>>>>> master

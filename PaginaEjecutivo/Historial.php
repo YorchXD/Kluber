@@ -164,7 +164,11 @@
 				<h2>Historial de pedidos durante el día</h2>
 
 
+<<<<<<< HEAD
 				<div id="divtabla" class="wrapper">
+=======
+
+>>>>>>> master
 				  	<table class="table">
 				    	<thead>
 					      	<tr>
@@ -246,7 +250,11 @@
 					    	<?php endforeach; ?>
 						<?php } ?>
 				  	</table>
+<<<<<<< HEAD
 			  	</div>				
+=======
+				
+>>>>>>> master
 			</div>
 
 			<div class="botones">
@@ -260,3 +268,8 @@
 	<footer>Derechos Reservados | kable &copy</footer>
 </body>
 </html>
+<<<<<<< HEAD
+=======
+
+				
+>>>>>>> master

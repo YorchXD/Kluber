@@ -18,6 +18,7 @@
 
 
 
+<<<<<<< HEAD
     $registrosDisponibilidad=$base->query("select * from disponibilidadchoferes")->fetchAll(PDO::FETCH_OBJ);
 
     $tiempoDisponible1="00:00:00";
@@ -63,5 +64,18 @@
         echo "false";
     }
 
+=======
+    $taxista="1234";
+
+    $sql="insert into pedido (nombre, apellido, direccionInicial, direccionFinal, telefono, RefChoferTaxista, estado, fecha, hora, latitudInicial, longitudInicial, latitudFinal, longitudFinal) values (:nom, :apell, :dirIni, :dirFin, :tel, :chofer, :est, :fech, :hor, :latIn, :lonIn, :latFin, :lonFin)";
+
+    $resultado = $base->prepare($sql);
+
+    $resultado->execute(array(":nom"=>$nombre, ":apell"=>$apellido, ":dirIni"=>$origen,":dirFin"=>$destino, ":tel"=>$telefono, ":chofer"=>$taxista, ":est"=>$estado, ":fech"=>$fecha, ":hor"=>$hora, ":latIn"=>$latitudInicial, ":lonIn"=>$longitudInicial, ":latFin"=>$latitudFinal, ":lonFin"=>$longitudFinal));
+
+    header("Location:Principal.php");
+
+    echo "Datos ".$_POST["nombre"];
+>>>>>>> master
 
 ?>

@@ -296,6 +296,7 @@ footer{
 	position: absolute;
 	min-width: 130vh;
 	color: #fff;
+<<<<<<< HEAD
 }
 
 
@@ -319,4 +320,6 @@ thead
 	width: 90%;
 	margin: auto;
 	overflow: hidden;
+=======
+>>>>>>> master
 }

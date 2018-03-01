@@ -23,6 +23,7 @@
 	<script src="localizacion.js"></script>
 	<script src="main.js"></script>
 	<script>
+<<<<<<< HEAD
 	    //$(document).on("click","#botonSolicitar", mostrarAlerta);
 	    
 
@@ -67,6 +68,12 @@
 	    	}*/
 	    }
 	                  
+=======
+	    $(document).on("click","#botonSolicitar", mostrarAlerta);
+	    function mostrarAlerta(){
+	        mostrarAlerta2();          //aquí estamos activando la función del otro archivo
+	    }
+>>>>>>> master
 	</script>
 
 </head>
@@ -122,7 +129,11 @@
 			<div class="formulario">
 				<h2>Solicitar taxi</h2>
 				
+<<<<<<< HEAD
 				<form action="Principal.php" onsubmit="return mostrarAlerta()">
+=======
+				<form action = "Principal.php">
+>>>>>>> master
 				
 				    <div class="solicitud">
 					    <input type="Nombre" class="form-control" id="Nombre" placeholder="Nombre" name="Nombre">
