@@ -21,6 +21,158 @@
 
 </head>
 <body>
+
+	<?php
+
+	  include("conexion.php");
+
+
+	  $rut = "Rut";
+
+	  $correo = "Correo";
+
+	  $nombre = "Nombre";
+
+	  $apPaterno = "ApellidoPaterno";
+
+	  $apMaterno = "ApellidoMaterno";
+
+	  $telefono = "Telefono";
+
+	  $clave = "Clave";
+
+	  $taxi = "PatenteTaxi";
+
+	  $estado = "Estado";
+
+	  $RegistroTaxista=$base->query("select * from taxista")->fetchAll(PDO::FETCH_OBJ);
+
+	  $RegistroTaxis=$base->query("select * from taxi")->fetchAll(PDO::FETCH_OBJ);
+
+
+	  if(isset($_POST["botonBuscar"]))
+	  {
+	    $correo = $_POST["comboboxTaxista"];
+
+	    $registros=$base->query("select * from taxista where correo='$correo'")->fetchAll(PDO::FETCH_OBJ);
+
+	    if($registros!=null)
+	    {
+
+		    $rut = $registros[0]->rut;
+
+		    $nombre = $registros[0]->nombre;
+
+		    $apPaterno = $registros[0]->apPaterno;
+
+		    $apMaterno = $registros[0]->apMaterno;
+
+		    $telefono = $registros[0]->telefono;
+
+		    $clave = $registros[0]->clave;
+
+		    $taxi = $registros[0]->RefTaxi;
+
+		    $estado = $registros[0]->estado;
+		}
+		else
+		{
+			$correo = "Correo";
+		}
+
+	  }
+
+	  if(isset($_POST["botonEditar"]))
+	  {
+
+	  		$rut = $_POST["Rut"];
+
+		    $correo = $_POST["Correo"];
+
+		    $nombre = $_POST["Nombre"];
+
+		    $apPaterno = $_POST["ApellidoPaterno"];
+
+		    $apMaterno = $_POST["ApellidoMaterno"];
+
+		    $telefono = $_POST["Telefono"];
+
+		    $clave = $_POST["Contrasena"];
+
+		    $taxi = $_POST["comboboxTaxis"];
+
+
+		    
+
+
+		    if($rut=="" || $correo=="" || $correo=="Correo" || $nombre=="" || $apPaterno=="" || $apMaterno=="" || $telefono=="" || $clave=="" || $taxi=="" || $estado == "")
+		    {
+		    	echo "<script>
+	                alert('Faltan campos a completar');
+	    		</script>";
+		    }
+		    else
+		    {		    
+
+		    	if($_POST["comboboxEstado"]=="Habilitado")
+			    {
+			    	$estado = "habilitado";
+			    }
+			    if ($_POST["comboboxEstado"]=="Deshabilitado")
+			    {
+			    	$estado = "deshabilitado";
+			    }
+			    
+			    $sql="update taxista set rut=:ru, correo=:corr, nombre=:nom, apPaterno=:apPat, apMaterno=:apMat, telefono=:tel, clave=:cla, RefTaxi=:tax, estado=:est  where correo=:corr";
+
+			    $resultado = $base->prepare($sql);
+
+			    $resultado->execute(array(":ru"=>$rut, ":corr"=>$correo, ":nom"=>$nombre,":apPat"=>$apPaterno, ":apMat"=>$apMaterno, ":tel"=>$telefono, ":cla"=>$clave, ":tax"=>$taxi, ":est"=>$estado));
+
+			    if($estado=="deshabilitado")
+		  		{
+		  			$registroTaxista = $base->query("select * from taxista where correo='$correo'")->fetchAll(PDO::FETCH_OBJ);
+
+		  			$rutTaxista = $registroTaxista[0]->rut;
+
+		  			$base->query("update disponibilidadchoferes set estado='no disponible'  where RefTaxista='$rutTaxista'");
+		  		}
+
+		  		if($estado=="habilitado")
+		  		{
+		  			$registroTaxista = $base->query("select * from taxista where correo='$correo'")->fetchAll(PDO::FETCH_OBJ);
+
+		  			$rutTaxista = $registroTaxista[0]->rut;
+
+		  			$registroDisponibilidad = $base->query("select * from disponibilidadchoferes where RefTaxista='$rutTaxista'")->fetchAll(PDO::FETCH_OBJ);
+
+		  			if($registroDisponibilidad[0]->estado!="ocupado")
+		  			{
+		  				$base->query("update disponibilidadchoferes set estado='disponible' where RefTaxista='$rutTaxista'");
+		  			}
+		  		}
+
+			    echo "<script>
+	                alert('Se ha editado taxista con exito');
+	                window.location= 'MostrarTaxista.php'
+	    		</script>";
+
+			    //header("Location:MostrarTaxista.php");
+			}
+
+	  }
+
+
+	  if(isset($_POST["botonMenu"]))
+	  {
+	  	//$estado = $_POST["Estado"];
+	  	$estado="Habilitado";
+
+	  	echo "prueba";
+	  }
+
+	?>
+
 	<header>
 		<div class="contenedorEncabezado">
 			<div class="logotipo">
@@ -47,20 +199,30 @@
 				<li><a href="Principal.php"><span class="colorInicio"><i class="icon icon-home"></i></span>Inicio</a></li>
 				<li><a href="Historial.php"><span class="colorHistorial"><i class="icon icon-open-book"></i></span>Historial</a></li>
 				<li><a href="#"><span class="colorChofer"><i class="icon icon-person_pin"></i></span>Chofer</a>
-					<ul>
-						<li><a href="RegistroTaxista.php" class="colorChofer">Registrar</a></li>
-						<li><a href="EditarTaxista.php" class="colorChofer">Editar</a></li>
-						<li><a href="EliminarTaxista.php" class="colorChofer">Eliminar</a></li>
+					<ul class="submenuChofer">
+						<li><a href="MostrarTaxista.php" class="submenuChofer">Ver</a></li>
+						<li><a href="RegistroTaxista.php" class="submenuChofer">Registrar</a></li>
+						<li><a href="EditarTaxista.php" class="submenuChofer">Editar</a></li>
+						<li><a href="EliminarTaxista.php" class="submenuChofer">Eliminar</a></li>
+						<li><a href="EditarTaxistaDisponibilidad.php" class="submenuChofer">Editar Disponibilidad</a></li>
 					</ul>
 				</li>
 				<li><a href="#"><span class="colorTaxi"><i class="icon icon-local_taxi"></i></span>Taxi</a>
-					<ul>
-						<li><a href="RegistroTaxi.php">Registrar</a></li>
-						<li><a href="EditarTaxi.php">Editar</a></li>
-						<li><a href="EliminarTaxi.php">Eliminar</a></li>
+					<ul class="submenuTaxi">
+						<li><a href="MostrarTaxi.php" class="submenuTaxi">Ver</a></li>
+						<li><a href="RegistroTaxi.php" class="submenuTaxi">Registrar</a></li>
+						<li><a href="EditarTaxi.php" class="submenuTaxi">Editar</a></li>
+						<li><a href="EliminarTaxi.php" class="submenuTaxi">Eliminar</a></li>
 					</ul>
 				</li>
-				<li><a href="SolicitarTaxi.php"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a></li>
+				<li><a href="#"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a>
+					<ul class="submenuSolicitarTaxi">
+						<li><a href="SolicitarTaxi.php" class="submenuSolicitarTaxi">Solicitar</a></li>
+						<li><a href="#" class="submenuSolicitarTaxi">Editar</a></li>
+						<li><a href="#" class="submenuSolicitarTaxi">Eliminar</a></li>
+					</ul>
+
+				</li>
 			</ul>				
 		</nav>
 	</header>
@@ -68,53 +230,92 @@
 	<div>
 	  	<h2>Editar Chofer</h2>
 	  	
-	  	<h4>Ingrese Correo del Chofer</h4>
+	  	<h4>Escoja Correo del Chofer</h4>
 	  	
-	  	<form action="/action_page.php">
-	  	
-	  			  <div class="registroTaxitaForm">
-	  			        <input type="Correo1" class="form-control" id="Correo1" placeholder="Correo" name="Correo1">
-	  			   </div>
-	  	
-	  			   <center>
-	  					<button id="botonRegistro" type="submit" class="btn btn-warning">Buscar</button>
-	  				</center>
-	  	
-	  			</form>
-	  	
-	  		<h4>Ingrese nuevos datos a modificar</h4>
-	  	
-	  			<form action="/action_page.php">
-	  			    <div class="registroTaxitaForm">
-	  			        <input type="Nombre" class="form-control" id="Nombre" placeholder="Nombre" name="Nombre">
-	  			    </div>
-	  			    <div class="registroTaxitaForm">
-	  			        <input type="ApellidoPaterno" class="form-control" id="ApellidoPaterno" placeholder="Apellido Paterno" name="ApellidoPaterno">
-	  			    </div>
-	  			    <div class="registroTaxitaForm">
-	  			        <input type="ApellidoMaterno" class="form-control" id="ApellidoMaterno" placeholder="Apellido Materno" name="ApellidoMaterno">
-	  			    </div>
-	  	
-	  			    <div class="registroTaxitaForm">
-	  			        <input type="Correo" class="form-control" id="Correo" placeholder="Correo Electrónico" name="Correo">
-	  			    </div>
-	  	
-	  			    <div class="registroTaxitaForm">
-	  			        <input type="Contrasena" class="form-control" id="Contrasena" placeholder="Contraseña" name="Contrasena">
-	  			    </div>
-	  	
-	  			    <div class="registroTaxitaForm">
-	  			        <input type="Telefono" class="form-control" id="Telefono" placeholder="Teléfono" name="Telefono">
-	  			    </div>
-	  	
-	  			    <div class="registroTaxitaForm">     
-	  			        <input type="NumeroTaxi" class="form-control" id="NumeroTaxi" placeholder="Número Taxi" name="NumeroTaxi">
-	  			    </div>
-	  			    
-	  			    <center>
-	  					<button id="botonRegistro" type="submit" class="btn btn-warning">Editar</button>
-	  				</center>
-	  		</form>
+	  	<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+  		
+		    <div class="registroTaxitaForm"> 
+
+			    <select class="registroTaxitaForm" name="comboboxTaxista">
+			    	<optgroup label="Escoja correo">
+
+		    		<?php foreach ($RegistroTaxista as $taxista):?>
+						<option  value=<?php echo $taxista->correo?>><?php echo $taxista->correo?></option>
+					<?php endforeach; ?>
+				</select> 
+
+			</div>
+
+		   <center>
+				<button name="botonBuscar" id="botonBuscar" type="submit" class="btn btn-warning">Buscar</button>
+			</center>
+
+		      
+		    <div class="registroTaxitaForm">
+			    <input type="Rut" class="form-control" id="Rut" placeholder="Rut" name="Rut" value=<?php echo $rut?>>
+		    </div>
+		
+		    <div class="registroTaxitaForm">
+			    <input type="Nombre" class="form-control" id="Nombre" placeholder="Nombre" name="Nombre" value=<?php echo $nombre?>>
+		    </div>
+		
+		    <div class="registroTaxitaForm">         
+		        <input type="ApellidoPaterno" class="form-control" id="ApellidoPaterno" placeholder="Apellido Paterno" name="ApellidoPaterno" value=<?php echo $apPaterno?>>
+		    </div>
+		    <div class="registroTaxitaForm">         
+		        <input type="ApellidoMaterno" class="form-control" id="ApellidoMaterno" placeholder="Apellido Materno" name="ApellidoMaterno" value=<?php echo $apMaterno?>>
+		    </div>
+		
+		    <div class="registroTaxitaForm">         
+		        <input type="Correo" class="form-control" id="Correo" placeholder="Correo Electrónico" name="Correo" value=<?php echo $correo?> readonly="readonly">
+		    </div>
+		
+		    <div class="registroTaxitaForm">         
+		        <input type="Contrasena" class="form-control" id="Contrasena" placeholder="Contraseña" name="Contrasena" value=<?php echo $clave?>>
+		    </div>
+		
+		    <div class="registroTaxitaForm">         
+		        <input type="Telefono" class="form-control" id="Telefono" placeholder="Teléfono" name="Telefono" value=<?php echo $telefono?>>
+		    </div>
+
+		    <div class="registroTaxitaForm"> 
+
+			    <select class="registroTaxitaForm" name="comboboxTaxis">
+			    	<optgroup label="Escoja Pantente del taxi">
+
+		    		<option  value=<?php echo $taxi?>><?php echo $taxi?></option>
+
+		    		<?php foreach ($RegistroTaxis as $taxis):?>
+		    			<?php if($taxi!=$taxis->patente) 
+		    			{?>
+							<option  value=<?php echo $taxis->patente?>><?php echo $taxis->patente?></option>
+						<?php  }?>
+					<?php endforeach; ?>
+				</select> 
+
+			</div>
+
+			<div class="registroTaxitaForm"> 
+
+			    <select class="registroTaxitaForm" name="comboboxEstado">
+			    	<optgroup label=<?php echo $estado?>>
+			    	<?php if  ($estado == "habilitado")
+			    	{?>
+						<option  value="Habilitado">habilitado</option>
+						<option value="Deshabilitado">deshabilitado</option>
+					<?php  }?>
+					<?php if  ($estado == "deshabilitado")
+			    	{?>
+						<option value="Deshabilitado">deshabilitado</option>
+						<option  value="Habilitado">habilitado</option>
+					<?php  }?>
+				</select> 
+			</div>
+					    
+		    <center>
+					<button name="botonEditar" id="botonEditar" type="submit" class="btn btn-warning">Editar</button>
+			</center>
+		</form>
 	  </div>
 
 

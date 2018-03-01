@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2018-02-15 13:17:29
+Date: 2018-03-01 15:23:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -102,6 +102,42 @@ INSERT INTO `boletarecorrido` VALUES ('5', '5');
 INSERT INTO `boletarecorrido` VALUES ('6', '6');
 
 -- ----------------------------
+-- Table structure for contadorsolicitudes
+-- ----------------------------
+DROP TABLE IF EXISTS `contadorsolicitudes`;
+CREATE TABLE `contadorsolicitudes` (
+  `contador` int(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of contadorsolicitudes
+-- ----------------------------
+INSERT INTO `contadorsolicitudes` VALUES ('33');
+
+-- ----------------------------
+-- Table structure for disponibilidadchoferes
+-- ----------------------------
+DROP TABLE IF EXISTS `disponibilidadchoferes`;
+CREATE TABLE `disponibilidadchoferes` (
+  `RefTaxista` varchar(256) NOT NULL,
+  `ubicacion` varchar(256) NOT NULL,
+  `estado` varchar(256) NOT NULL,
+  `tiempoDisponible` time NOT NULL,
+  PRIMARY KEY (`RefTaxista`),
+  CONSTRAINT `FK_Taxista` FOREIGN KEY (`RefTaxista`) REFERENCES `taxista` (`rut`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of disponibilidadchoferes
+-- ----------------------------
+INSERT INTO `disponibilidadchoferes` VALUES ('1234', '22 oriente', 'ocupado', '00:00:00');
+INSERT INTO `disponibilidadchoferes` VALUES ('342', '15 sur', 'no disponible', '00:00:00');
+INSERT INTO `disponibilidadchoferes` VALUES ('432', '25 norte', 'ocupado', '00:00:00');
+INSERT INTO `disponibilidadchoferes` VALUES ('454', '20 oriente', 'ocupado', '00:00:00');
+INSERT INTO `disponibilidadchoferes` VALUES ('666666666', '15 norte', 'ocupado', '00:00:00');
+INSERT INTO `disponibilidadchoferes` VALUES ('895869865985', '10 norte', 'ocupado', '00:00:00');
+
+-- ----------------------------
 -- Table structure for empresa
 -- ----------------------------
 DROP TABLE IF EXISTS `empresa`;
@@ -183,7 +219,7 @@ CREATE TABLE `encargadotaxi` (
 -- Records of encargadotaxi
 -- ----------------------------
 INSERT INTO `encargadotaxi` VALUES ('1234', '23423');
-INSERT INTO `encargadotaxi` VALUES ('342', '4545');
+INSERT INTO `encargadotaxi` VALUES ('342', '666');
 INSERT INTO `encargadotaxi` VALUES ('432', '666');
 
 -- ----------------------------
@@ -221,7 +257,7 @@ CREATE TABLE `impresorataxi` (
 -- Records of impresorataxi
 -- ----------------------------
 INSERT INTO `impresorataxi` VALUES ('23423', '1');
-INSERT INTO `impresorataxi` VALUES ('4545', '2');
+INSERT INTO `impresorataxi` VALUES ('666', '2');
 INSERT INTO `impresorataxi` VALUES ('666', '3');
 
 -- ----------------------------
@@ -242,6 +278,115 @@ CREATE TABLE `pasajeros` (
 INSERT INTO `pasajeros` VALUES ('1', 'jesus', 'carcamo', 'zamorano');
 INSERT INTO `pasajeros` VALUES ('2', 'cecilia', 'gonzalez', 'perez');
 INSERT INTO `pasajeros` VALUES ('3', 'carolina', 'vasquez', 'mansilla');
+
+-- ----------------------------
+-- Table structure for pedido
+-- ----------------------------
+DROP TABLE IF EXISTS `pedido`;
+CREATE TABLE `pedido` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(256) NOT NULL,
+  `apellido` varchar(256) NOT NULL,
+  `direccionInicial` varchar(256) NOT NULL,
+  `direccionFinal` varchar(256) NOT NULL,
+  `telefono` varchar(256) NOT NULL,
+  `RefChoferTaxista` varchar(256) NOT NULL,
+  `estado` varchar(256) NOT NULL,
+  `duracion` time NOT NULL,
+  `fecha` date NOT NULL,
+  `hora` time NOT NULL,
+  `latitudInicial` varchar(256) NOT NULL,
+  `longitudInicial` varchar(256) NOT NULL,
+  `latitudFinal` varchar(256) NOT NULL,
+  `longitudFinal` varchar(256) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKChofer` (`RefChoferTaxista`),
+  CONSTRAINT `FKChofer` FOREIGN KEY (`RefChoferTaxista`) REFERENCES `taxista` (`rut`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of pedido
+-- ----------------------------
+INSERT INTO `pedido` VALUES ('1', 'yo', 'yo', 'yo', 'yo', 'yo', '1234', 'esperando', '13:36:02', '2018-02-23', '00:00:00', '0', '0', '0', '0');
+INSERT INTO `pedido` VALUES ('2', 'aaa', 'aaa', 'aaa', 'aaa', 'aaa', '342', 'viajando', '17:42:17', '2018-02-23', '00:00:00', '0', '0', '0', '0');
+INSERT INTO `pedido` VALUES ('3', 'rrr', 'rrr', 'rrrr', 'rrr', 'rrr', '432', 'viajando', '18:07:14', '2018-02-23', '00:00:00', '0', '0', '0', '0');
+INSERT INTO `pedido` VALUES ('5', 'ggg', 'ggg', 'ggg', 'ggg', 'ggggg', '1234', 'finalizado', '18:12:50', '2018-02-23', '02:00:00', '0', '0', '0', '0');
+INSERT INTO `pedido` VALUES ('6', 'ttt', 't', 't', 't', 't', '1234', 'esperando', '00:00:00', '2018-02-23', '00:00:00', '0', '0', '0', '0');
+INSERT INTO `pedido` VALUES ('7', 'yyy', 'y', 'y', 'y', 'y', '432', 'finalizado', '00:00:00', '2018-02-23', '00:00:00', '0', '0', '0', '0');
+INSERT INTO `pedido` VALUES ('10', 'frfr', 'fr', 'fr', 'fr', 'fr', '1234', 'finalizado', '10:06:48', '2018-02-27', '10:06:55', '0', '0', '0', '0');
+INSERT INTO `pedido` VALUES ('11', 'yuyuy', 'yyy', '(-35.42324440000001, -71.64848039999998)', '(-34.9779853, -71.25288030000002)', '7777', '1234', 'esperando', '00:00:00', '2018-02-27', '11:11:31', '0', '0', '0', '0');
+INSERT INTO `pedido` VALUES ('20', 'ijoq3rijorjir', 'jdjd', 'Talca, Chile', 'Curicó, Chile', '9', '666666666', 'esperando', '00:00:00', '2018-02-28', '12:59:33', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('21', 'jljljl', 'jljl', 'Talca, Chile', 'Curicó, Chile', '98', '666666666', 'esperando', '00:00:00', '2018-02-28', '13:02:37', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('22', 'jdjhdjdkjdssndlfsñdf', 'fsdfds', 'Talca, Chile', 'Curicó, Chile', '6767', '666666666', 'esperando', '00:00:00', '2018-02-28', '13:04:05', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('23', 'jkjjjjj', 'jjjjj', 'Talca, Chile', 'Curicó, Chile', '87', '666666666', 'esperando', '00:00:00', '2018-02-28', '13:05:36', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('24', 'yyyyyyuuuiiiiii', 'yyuyu', 'Talca, Chile', 'Curicó, Chile', '666', '666666666', 'esperando', '00:00:00', '2018-02-28', '13:07:38', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('43', 'ttttt', 'tttt', 'Talca, Chile', 'Curicó, Chile', '78', '895869865985', 'esperando', '00:00:00', '2018-03-01', '09:26:05', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('44', 'thththth', 'tht', 'Talca, Chile', 'Curicó, Chile', '7777', '666666666', 'esperando', '00:00:00', '2018-03-01', '09:28:04', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('45', 'yyyyy', 'yyy', 'Talca, Chile', 'Curicó, Chile', '8888', '454', 'esperando', '00:00:00', '2018-03-01', '09:33:29', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('46', 'tttt', 'ttt', 'Talca, Chile', 'Curicó, Chile', '77', '432', 'esperando', '00:00:00', '2018-03-01', '09:34:34', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('47', 'uuuuu', 'uuu', 'Talca, Chile', 'Curicó, Chile', '777', '895869865985', 'esperando', '00:00:00', '2018-03-01', '09:48:36', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('48', 'eeee', 'eee', 'Talca, Chile', 'Curicó, Chile', '666', '666666666', 'esperando', '00:00:00', '2018-03-01', '09:52:58', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('49', 'llll', 'll', 'Talca, Chile', 'Curicó, Chile', '888', '454', 'esperando', '00:00:00', '2018-03-01', '09:57:28', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('50', 'jjjj', 'jjj', 'Talca, Chile', 'Curicó, Chile', '999', '666666666', 'esperando', '00:00:00', '2018-03-01', '09:59:51', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('51', 'kkkkk', 'kkk', 'Talca, Chile', 'Curicó, Chile', '777', '454', 'esperando', '00:00:00', '2018-03-01', '10:00:44', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('52', 'hhhh', 'hh', 'Talca, Chile', 'Curicó, Chile', '7777', '432', 'esperando', '00:00:00', '2018-03-01', '10:04:39', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('53', 'jjjjjjj', 'jjjj', 'Talca, Chile', 'Curicó, Chile', '999', '895869865985', 'esperando', '00:00:00', '2018-03-01', '10:06:15', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('54', 'gghhgh', 'ghgh', 'Talca, Chile', 'Curicó, Chile', '777', '895869865985', 'esperando', '00:00:00', '2018-03-01', '10:48:24', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('55', 'jhjhj', 'jhjh', 'Talca, Chile', 'Curicó, Chile', '55', '666666666', 'esperando', '00:00:00', '2018-03-01', '10:56:21', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('56', 'lklklk', 'lklkl', 'Talca, Chile', 'Curicó, Chile', '555', '895869865985', 'esperando', '00:00:00', '2018-03-01', '11:04:22', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('57', 'hhhh', 'hhh', 'Talca, Chile', 'Curicó, Chile', '555', '895869865985', 'esperando', '00:00:00', '2018-03-01', '11:13:14', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('58', 'kkk', 'kk', 'Talca, Chile', 'Curicó, Chile', '7676', '895869865985', 'esperando', '00:00:00', '2018-03-01', '11:16:10', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('59', 'xcfdgdfgd', 'dsfsd', 'Talca, Chile', 'Curicó, Chile', '88', '895869865985', 'esperando', '00:00:00', '2018-03-01', '11:18:30', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('60', 'jjjjj', 'jjj', 'Talca, Chile', 'Curicó, Chile', '555', '895869865985', 'esperando', '00:00:00', '2018-03-01', '11:20:31', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('61', 'trrr', 'tr', 'Talca, Chile', 'Curicó, Chile', '5555', '895869865985', 'esperando', '00:00:00', '2018-03-01', '11:27:19', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('62', 'ggg', 'ggg', 'Talca, Chile', 'Curicó, Chile', '55', '895869865985', 'esperando', '00:00:00', '2018-03-01', '11:33:27', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('63', 'gghg', 'ghg', 'Talca, Chile', 'Curicó, Chile', '555', '895869865985', 'esperando', '00:00:00', '2018-03-01', '11:34:39', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('64', 'hhhh', 'hhh', 'Talca, Chile', 'Curicó, Chile', '555', '895869865985', 'esperando', '00:00:00', '2018-03-01', '11:38:58', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('65', 'asdas', 'asdas', 'Talca, Chile', 'Curicó, Chile', 'asdasd', '895869865985', 'esperando', '00:00:00', '2018-03-01', '11:57:00', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('66', 'asdada', 'asdasd', 'Talca, Chile', 'Curicó, Chile', 'asdas', '895869865985', 'esperando', '00:00:00', '2018-03-01', '13:06:01', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('67', 'asda', 'asda', 'Talca, Chile', 'Curicó, Chile', 'asda', '895869865985', 'esperando', '00:00:00', '2018-03-01', '13:07:55', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('68', 'asda', 'asda', 'Talca, Chile', 'Curicó, Chile', 'asda', '895869865985', 'esperando', '00:00:00', '2018-03-01', '13:09:26', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('69', 'asdsa', 'asdas', 'Talca, Chile', 'Curicó, Chile', 'asdas', '895869865985', 'esperando', '00:00:00', '2018-03-01', '13:11:27', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('70', 'asda', 'asdas', 'Talca, Chile', 'Curicó, Chile', 'asd', '895869865985', 'esperando', '00:00:00', '2018-03-01', '13:13:50', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('71', 'sdfsd', 'sdfds', 'Talca, Chile', 'Curicó, Chile', 'sdfs', '895869865985', 'esperando', '00:00:00', '2018-03-01', '13:16:39', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('72', 'sadas', 'asdas', 'Talca, Chile', 'Curicó, Chile', 'asdas', '895869865985', 'esperando', '00:00:00', '2018-03-01', '13:27:24', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('73', 'asada', 'asdas', 'Talca, Chile', 'Curicó, Chile', 'asda', '895869865985', 'esperando', '00:00:00', '2018-03-01', '13:29:49', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('74', 'asdas', 'asda', 'Talca, Chile', 'Curicó, Chile', 'asda', '895869865985', 'esperando', '00:00:00', '2018-03-01', '13:33:21', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+INSERT INTO `pedido` VALUES ('75', 'asd', 'sadad', 'Talca, Chile', 'Curicó, Chile', 'asdsa', '895869865985', 'esperando', '00:00:00', '2018-03-01', '13:49:06', '-35.42324440000001', '-71.64848039999998', '-34.9779853', '-71.25288030000002');
+
+-- ----------------------------
+-- Table structure for pedidoadmin
+-- ----------------------------
+DROP TABLE IF EXISTS `pedidoadmin`;
+CREATE TABLE `pedidoadmin` (
+  `RefAdmin` varchar(256) NOT NULL,
+  `RefPedido` int(20) NOT NULL,
+  KEY `FK_admin` (`RefAdmin`),
+  KEY `FK_pedido` (`RefPedido`),
+  CONSTRAINT `FK_admin` FOREIGN KEY (`RefAdmin`) REFERENCES `admin` (`usuario`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_pedido` FOREIGN KEY (`RefPedido`) REFERENCES `pedido` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of pedidoadmin
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for pedidopersona
+-- ----------------------------
+DROP TABLE IF EXISTS `pedidopersona`;
+CREATE TABLE `pedidopersona` (
+  `RefPersona` varchar(256) NOT NULL,
+  `RefPedido` int(20) NOT NULL,
+  KEY `FKped` (`RefPedido`),
+  KEY `FKpers` (`RefPersona`),
+  CONSTRAINT `FKped` FOREIGN KEY (`RefPedido`) REFERENCES `pedido` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FKpers` FOREIGN KEY (`RefPersona`) REFERENCES `persona` (`correo`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of pedidopersona
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for persona
@@ -316,6 +461,15 @@ INSERT INTO `personarecorrido` VALUES ('144', 'f');
 INSERT INTO `personarecorrido` VALUES ('145', 'f');
 INSERT INTO `personarecorrido` VALUES ('146', 'f');
 INSERT INTO `personarecorrido` VALUES ('147', 'f');
+INSERT INTO `personarecorrido` VALUES ('148', 'f');
+INSERT INTO `personarecorrido` VALUES ('149', 'f');
+INSERT INTO `personarecorrido` VALUES ('150', 'f');
+INSERT INTO `personarecorrido` VALUES ('151', 'f');
+INSERT INTO `personarecorrido` VALUES ('152', 'f');
+INSERT INTO `personarecorrido` VALUES ('153', 'f');
+INSERT INTO `personarecorrido` VALUES ('154', 'f');
+INSERT INTO `personarecorrido` VALUES ('155', 'f');
+INSERT INTO `personarecorrido` VALUES ('156', 'f');
 
 -- ----------------------------
 -- Table structure for recorrido
@@ -332,7 +486,7 @@ CREATE TABLE `recorrido` (
   `latitudDestino` varchar(200) NOT NULL,
   `longitudDestino` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=148 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of recorrido
@@ -392,6 +546,15 @@ INSERT INTO `recorrido` VALUES ('144', '2018-02-15', '12:24:07', 'Alameda - 2 Nt
 INSERT INTO `recorrido` VALUES ('145', '2018-02-15', '12:28:54', 'Alameda - 2 Nte., Talca, VII RegiÃ³n, Chile', 'Diego Portales 1110, CuricÃ³, VII RegiÃ³n, Chile', '-35.42324440000001', '-71.6484804', '-34.9779853', '-71.2528803');
 INSERT INTO `recorrido` VALUES ('146', '2018-02-15', '12:37:47', '21 Nte. A, Talca, VII RegiÃ³n, Chile', 'Pje B 1998, Talca, VII RegiÃ³n, Chile', '-35.41171376536334', '-71.6197369247675', '-35.41646932334171', '-71.6455940902233');
 INSERT INTO `recorrido` VALUES ('147', '2018-02-15', '12:39:47', 'Alameda - 2 Nte., Talca, VII RegiÃ³n, Chile', 'Diego Portales 1110, CuricÃ³, VII RegiÃ³n, Chile', '-35.42324440000001', '-71.6484804', '-34.9779853', '-71.2528803');
+INSERT INTO `recorrido` VALUES ('148', '2018-02-15', '13:36:51', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '-35.40929680476436', '-71.62065993994474', '-35.407361271221035', '-71.61964975297451');
+INSERT INTO `recorrido` VALUES ('149', '2018-02-15', '13:44:39', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '-35.40917438357642', '-71.6187971457839', '-35.40829338275761', '-71.62280537188053');
+INSERT INTO `recorrido` VALUES ('150', '2018-02-15', '13:53:22', 'Diego Portales 1110, CuricÃ³, VII RegiÃ³n, Chile', 'Alameda - 2 Nte., Talca, VII RegiÃ³n, Chile', '-34.9779853', '-71.2528803', '-35.42324440000001', '-71.6484804');
+INSERT INTO `recorrido` VALUES ('151', '2018-02-15', '13:57:15', 'Alameda - 2 Nte., Talca, VII RegiÃ³n, Chile', 'Diego Portales 1110, CuricÃ³, VII RegiÃ³n, Chile', '-35.42324440000001', '-71.6484804', '-34.9779853', '-71.2528803');
+INSERT INTO `recorrido` VALUES ('152', '2018-02-22', '16:59:52', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '23 1/2 Ote., Talca, VII RegiÃ³n, Chile', '-35.40875547216711', '-71.61843907088041', '-35.410003728835136', '-71.62238124758005');
+INSERT INTO `recorrido` VALUES ('153', '2018-02-22', '17:04:36', 'Alameda - 2 Nte., Talca, VII RegiÃ³n, Chile', 'Diego Portales 1110, CuricÃ³, VII RegiÃ³n, Chile', '-35.42324440000001', '-71.6484804', '-34.9779853', '-71.2528803');
+INSERT INTO `recorrido` VALUES ('154', '2018-02-22', '17:13:51', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '-35.40849641822954', '-71.61912839859724', '-35.41022588807627', '-71.62029784172773');
+INSERT INTO `recorrido` VALUES ('155', '2018-02-23', '14:13:09', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', 'VeintidÃ³s Sur 41, Talca, VII RegiÃ³n, Chile', '-35.408788263745414', '-71.6188544780016', '-35.43734630031883', '-71.69154100120068');
+INSERT INTO `recorrido` VALUES ('156', '2018-02-23', '14:13:52', 'Unnamed Road, Talca, VII RegiÃ³n, Chile', '23 Nte. 1523, Talca, VII RegiÃ³n, Chile', '-35.408309778642426', '-71.61805283278227', '-35.41004034552957', '-71.6206069663167');
 
 -- ----------------------------
 -- Table structure for taxi
@@ -402,15 +565,18 @@ CREATE TABLE `taxi` (
   `marca` varchar(256) NOT NULL,
   `modelo` varchar(256) NOT NULL,
   `numTaxi` int(11) NOT NULL,
-  PRIMARY KEY (`patente`)
+  `anio` int(15) NOT NULL,
+  PRIMARY KEY (`patente`,`numTaxi`),
+  KEY `numTaxiIDX` (`numTaxi`) USING BTREE,
+  KEY `patenteIDX` (`patente`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of taxi
 -- ----------------------------
-INSERT INTO `taxi` VALUES ('23423', 'toyota', 'yaris', '1');
-INSERT INTO `taxi` VALUES ('4545', 'chevrolet', 'spark', '2');
-INSERT INTO `taxi` VALUES ('666', 'nissan', 'terrano', '3');
+INSERT INTO `taxi` VALUES ('23423', 'toyota', 'yaris', '1', '2008');
+INSERT INTO `taxi` VALUES ('4555', 'chevrolet', 'spark', '4', '2016');
+INSERT INTO `taxi` VALUES ('666', 'nissan', 'terrano', '6', '2017');
 
 -- ----------------------------
 -- Table structure for taxista
@@ -424,15 +590,24 @@ CREATE TABLE `taxista` (
   `apMaterno` varchar(256) NOT NULL,
   `telefono` bigint(20) NOT NULL,
   `clave` varchar(256) NOT NULL,
-  PRIMARY KEY (`rut`)
+  `RefTaxi` varchar(256) DEFAULT NULL,
+  `estado` varchar(256) NOT NULL,
+  PRIMARY KEY (`rut`),
+  KEY `IND_numT` (`RefTaxi`) USING BTREE,
+  KEY `IND_rut` (`rut`) USING BTREE,
+  CONSTRAINT `FK_tax` FOREIGN KEY (`RefTaxi`) REFERENCES `taxi` (`patente`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of taxista
 -- ----------------------------
-INSERT INTO `taxista` VALUES ('1234', 'rrr@gmail.com', 'pedro', 'cardenas', 'rojas', '555', '4545');
-INSERT INTO `taxista` VALUES ('342', 'fff@gmail.com', 'carlos', 'nuñez', 'correa', '444', '4356');
-INSERT INTO `taxista` VALUES ('432', 'ddd@gmail.com', 'cesar', 'gutierrez', 'reyes', '333', '3232');
+INSERT INTO `taxista` VALUES ('1234', 'rrr@gmail.com', 'pedro', 'cardenas', 'rojas', '555', '4545', '23423', 'habilitado');
+INSERT INTO `taxista` VALUES ('342', 'fff@gmail.com', 'carlos', 'nuñez', 'correa', '444', '4356', '666', 'habilitado');
+INSERT INTO `taxista` VALUES ('432', 'ddd@gmail.com', 'cesar', 'gutierrez', 'reyes', '333', '3232', '666', 'habilitado');
+INSERT INTO `taxista` VALUES ('454', '4', '4', '', '4', '4', '4', '23423', 'habilitado');
+INSERT INTO `taxista` VALUES ('666666666', '6', '6', '6', '6', '6', '6', '23423', 'habilitado');
+INSERT INTO `taxista` VALUES ('676676', '67', '6', '6', '6', '7', '7', '23423', 'deshabilitado');
+INSERT INTO `taxista` VALUES ('895869865985', 'h', 'hhh', 'h', 'h', '777', 'h', '666', 'habilitado');
 
 -- ----------------------------
 -- Table structure for taxistarecorrido
