@@ -19,39 +19,6 @@
 
 </head>
 <body>
-	<header>
-		<nav class="menu">
-			<ul>
-				<li><a href="Principal.php"><span class="colorInicio"><i class="icon icon-home"></i></span>Inicio</a></li>
-				<li><a href="Historial.php"><span class="colorHistorial"><i class="icon icon-open-book"></i></span>Historial</a></li>
-				<li><a href="#"><span class="colorChofer"><i class="icon icon-person_pin"></i></span>Chofer</a>
-					<ul class="submenuChofer">
-						<li><a href="MostrarTaxista.php" class="submenuChofer">Ver</a></li>
-						<li><a href="RegistroTaxista.php" class="submenuChofer">Registrar</a></li>
-						<li><a href="EditarTaxista.php" class="submenuChofer">Editar</a></li>
-						<li><a href="EliminarTaxista.php" class="submenuChofer">Eliminar</a></li>
-						<li><a href="EditarTaxistaDisponibilidad.php" class="submenuChofer">Editar Disponibilidad</a></li>
-					</ul>
-				</li>
-				<li><a href="#"><span class="colorTaxi"><i class="icon icon-local_taxi"></i></span>Taxi</a>
-					<ul class="submenuTaxi">
-						<li><a href="MostrarTaxi.php" class="submenuTaxi">Ver</a></li>
-						<li><a href="RegistroTaxi.php" class="submenuTaxi">Registrar</a></li>
-						<li><a href="EditarTaxi.php" class="submenuTaxi">Editar</a></li>
-						<li><a href="EliminarTaxi.php" class="submenuTaxi">Eliminar</a></li>
-					</ul>
-				</li>
-				<li><a href="#"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a>
-					<ul class="submenuSolicitarTaxi">
-						<li><a href="SolicitarTaxi.php" class="submenuSolicitarTaxi">Solicitar</a></li>
-						<li><a href="#" class="submenuSolicitarTaxi">Editar</a></li>
-						<li><a href="#" class="submenuSolicitarTaxi">Eliminar</a></li>
-					</ul>
-
-				</li>
-			</ul>				
-		</nav>
-	</header>
 
 
 	<div id="div1" class="container" style="text-align: center;">
@@ -110,6 +77,8 @@
 
 
 	</div>
+	<!--este laven hace el espacio entre el contenido anterior y el footer-->
+	<label></label>
 
 </body>
 </html>

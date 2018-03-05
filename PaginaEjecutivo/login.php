@@ -21,7 +21,7 @@
 	{
 		session_start();
 		$_SESSION['usuario'] = $usuario;
-		header("Location: Principal.php");
+		header("Location: encabezado.php");
 	}
 	else
 	{
