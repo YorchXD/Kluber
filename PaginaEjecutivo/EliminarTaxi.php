@@ -24,7 +24,7 @@
 
 	<?php
 
-	  include("conexion.php");
+	  include("conexion.php");//conexión BD
 
 
 	  $patente = "Patente";
@@ -33,19 +33,21 @@
 
 	  $modelo = "Modelo";
 
-	  $numTaxi = "Número_Taxi";
+	  $numTaxi = "Número Taxi";
 
 	  $anio = "Año";
 
-	  $RegistroTaxis=$base->query("select * from taxi")->fetchAll(PDO::FETCH_OBJ);
+	  $RegistroTaxis=$base->query("select * from taxi")->fetchAll(PDO::FETCH_OBJ); //consulta para obtener datos de todos los taxis
 
+	  /* Al hacer click en el boton Buscar se busca los datos del taxi seleccionado */
 	  if(isset($_POST["botonBuscar"]))
 	  {
 	    $patente = $_POST["comboboxTaxis"];
 
 	   
-	    $registros=$base->query("select * from taxi where patente='$patente'")->fetchAll(PDO::FETCH_OBJ);
+	    $registros=$base->query("select * from taxi where patente='$patente'")->fetchAll(PDO::FETCH_OBJ); //consulta para obtener datos del taxi selecionado
 
+	    /* Busca datos si el taxi se selecciono */
 	    if($registros!=null)
 	    {
 
@@ -64,29 +66,31 @@
 
 	  }
 
+	  /* Al hacer click en el boton eliminar se elimina el taxi de la BD */
 	  if(isset($_POST["botonEliminar"]))
 	  {
 
 	  	$patente = $_POST["Patente"];
 
-	    echo "<script>
-		if (confirm('¿Seguro que desean eliminar taxi?')) {
-		    {
-		    	location.href='consultaEliminarTaxi.php?patente=$patente';
+	  	if($patente!="Patente")//si se selecciono taxi se puede eliminar
+	  	{
 
-	 				alert('Taxi eliminado exitosamente');
-			}
-		} 
-		else 
-		{
-		    alert('No fue eliminado el taxi');
-		} 
+		  	/* si se confirma eliminar taxi se ingresa a la consultaEliminarTaxi.php para eliminar Taxi */
+		    echo "<script>
+			if (confirm('¿Seguro que desean eliminar taxi?')) {
+			    {
+			    	location.href='consultaEliminarTaxi.php?patente=$patente';
 
-		</script>";
+		 				alert('Taxi eliminado exitosamente');
+				}
+			} 
+			else 
+			{
+			    alert('No fue eliminado el taxi');
+			} 
 
-  		//$base->query("delete from taxi where patente='$patente'");
-
-	    //header("Location:MostrarTaxi.php");
+			</script>";
+		}
 
 	  }
 
@@ -150,10 +154,11 @@
 
 		<h2>Eliminar Taxi</h2>
 
-		<h4>Ingrese patente del Taxi</h4>
+		<h4>Escoja patente del Taxi</h4>
 	  		
 	  		<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
 
+	  			<!-- Combobox para seleccionar taxi -->
 			    <div class="registroTaxitaForm"> 
 
 				    <select class="registroTaxitaForm" name="comboboxTaxis">
@@ -174,24 +179,24 @@
 	
 			    <div class="registroTaxitaForm">
 			    	<tr>
-				        <input type="text" class="form-control" id="Patente" name="Patente" placeholder="Patente" value=<?php echo $patente?> readonly="readonly">
+				        <input type="text" class="form-control" id="Patente" name="Patente" placeholder="Patente" value="<?php echo $patente?>" readonly="readonly">
 				    </tr>
 			    </div>
 		
 	   		    <div class="registroTaxitaForm">       
-			        <input type="Marca" class="form-control" id="Marca" placeholder="Marca" name="Marca" value=<?php echo $marca?> readonly="readonly">
+			        <input type="Marca" class="form-control" id="Marca" placeholder="Marca" name="Marca" value="<?php echo $marca?>" readonly="readonly">
 			    </div>
 
 			     <div class="registroTaxitaForm">       
-			        <input type="modelo" class="form-control" id="Modelo" placeholder="Modelo" name="Marca" value=<?php echo $modelo?> readonly="readonly">
+			        <input type="modelo" class="form-control" id="Modelo" placeholder="Modelo" name="Marca" value="<?php echo $modelo?>" readonly="readonly">
 			    </div>
 
 			     <div class="registroTaxitaForm">       
-			        <input type="NumeroTaxi" class="form-control" id="NumeroTaxi" placeholder="Número Taxi" name="NumeroTaxi" value=<?php echo $numTaxi?> readonly="readonly">
+			        <input type="NumeroTaxi" class="form-control" id="NumeroTaxi" placeholder="Número Taxi" name="NumeroTaxi" value="<?php echo $numTaxi?>" readonly="readonly">
 			    </div>
 
 			    <div class="registroTaxitaForm">       
-			        <input type="Anio" class="form-control" id="Anio" placeholder="Año" name="Anio" value=<?php echo $anio?> readonly="readonly">
+			        <input type="Anio" class="form-control" id="Anio" placeholder="Año" name="Anio" value="<?php echo $anio?>" readonly="readonly">
 			    </div>
 
 			    

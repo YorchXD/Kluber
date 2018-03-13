@@ -13,89 +13,67 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
 	</head>
 	<body>
 
 	<?php
 
-	  include("conexion.php"); //conexión BD
+	  	include("conexion.php");
 
-	  $patente = "Patente";
 
-	  $marca = "Marca";
+		/*$costoInicial = "Costo Inicial";
 
-	  $modelo = "Modelo";
+		$costoMetro = "Costo por metro de recorrido";
 
-	  $numTaxi = "Número Taxi";
-
-	  $anio = "Año";
-
-	  $RegistroTaxis=$base->query("select * from taxi")->fetchAll(PDO::FETCH_OBJ);
-
-	  /* Al hacer click en el boton Buscar busca el taxi seleccionado */
-	  if(isset($_POST["botonBuscar"]))
-	  {
-	    $patente = $_POST["comboboxTaxis"];
+		$costoTiempo = "Costo por cada minuto de espera";*/
 	   
-	    $registros=$base->query("select * from taxi where patente='$patente'")->fetchAll(PDO::FETCH_OBJ); //consulta para obtener datos del taxi
+	    $registros=$base->query("select * from precios")->fetchAll(PDO::FETCH_OBJ);
 
 	    if($registros!=null)
 	    {
 
-		    $marca = $registros[0]->marca;
+		    $costoInicial = $registros[0]->costoInicial;
 
-		    $modelo = $registros[0]->modelo;
+		    $costoMetro = $registros[0]->costoMetro;
 
-		    $numTaxi = $registros[0]->numTaxi;
-
-		    $anio = $registros[0]->anio;
+		    $costoTiempo = $registros[0]->costoTiempo;
 		}
-		else
+
+		if(isset($_POST["botonEditar"]))
 		{
-			$patente = "Patente";
-		}
 
-	  }
+		  	$costoInicial = $_POST["CostoInicial"];
 
-	  /* Al hacer click en el boton Editar se edita los datos del taxi seleccionado */
-	  if(isset($_POST["botonEditar"]))
-	  {
+	      	$costoMetro = $_POST["CostoMetro"];
 
-	  	$patente = $_POST["Patente"];
+	      	$costoTiempo = $_POST["CostoTiempo"];
 
-      	$marca = $_POST["Marca"];
-
-      	$modelo = $_POST["Modelo"];
-
-      	$numTaxi = $_POST["NumeroTaxi"];
-
-      	$anio = $_POST["Anio"];
-
-      	/* Comprueba que los campos no esten vacios */
-      	if($patente=="" || $patente=="Patente" || $marca=="" || $modelo=="" || $numTaxi=="" || $anio=="")
-	    {
-	    	echo "<script>
-                alert('Faltan campos a completar');
-    		</script>";
-	    }
-	    else
-	    {
-
-	     	$sql="update taxi set marca=:mar, modelo=:mod, numTaxi=:numT, anio=:an where patente=:pat";//consulta par actualizar datos del taxi
-
-	      	$resultado = $base->prepare($sql);
-
-	      	$resultado->execute(array(":pat"=>$patente, ":mar"=>$marca, ":mod"=>$modelo, ":numT"=>$numTaxi, ":an"=>$anio));
-
-	      	echo "<script>
-	                alert('Se ha editado taxi con exito');
-	                window.location= 'MostrarTaxista.php'
+	      	if($costoInicial=="" || $costoMetro=="Patente" || $costoTiempo=="")
+		    {
+		    	echo "<script>
+	                alert('Faltan campos a completar');
 	    		</script>";
+		    }
+		    else
+		    {
 
-		    //header("Location:MostrarTaxi.php");
+		     	$sql="update precios set costoInicial=:costIni, costoMetro=:cosMet, costoTiempo=:costTiem";
+
+		      	$resultado = $base->prepare($sql);
+
+		      	$resultado->execute(array(":costIni"=>$costoInicial, ":cosMet"=>$costoMetro, ":costTiem"=>$costoTiempo));
+
+		      	echo "<script>
+		                alert('Se han editado precios con exito');
+		                //window.location= 'MostrarTaxista.php';
+		    		</script>";
+
+			    //header("Location:MostrarTaxi.php");
+			}
+
 		}
-
-	  }
 
 	?>
 
@@ -153,65 +131,36 @@
 		</nav>
 	</header>
 
-	<!-- campos a completar para editar taxi -->
 	<div class="formulariosChicos">
 
-		<h2>Editar Taxi</h2>
+		<h2>Editar Precio</h2>
 
 		<h4>Escoja patente del Taxi</h4>
 	  		
-	  	<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
-
-
-	  		<!-- Combobox para seleccionar taxi a editar -->
-		    <div class="registroTaxitaForm"> 
-
-			    <select class="registroTaxitaForm" name="comboboxTaxis">
-			    	<optgroup label="Escoja Pantente del taxi">
-
-		    		<?php foreach ($RegistroTaxis as $taxis):?>
-						<option  value=<?php echo $taxis->patente?>><?php echo $taxis->patente?></option>
-					<?php endforeach; ?>
-				</select> 
-
-			</div>
-
-		    <center>
-				<button name="botonBuscar" id="botonBuscar" type="submit" class="btn btn-warning">Buscar</button>
-			</center>
-
+	  		<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
 		
 	
 		    <div class="registroTaxitaForm">
 		    	<tr>
-			        <input type="text" class="form-control" id="Patente" name="Patente" placeholder="Patente" value="<?php echo $patente?>" readonly="readonly">
+			        <input type="CostoInicial" class="form-control" id="CostoInicial" name="CostoInicial" placeholder="Costo inicial" value="<?php echo $costoInicial?>">
 			    </tr>
 		    </div>
 	
    		    <div class="registroTaxitaForm">       
-		        <input type="Marca" class="form-control" id="Marca" placeholder="Marca" name="Marca" value="<?php echo $marca?>">
+		        <input type="CostoMetro" class="form-control" id="CostoMetro" placeholder="Costo por metro de recorrido" name="CostoMetro" value="<?php echo $costoMetro?>">
 		    </div>
 
 		     <div class="registroTaxitaForm">       
-		        <input type="modelo" class="form-control" id="Modelo" placeholder="Modelo" name="Modelo" value="<?php echo $modelo?>">
+		        <input type="CostoTiempo" class="form-control" id="CostoTiempo" placeholder="Costo por cada minuto de espera" name="CostoTiempo" value="<?php echo $costoTiempo?>">
 		    </div>
-
-		     <div class="registroTaxitaForm">       
-		        <input type="NumeroTaxi" class="form-control" id="NumeroTaxi" placeholder="Número Taxi" name="NumeroTaxi" value="<?php echo $numTaxi?>">
-		    </div>
-
-		     <div class="registroTaxitaForm">       
-		        <input type="Anio" class="form-control" id="Anio" placeholder="Año" name="Anio" value="<?php echo $anio?>">
-		    </div>
-
 		    
 		    <center>
 				<button name="botonEditar" id="botonEditar" type="submit" class="btn btn-warning">Editar</button>
 			</center>
-		</form>	
+		 </form>	
 	</div>
 
-	 <footer>Derechos Reservados | kable &copy</footer>
+	<footer>Derechos Reservados | kable &copy</footer>
 
 	</body>
 </html>

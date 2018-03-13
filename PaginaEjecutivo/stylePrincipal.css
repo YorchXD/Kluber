@@ -293,16 +293,6 @@ nav ul li ul .submenuSolicitarTaxi
   overflow: hidden;
 }
 
-#botonSolicitar
-{
-  border: none;
-  outline: none;
-  height: 40px;
-  font-size: 16px;
-  background: rgba(214, 124, 0, 0.9);
-  color: #fff;
-  cursor: pointer;
-}
 
 .formulario
 {

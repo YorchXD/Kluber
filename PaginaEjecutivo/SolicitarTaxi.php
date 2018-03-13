@@ -22,10 +22,11 @@
 
 	<script src="localizacion.js"></script>
 	<script src="main.js"></script>
+
+	<!-- Se ingresa ala funcion mostrarAlerta2 para pasar los datos y registrar pedido -->
 	<script>
 	    //$(document).on("click","#botonSolicitar", mostrarAlerta);
 	    
-
 		function mostrarAlerta(){
 			nombreValue = document.getElementById('Nombre').value;
 			apellidoValue = document.getElementById('Apellido').value;
@@ -41,36 +42,24 @@
 				alert("Verifica que los campos no esten vacios");
 				return false;
 			}
-	    	//return false;
-	    	/*validar2 = false;
-	    	
-	    	if(validar)
-	    	{
-	    		validar2=validar;
-	    	}
-	    	else
-	    	{
-	    		validar2=validar;
-	    	}
 
-	    	return validar2;*/
-	    	//alert(mostrarAlerta2());
-	    	/*if(mostrarAlerta2())//aquí estamos activando la función del otro archivo
-	    	{
-	    		alert("Prueba True");
-	    		return true;
-	    	}
-	    	else
-	    	{
-	    		alert("prueba False");
-	    		return false;
-	    	}*/
 	    }
 	                  
 	</script>
 
 </head>
 <body>
+
+	<?php 
+
+		include("conexion.php"); //conexió con la BD
+
+		$taxi = "";
+
+		$RegistroTaxista=$base->query("select * from taxista inner join disponibilidadchoferes on taxista.rut = disponibilidadchoferes.RefTaxista where disponibilidadchoferes.estado='disponible'")->fetchAll(PDO::FETCH_OBJ); //consulta para obtener los datos del taxista que este disponible
+
+	?>
+
 	<header>
 		<div class="contenedorEncabezado">
 			<div class="logotipo">
@@ -116,8 +105,8 @@
 				<li><a href="#"><span class="colorSolicitarTaxi"><i class="icon icon-map"></i></span>Solicitar taxi</a>
 					<ul class="submenuSolicitarTaxi">
 						<li><a href="SolicitarTaxi.php" class="submenuSolicitarTaxi">Solicitar</a></li>
-						<li><a href="#" class="submenuSolicitarTaxi">Editar</a></li>
-						<li><a href="#" class="submenuSolicitarTaxi">Eliminar</a></li>
+						<li><a href="EditarSolicitarTaxi.php" class="submenuSolicitarTaxi">Editar</a></li>
+						<li><a href="EliminarSolicitudTaxi.php" class="submenuSolicitarTaxi">Eliminar</a></li>
 					</ul>
 
 				</li>
@@ -129,7 +118,8 @@
 		<center>
 			<div class="formulario">
 				<h2>Solicitar taxi</h2>
-				
+
+				<!-- Formulario para ingresar al campo los datos de la solicitud -->				
 				<form action="Principal.php" onsubmit="return mostrarAlerta()">
 				
 				    <div class="solicitud">
@@ -151,6 +141,18 @@
 				    <div class="solicitud">
 				    	<input type="text" class="form-control" id="autocompleteDestino" placeholder="Destino" name="Destino">
 				    </div>
+
+				    <!-- Combobox para seleccionar al taxista que va a hacer el recorrido de la solicitud -->
+				    <div class="registroTaxistaForm"> 
+
+					    <select class="registroTaxistaForm" name="comboboxTaxista" id="comboboxTaxista">
+					    	<optgroup label="Escoja correo del taxista">
+				    		<?php foreach ($RegistroTaxista as $taxista):?>
+								<option  value=<?php echo $taxista->correo?>><?php echo $taxista->correo?></option>
+							<?php endforeach; ?>
+						</select> 
+
+					</div>
 				
 					<center>
 						<button id="botonSolicitar" type="submit" class="btn btn-warning" >Enviar solicitud</button>

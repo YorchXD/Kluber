@@ -82,6 +82,7 @@
 			</nav>
 		</header>
 
+		<!-- Tabla de lista de taxistas -->
 		<div>
 			<div class="wrapper">
 				<h2 >Lista de Taxistas</h2>
@@ -103,8 +104,6 @@
 
 
 						<?php foreach ($registros as $taxista):?> 
-
-
 
 							    <tbody>    
 
@@ -139,10 +138,7 @@
 			</div>
 		</div>
 
-
-		
 		<footer>Derechos Reservados | kable &copy</footer>
-
 
 	</body>
 </html>

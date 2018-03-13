@@ -15,10 +15,11 @@
 
 
 
-	<link data-require="bootstrap@3.3.2" data-semver="3.3.2" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
-    <script data-require="bootstrap@3.3.2" data-semver="3.3.2" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="http://code.jquery.com/jquery-1.5.js"></script> 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <script data-require="jquery@2.1.3" data-semver="2.1.3" src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="moment-2.10.3.js"></script>
     <script src="bootstrap-datetimepicker.js"></script>
@@ -36,7 +37,7 @@
 
 	  $registroDisponibilidad=$base->query("select * from disponibilidadchoferes")->fetchAll(PDO::FETCH_OBJ);
 
-		//-----------------------------
+		//--------- CAPTURA FECHA ACTUAL ---------//
 		$now = time();
 		$num = date("w");
 
@@ -68,8 +69,33 @@
 		$y="$y";
 
 		$fechaActual="$y-$m-$d";
-		//echo $fechaActual;
-		//echo "$d-$m-$y"; //getdate converted day
+		//--------------------------//
+
+		$fechaDesde="";
+
+		$fechaHasta="";
+
+		$fechaD = "";
+		$fechaH="";
+
+
+	  	if(isset($_POST["botonExcel"])) //SI HACE CLICK EN EL BOTON BOTONEXCEL GENERA EL HISTORIAL EN EXCEL
+	    {
+	    	
+	    	if($_POST["Fecha1"]!="" && $_POST["Fecha2"]!="") //SI NO ESTAN VACIAS LAS FECHAS GENERA EL EXCEL
+			{
+
+				$fechaD = $_POST["Fecha1"];
+		  		$fechaH = $_POST["Fecha2"];
+
+		  		// SE DIRIJE AL PHP EXCELHISTORIAL //
+			  	echo "<script>
+			    		location.href='ExcelHistorial.php?fechaDesde=$fechaD & fechaHasta=$fechaH';
+		 			</script>";
+	 		}
+
+
+	    }  
 
   	?>
 
@@ -156,6 +182,7 @@
 	        </div> 
 	    </div>
 
+	    <!-- CAPTURA FECHAS -->
 	    <script type="text/javascript">
 	        $(function () {
 	            $('#datetimepicker6').datetimepicker({format: 'DD-MM-YYYY'});
@@ -163,16 +190,18 @@
 	        });
 	    </script>
 	    
+	    <!-- BOTON PARA BUSCAR LOS DATOS -->
 		<div class="botones">
 			<button name="botonMostrar" id="botonMostrar" type="submit" class="btn btn-warning">Mostrar</button>
 		</div>
 
-
+		<!-- TABLA HISTORIAL DEL PEDIDO DURANTE EL DIA -->
 		<div class="wrapper">
-				<h2>Historial de pedidos durante el día</h2>
+				<h2>Historial de pedidos </h2>
 
 
 				<div id="divtabla" class="wrapper">
+
 				  	<table class="table">
 				    	<thead>
 					      	<tr>
@@ -201,6 +230,9 @@
 
 			  			?>  
 
+
+						    
+
 						    <?php foreach ($registros as $pedido):?> 
 
 						   		<?php 
@@ -218,10 +250,14 @@
 
 								  //echo "fecha $fecha";
 
+								$fecha2 = strtotime($fecha);
+								$fechaDesde2 = strtotime($fechaDesde);
+								$fechaHasta2 = strtotime($fechaHasta);
+
 								?> 
 
 
-								<?php if( $fecha >= $fechaDesde && $fecha<=$fechaHasta)
+								<?php if( $fecha2 >= $fechaDesde2 && $fecha2<=$fechaHasta2)
 					  					{		
 					  						//echo $fechaActual;
 				  				 	?>  
@@ -253,18 +289,41 @@
 								<?php } ?>
 					    	<?php endforeach; ?>
 						<?php } ?>
+
 				  	</table>
 			  	</div>				
 			</div>
 
+			<!-- BOTON PARA PASAR A EXCEL LA TABLA CON LA INFORMACION -->
 			<div class="botones">
-				<div class="btn" name="botonExcel"><a class="abtn" href="#"></a>Excel</div>
+				<button name="botonExcel" id="botonExcel" type="submit" class="btn btn-warning">Excel</button>
 			</div>
 
 		</div>
+
+		<input  type="hidden" class="form-control" name='Fecha1' value="<?php echo $fechaDesde ?>">
+
+	    <input  type="hidden" class="form-control" name='Fecha2' value="<?php echo $fechaHasta ?>">
 
 	</form>
 	
 	<footer>Derechos Reservados | kable &copy</footer>
 </body>
 </html>
+
+<!--<script>
+	var fechaIni="";
+	var fechaFin="";
+	function capturarFechas() 
+	{
+		fechaIni= document.getElementById('datetimepicker6');
+		fechaFin= document.getElementById('datetimepicker7');
+
+	}
+	function enviaDatos() 
+	{
+	    //$.post("Prueba.php",{fechaDesde: fechaIni, fechaHasta: fechaFin},function(){});
+
+	}
+
+</script>-->

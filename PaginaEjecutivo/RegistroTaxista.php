@@ -20,12 +20,13 @@
 
 	<?php
 
-		  include("conexion.php");
+		  include("conexion.php"); //conexión a la BD
 
-		  $registros=$base->query("select * from taxi")->fetchAll(PDO::FETCH_OBJ);
+		  $registros=$base->query("select * from taxi")->fetchAll(PDO::FETCH_OBJ); //consulta tabla taxi
 
 		  $taxi="";
 
+		  /*al hacer lick en el boton botonRegistro se registra el taxista*/
 		  if(isset($_POST["botonRegistro"]))
 		  {
 
@@ -47,7 +48,7 @@
 
 		    $estado = "habilitado";
 
-		    if($rut=="" || $correo=="" || $nombre=="" || $apPaterno=="" || $apMaterno=="" || $telefono=="" || $clave=="" || $taxi=="" || $estado == "")
+		    if($rut=="" || $correo=="" || $nombre=="" || $apPaterno=="" || $apMaterno=="" || $telefono=="" || $clave=="" || $taxi=="" || $estado == "")//si lo campos no estan vacios se registra
 		    {
 		    	echo "<script>
 	                alert('Faltan campos a completar');
@@ -55,7 +56,7 @@
 		    }
 		    else
 		    {
-		    	$sql="insert into taxista (rut, correo, nombre,apPaterno, apMaterno, telefono, clave, RefTaxi, estado) values (:ru, :corr, :nom, :apPat, :apMat, :tel, :cla, :tax, :est)";
+		    	$sql="insert into taxista (rut, correo, nombre,apPaterno, apMaterno, telefono, clave, RefTaxi, estado) values (:ru, :corr, :nom, :apPat, :apMat, :tel, :cla, :tax, :est)";//se inserta a la tabla taxista
 
 			    $resultado = $base->prepare($sql);
 
@@ -63,7 +64,7 @@
 
 
 
-			    $sql2="insert into disponibilidadchoferes (RefTaxista, ubicacion, estado,tiempoDisponible) values (:rutTax, :ub, :est, :tiemDis)";
+			    $sql2="insert into disponibilidadchoferes (RefTaxista, ubicacion, estado,tiempoDisponible) values (:rutTax, :ub, :est, :tiemDis)";//se inserta a la tabla disponibilidadchoferes estado de no disponible ya que es un chofer nuevo
 
 			    $resultado2 = $base->prepare($sql2);
 
@@ -74,8 +75,6 @@
 	                window.location= 'MostrarTaxista.php'
 	    		</script>";
 		    }
-
-		    //header("Location:MostrarTaxista.php");
 
 		  }
 
@@ -168,10 +167,11 @@
 		        <input type="Telefono" class="form-control" id="Telefono" placeholder="Teléfono" name="Telefono">
 		    </div>
 
+		    <!-- al registrar taxista se debe ingresar el taxi que le corrresponde -->
 		    <div class="registroTaxitaForm"> 
 
 			    <select class="registroTaxitaForm" name="comboboxTaxis">
-			    	<optgroup label="Escoja correo del taxista">
+			    	<optgroup label="Escoja patente del taxi">
 
 		    		<?php foreach ($registros as $taxi):?>
 						<option  value=<?php echo $taxi->patente?>><?php echo $taxi->patente?></option>

@@ -17,14 +17,12 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-
-
 </head>
 <body>
 
 	<?php
 
-	  include("conexion.php");
+	  include("conexion.php"); //conexión con la BD
 
 
 	  $rut = "Rut";
@@ -33,23 +31,24 @@
 
 	  $nombre = "Nombre";
 
-	  $apPaterno = "ApellidoPaterno";
+	  $apPaterno = "Apellido Paterno";
 
-	  $apMaterno = "ApellidoMaterno";
+	  $apMaterno = "Apellido Materno";
 
 	  $telefono = "Telefono";
 
 	  $clave = "Clave";
 
-	  $taxi = "PatenteTaxi";
+	  $taxi = "Patente Taxi";
 
 	  $estado = "Estado";
 
-	  $RegistroTaxista=$base->query("select * from taxista")->fetchAll(PDO::FETCH_OBJ);
+	  $RegistroTaxista=$base->query("select * from taxista")->fetchAll(PDO::FETCH_OBJ); //consulta taxista
 
-	  $RegistroTaxis=$base->query("select * from taxi")->fetchAll(PDO::FETCH_OBJ);
+	  $RegistroTaxis=$base->query("select * from taxi")->fetchAll(PDO::FETCH_OBJ); //consulta taxi
 
 
+	  /*al hacer click en boton Buscar se busca el taxista para editarlo*/
 	  if(isset($_POST["botonBuscar"]))
 	  {
 	    $correo = $_POST["comboboxTaxista"];
@@ -102,9 +101,6 @@
 		    $taxi = $_POST["comboboxTaxis"];
 
 
-		    
-
-
 		    if($rut=="" || $correo=="" || $correo=="Correo" || $nombre=="" || $apPaterno=="" || $apMaterno=="" || $telefono=="" || $clave=="" || $taxi=="" || $estado == "")
 		    {
 		    	echo "<script>
@@ -123,13 +119,13 @@
 			    	$estado = "deshabilitado";
 			    }
 			    
-			    $sql="update taxista set rut=:ru, correo=:corr, nombre=:nom, apPaterno=:apPat, apMaterno=:apMat, telefono=:tel, clave=:cla, RefTaxi=:tax, estado=:est  where correo=:corr";
+			    $sql="update taxista set rut=:ru, correo=:corr, nombre=:nom, apPaterno=:apPat, apMaterno=:apMat, telefono=:tel, clave=:cla, RefTaxi=:tax, estado=:est  where correo=:corr"; //consulta actualiza taxista
 
 			    $resultado = $base->prepare($sql);
 
 			    $resultado->execute(array(":ru"=>$rut, ":corr"=>$correo, ":nom"=>$nombre,":apPat"=>$apPaterno, ":apMat"=>$apMaterno, ":tel"=>$telefono, ":cla"=>$clave, ":tax"=>$taxi, ":est"=>$estado));
 
-			    if($estado=="deshabilitado")
+			    if($estado=="deshabilitado")//si taxista se deshabilita queda como no disponible
 		  		{
 		  			$registroTaxista = $base->query("select * from taxista where correo='$correo'")->fetchAll(PDO::FETCH_OBJ);
 
@@ -138,7 +134,7 @@
 		  			$base->query("update disponibilidadchoferes set estado='no disponible'  where RefTaxista='$rutTaxista'");
 		  		}
 
-		  		if($estado=="habilitado")
+		  		if($estado=="habilitado")//si taxista se habilita queda como disponible
 		  		{
 		  			$registroTaxista = $base->query("select * from taxista where correo='$correo'")->fetchAll(PDO::FETCH_OBJ);
 
@@ -160,15 +156,6 @@
 			    //header("Location:MostrarTaxista.php");
 			}
 
-	  }
-
-
-	  if(isset($_POST["botonMenu"]))
-	  {
-	  	//$estado = $_POST["Estado"];
-	  	$estado="Habilitado";
-
-	  	echo "prueba";
 	  }
 
 	?>
@@ -227,6 +214,7 @@
 		</nav>
 	</header>
   
+    <!-- CAMPOS PARA INGRESAR NUEVOS DATOS A EDITAR -->
 	<div>
 	  	<h2>Editar Chofer</h2>
 	  	
@@ -252,30 +240,30 @@
 
 		      
 		    <div class="registroTaxitaForm">
-			    <input type="Rut" class="form-control" id="Rut" placeholder="Rut" name="Rut" value=<?php echo $rut?>>
+			    <input type="Rut" class="form-control" id="Rut" placeholder="Rut" name="Rut" value="<?php echo $rut?>">
 		    </div>
 		
 		    <div class="registroTaxitaForm">
-			    <input type="Nombre" class="form-control" id="Nombre" placeholder="Nombre" name="Nombre" value=<?php echo $nombre?>>
+			    <input type="Nombre" class="form-control" id="Nombre" placeholder="Nombre" name="Nombre" value="<?php echo $nombre?>">
 		    </div>
 		
 		    <div class="registroTaxitaForm">         
-		        <input type="ApellidoPaterno" class="form-control" id="ApellidoPaterno" placeholder="Apellido Paterno" name="ApellidoPaterno" value=<?php echo $apPaterno?>>
+		        <input type="ApellidoPaterno" class="form-control" id="ApellidoPaterno" placeholder="Apellido Paterno" name="ApellidoPaterno" value="<?php echo $apPaterno?>">
 		    </div>
 		    <div class="registroTaxitaForm">         
-		        <input type="ApellidoMaterno" class="form-control" id="ApellidoMaterno" placeholder="Apellido Materno" name="ApellidoMaterno" value=<?php echo $apMaterno?>>
-		    </div>
-		
-		    <div class="registroTaxitaForm">         
-		        <input type="Correo" class="form-control" id="Correo" placeholder="Correo Electrónico" name="Correo" value=<?php echo $correo?> readonly="readonly">
+		        <input type="ApellidoMaterno" class="form-control" id="ApellidoMaterno" placeholder="Apellido Materno" name="ApellidoMaterno" value="<?php echo $apMaterno?>">
 		    </div>
 		
 		    <div class="registroTaxitaForm">         
-		        <input type="Contrasena" class="form-control" id="Contrasena" placeholder="Contraseña" name="Contrasena" value=<?php echo $clave?>>
+		        <input type="Correo" class="form-control" id="Correo" placeholder="Correo Electrónico" name="Correo" value="<?php echo $correo?>" readonly="readonly">
 		    </div>
 		
 		    <div class="registroTaxitaForm">         
-		        <input type="Telefono" class="form-control" id="Telefono" placeholder="Teléfono" name="Telefono" value=<?php echo $telefono?>>
+		        <input type="Contrasena" class="form-control" id="Contrasena" placeholder="Contraseña" name="Contrasena" value="<?php echo $clave?>">
+		    </div>
+		
+		    <div class="registroTaxitaForm">         
+		        <input type="Telefono" class="form-control" id="Telefono" placeholder="Teléfono" name="Telefono" value="<?php echo $telefono?>">
 		    </div>
 
 		    <div class="registroTaxitaForm"> 
@@ -294,6 +282,8 @@
 				</select> 
 
 			</div>
+
+			<!-- COMBOBOX PARA SELECCIONAR SI EL TAXISTA ESTA HABILITADO O DESHABILITADO -->
 
 			<div class="registroTaxitaForm"> 
 
@@ -318,10 +308,7 @@
 		</form>
 	  </div>
 
-
 		<footer>Derechos Reservados | kable &copy</footer>
-
-	
 
 </body>
 </html>

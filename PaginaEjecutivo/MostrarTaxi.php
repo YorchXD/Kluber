@@ -21,9 +21,9 @@
 	<body>
 		<?php
 
-		  include("conexion.php");
+		  include("conexion.php"); //conexion BD
 
-		  $registros=$base->query("select * from taxi")->fetchAll(PDO::FETCH_OBJ);
+		  $registros=$base->query("select * from taxi")->fetchAll(PDO::FETCH_OBJ); //consulta para obtener datos de los taxis
 
 	  	?>
 
@@ -82,6 +82,7 @@
 			</nav>
 		</header>
 
+		<!-- Tabla con lista de taxis -->
 		<div>
 			<div class="wrapper">
 				<h2 >Lista de Taxis</h2>
@@ -99,8 +100,6 @@
 
 
 						<?php foreach ($registros as $taxi):?> 
-
-
 
 							    <tbody>      
 							      	<tr class="success">
