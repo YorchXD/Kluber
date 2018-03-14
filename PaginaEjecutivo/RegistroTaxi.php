@@ -22,8 +22,9 @@
 
 		<?php
 
-		  include("conexion.php");
+		  include("conexion.php"); //conexión BD
 
+		  /* Al hacer click en el boton Registro se registra taxi */
 		  if(isset($_POST["botonRegistro"]))
 		  {
 
@@ -37,7 +38,7 @@
 
 		    $anio = $_POST["anio"];
 
-		    if($patente=="" || $marca=="" || $modelo=="" || $numTaxi=="" || $anio=="")
+		    if($patente=="" || $marca=="" || $modelo=="" || $numTaxi=="" || $anio=="") //confirma que los campos no esten vacios
 		    {
 		    	echo "<script>
 	                alert('Faltan campos a completar');
@@ -45,7 +46,7 @@
 		    }
 		    else
 		    {
-
+		    	//consulta ´para insertar datos del taxi
 			   	$sql="insert into taxi (patente, marca, modelo, numTaxi, anio) values (:pat, :mar, :mod, :numT, :anio)";
 
 			    $resultado = $base->prepare($sql);
@@ -57,14 +58,11 @@
 	                window.location= 'MostrarTaxi.php';
 	    		</script>";
 	    	}
-
-		    //header("Location:MostrarTaxi.php");
-
 		  }
 
 		?>
 
-
+		<!-- Campos a llenar para registrar taxi -->
 		<div>
 			<h2>Registrar Taxi</h2>
 			
@@ -91,13 +89,9 @@
 				<center>
 					<button name="botonRegistro" id="botonRegistro" type="submit" class="btn btn-warning">Registrar</button>
 				</center>
+
 			</form>
 		</div>
-		
-		
-		<<!--este laven hace el espacio entre el contenido anterior y el footer-->
-		<label></label>
-
 
 	</body>
 </html>

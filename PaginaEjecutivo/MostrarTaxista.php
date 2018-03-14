@@ -9,6 +9,7 @@
 		<meta charset="utf-8">
 		<title></title>
 		<link rel="stylesheet" href="styleCrud.css">
+		<link rel="stylesheet" type="text/css" href="Imagenes\fonts.css">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -26,8 +27,7 @@
 
 	  	?>
 
-
-		
+		<!-- Tabla de lista de taxistas -->
 		<div>
 			<div class="wrapper">
 				<h2 >Lista de Taxistas</h2>
@@ -49,8 +49,6 @@
 
 
 						<?php foreach ($registros as $taxista):?> 
-
-
 
 							    <tbody>    
 
@@ -83,12 +81,7 @@
 		    		</table>
 		    	</div>
 			</div>
-		</div>		
-		
-		<!--este laven hace el espacio entre el contenido anterior y el footer-->
-		<label></label>
-		
-
+		</div>
 
 	</body>
 </html>

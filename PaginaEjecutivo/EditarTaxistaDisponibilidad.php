@@ -24,8 +24,7 @@
 
 	<?php
 
-	  include("conexion.php");
-
+	  include("conexion.php"); //conecta con la BD
 
 	  $rut = "Rut";
 
@@ -33,23 +32,24 @@
 
 	  $nombre = "Nombre";
 
-	  $apPaterno = "ApellidoPaterno";
+	  $apPaterno = "Apellido Paterno";
 
-	  $apMaterno = "ApellidoMaterno";
+	  $apMaterno = "Apellido Materno";
 
 	  $estado = "Estado";
 
-	  $RegistroTaxista=$base->query("select * from taxista")->fetchAll(PDO::FETCH_OBJ);
+	  $RegistroTaxista=$base->query("select * from taxista")->fetchAll(PDO::FETCH_OBJ); //consulta Taxista para obtener sus datos
 
+	  /* Al hacer click en el buscar busca taxista */
 	  if(isset($_POST["botonBuscar"]))
 	  {
 	    $correo = $_POST["comboboxTaxista"];
 
-	    $registrosTaxista2=$base->query("select * from taxista where correo='$correo'")->fetchAll(PDO::FETCH_OBJ);
+	    $registrosTaxista2=$base->query("select * from taxista where correo='$correo'")->fetchAll(PDO::FETCH_OBJ);//consulta taxista para obtener sus datos
 
 	    $rutTaxista2 = $registrosTaxista2[0]->rut;
 
-	    $registros=$base->query("select * from disponibilidadchoferes where RefTaxista='$rutTaxista2'")->fetchAll(PDO::FETCH_OBJ);
+	    $registros=$base->query("select * from disponibilidadchoferes where RefTaxista='$rutTaxista2'")->fetchAll(PDO::FETCH_OBJ); //consulta disponiblidadchoferes para obtener sus datos
 
 	    if($registros!=null)
 	    {
@@ -89,29 +89,19 @@
 	    	$estado = "deshabilitado";
 	    }*/
 
-		$registroTaxista = $base->query("select * from taxista where correo='$correo'")->fetchAll(PDO::FETCH_OBJ);
+		$registroTaxista = $base->query("select * from taxista where correo='$correo'")->fetchAll(PDO::FETCH_OBJ); //consulta txista para obtener sus datos
 
 		$rutTaxista = $registroTaxista[0]->rut;
 
-		$base->query("update disponibilidadchoferes set estado='$estado', tiempoDisponible='00:00:00' where RefTaxista='$rutTaxista'");
+		$base->query("update disponibilidadchoferes set estado='$estado', tiempoDisponible='00:00:00' where RefTaxista='$rutTaxista'"); //consulta para editar disponibilidadchoferes
 
 		 echo "<script>
             alert('se cambio el estado del taxista a \"$estado\" con exito');
             window.location= 'Principal.php'
 		</script>";
-  			//$sql="update taxista set estado=:'deshabilitado'  where correo=:'$correo'";
-
-		    //$resultado = $base->prepare($sql);
-
-		    //$resultado->execute(array(":est"=>"deshabilitado"));
-
-
-	    //header("Location:MostrarTaxista.php");
-
 	  }
 
 	?>
-
 
 	<div>
 		<h2>Editar Disponibildad Chofer</h2>
@@ -119,20 +109,22 @@
 		
   		<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
 
-		   <div class="registroTaxitaForm"> 
 
-				    <select class="registroTaxitaForm" name="comboboxTaxista">
-				    	<optgroup label="Escoja correo del taxista">
+  			<!-- Combobox para seleccionar taxista -->
+		    <div class="registroTaxitaForm"> 
 
-			    		<?php foreach ($RegistroTaxista as $taxista):?>
-			    			<?php if($taxista->estado=="habilitado") 
-		    				{?>
-								<option  value=<?php echo $taxista->correo?>><?php echo $taxista->correo?></option>
-							<?php }?>
-						<?php endforeach; ?>
-					</select> 
+			    <select class="registroTaxitaForm" name="comboboxTaxista">
+			    	<optgroup label="Escoja correo del taxista">
 
-				</div>
+		    		<?php foreach ($RegistroTaxista as $taxista):?>
+		    			<?php if($taxista->estado=="habilitado") //muestra solo taxista habilitado
+	    				{?>
+							<option  value=<?php echo $taxista->correo?>><?php echo $taxista->correo?></option>
+						<?php }?>
+					<?php endforeach; ?>
+				</select> 
+
+			</div>
 
 		   <center>
 				<button name="botonBuscar" id="botonBuscar" type="submit" class="btn btn-warning">Buscar</button>
@@ -140,26 +132,26 @@
 
 		      
 		    <div class="registroTaxitaForm">
-			    <input type="Rut" class="form-control" id="Rut" placeholder="Rut" name="Rut" value=<?php echo $rut?> readonly="readonly">
+			    <input type="Rut" class="form-control" id="Rut" placeholder="Rut" name="Rut" value="<?php echo $rut?>" readonly="readonly">
 		    </div>
 		
 		    <div class="registroTaxitaForm">
-			    <input type="Nombre" class="form-control" id="Nombre" placeholder="Nombre" name="Nombre" value=<?php echo $nombre?> readonly="readonly">
+			    <input type="Nombre" class="form-control" id="Nombre" placeholder="Nombre" name="Nombre" value="<?php echo $nombre?>" readonly="readonly">
 		    </div>
 		
 		    <div class="registroTaxitaForm">         
-		        <input type="ApellidoPaterno" class="form-control" id="ApellidoPaterno" placeholder="Apellido Paterno" name="ApellidoPaterno" value=<?php echo $apPaterno?> readonly="readonly">
+		        <input type="ApellidoPaterno" class="form-control" id="ApellidoPaterno" placeholder="Apellido Paterno" name="ApellidoPaterno" value="<?php echo $apPaterno?>" readonly="readonly">
 		    </div>
 		    <div class="registroTaxitaForm">         
-		        <input type="ApellidoMaterno" class="form-control" id="ApellidoMaterno" placeholder="Apellido Materno" name="ApellidoMaterno" value=<?php echo $apMaterno?> readonly="readonly">
+		        <input type="ApellidoMaterno" class="form-control" id="ApellidoMaterno" placeholder="Apellido Materno" name="ApellidoMaterno" value="<?php echo $apMaterno?>" readonly="readonly">
 		    </div>
 		
 		    <div class="registroTaxitaForm">         
-		        <input type="Correo" class="form-control" id="Correo" placeholder="Correo Electrónico" name="Correo" value=<?php echo $correo?> readonly="readonly">
+		        <input type="Correo" class="form-control" id="Correo" placeholder="Correo Electrónico" name="Correo" value="<?php echo $correo?>" readonly="readonly">
 		    </div>
 		
-		    <div class="registroTaxitaForm"> 
-
+			<!-- Combobox para selccionar disponiblidad de taxista -->
+		    <div class="registroTaxitaForm">
 			    <select class="registroTaxitaForm" name="comboboxEstado">
 			    	<optgroup label=<?php echo $estado?>>
 			    	<?php if  ($estado == "ocupado")
@@ -188,11 +180,6 @@
 			</center>s
 		</form>
 	</div>
-
-  	<!--este laven hace el espacio entre el contenido anterior y el footer-->
-	<label></label>
-
-
 
 </body>
 </html>

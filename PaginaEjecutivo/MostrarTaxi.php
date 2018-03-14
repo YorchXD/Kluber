@@ -21,11 +21,13 @@
 	<body>
 		<?php
 
-		  include("conexion.php");
+		  include("conexion.php"); //conexion BD
 
-		  $registros=$base->query("select * from taxi")->fetchAll(PDO::FETCH_OBJ);
+		  $registros=$base->query("select * from taxi")->fetchAll(PDO::FETCH_OBJ); //consulta para obtener datos de los taxis
 
 	  	?>
+
+		<!-- Tabla con lista de taxis -->
 		<div>
 			<div class="wrapper">
 				<h2 >Lista de Taxis</h2>
@@ -44,8 +46,6 @@
 
 						<?php foreach ($registros as $taxi):?> 
 
-
-
 							    <tbody>      
 							      	<tr class="success">
 								        <td><?php echo $taxi->patente ?></td>
@@ -62,12 +62,6 @@
 		    	</div>
 			</div>
 		</div>
-
-
-		
-		<!--este laven hace el espacio entre el contenido anterior y el footer-->
-		<label></label>
-
 
 	</body>
 </html>

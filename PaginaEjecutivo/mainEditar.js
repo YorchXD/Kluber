@@ -17,7 +17,6 @@ var costoMetro = 0;
 
 
 
-
 google.maps.event.addDomListener(window, "load", function(){
 	const ubicacion = new Localizacion(()=>
 		{
@@ -43,7 +42,7 @@ google.maps.event.addDomListener(window, "load", function(){
 			/*------------------------------------Datos de inicio-----------------------------------*/
 
 			devuelvePrecio(); //Inicializar precios de recorrido
-			
+
 			const marcadorInicio = new google.maps.Marker({position: latLng, map: mapa});
 			var informacionInicio = new google.maps.InfoWindow();
 			marcadorInicio.addListener('click', function()
@@ -224,29 +223,30 @@ google.maps.event.addDomListener(window, "load", function(){
 			              	{
 			              		distanciaTex.innerHTML+=results[j].distance.text;
 			              		tiempo.innerHTML+=results[j].duration.text;
+
 			                	distanciaValue= results[j].distance.value;
-			                	tiempoValue = results[j].duration.text;
-			                	tiempoInt = results[j].duration.value;
+			                    tiempoValue = results[j].duration.text;
+
+			                    tiempoInt = results[j].duration.value;
 
 			              	}
 			            }
 
-
 			            if(distanciaValue>=200)
 		                {
 		                    var num = distanciaValue/200;
-
+		                    
 		                    calculaCosto = costoInicial+(num*costoMetro); //calculo aproximado de recorrido
 		                    calculaCosto = parseInt(calculaCosto);
-		                    //alert("calculoCosto: "+calculaCosto);
+		                    //alert("calculoCosto: "+calculoCosto);
 		                }
-
 
 		                //alert("costo: "+calculoCosto);
 
 		                dinero.innerHTML += "$"+calculaCosto.toString();
 
-		                tiempoInt += tiempoLlegadaTaxi;
+
+		                 tiempoInt += tiempoLlegadaTaxi;
 
 		                //alert("tiempoInt: "+tiempoInt);
 
@@ -266,8 +266,6 @@ google.maps.event.addDomListener(window, "load", function(){
 
 
 						tiempoString =hours+":"+minutes+":"+seconds;
-						//alert("tiempo: "+tiempoString);
-
 			        }
 		        }
 			}
@@ -313,9 +311,12 @@ function obtenerFechaHora() {
 
 function mostrarAlerta2() 
 {
+
 	if(distanciaValue!=-1)
 	{
 		obtenerFechaHora();
+		idValue = document.getElementById('NumeroPedido').value;
+
 		nombreValue = document.getElementById('Nombre').value;
 		apellidoValue = document.getElementById('Apellido').value;
 		telefonoValue = document.getElementById('Telefono').value;
@@ -328,16 +329,15 @@ function mostrarAlerta2()
 		var direccionOrigen= document.getElementById('autocompleteInicio').value;
 		var direccionDestino= document.getElementById('autocompleteDestino').value;
 
-	    var taxista= document.getElementById('comboboxTaxista').value;
+		var taxista= document.getElementById('comboboxTaxista').value;
 	
 	
 		if (confirm("¿Seguro que desean enviar la solicitud?")) {
-		    $.post("EnvioSolicitudTaxi.php",{nombre: nombreValue, apellido: apellidoValue, 
-		    	telefono: telefonoValue,fecha: fechaValue, 
-		    	hora: horaValue, latOrigen: latOrigen, lngOrigen: lngOrigen, 
-		    	latDestino: latDestino, lngDestino: lngDestino, direccionOrigen: direccionOrigen, 
-		    	direccionDestino: direccionDestino, taxista:taxista, distancia:distanciaValue, tiempo:tiempoString,
-		    	costo:calculaCosto, segundosEstimados:tiempoInt }, validarEnvio);
+		    $.post("EnvioSolicitudTaxiEditar.php",{idPedido: idValue,nombre: nombreValue, apellido: apellidoValue, 
+		    	telefono: telefonoValue, distancia: distanciaValue, fecha: fechaValue, hora: horaValue, 
+		    	latOrigen: latOrigen, lngOrigen: lngOrigen, latDestino: latDestino, lngDestino: lngDestino, 
+		    	direccionOrigen: direccionOrigen, direccionDestino: direccionDestino, taxista:taxista, 
+		    	distancia:distanciaValue, tiempo:tiempoString, costo:calculaCosto, segundosEstimados:tiempoInt }, validarEnvio);
 		    alert("verificando datos...");
 
 		    if(validar)
@@ -365,18 +365,14 @@ function mostrarAlerta2()
 }
 
 function validarEnvio(respuesta){			
+
 	//alert(respuesta); //Mostramos un alert del resultado devuelto por el php
-	if(respuesta=="true")
-	{
-		alert("La solicitud fue hecha exitosamente");
-		validar = true;
-		
-	}
-	else
-	{
-		alert("No se pude enviar solicitud por que no hay taxista disponible");
-		validar = false;
-	}
+
+	//alert("respuesta: "+respuesta);
+
+	alert("La modificación de la solicitud fue hecha exitosamente");
+	validar = true;
+
 
 }
 
@@ -394,7 +390,6 @@ function devuelvePrecio()
 		//alert("costoMetro: "+costoMetro);
 	});
 }
-
 
 
 

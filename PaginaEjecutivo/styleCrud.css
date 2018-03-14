@@ -38,17 +38,6 @@ body
 	overflow: hidden;
 }
 
-#botonRegistro
-{
-	border: none;
-	outline: none;
-	height: 40px;
-	font-size: 16px;
-	background: rgba(214, 124, 0, 0.9);
-	color: #fff;
-	cursor: pointer;
-}
-
 footer{
 	align-self: flex-end;
 	background-color: rgba(84, 36, 19, 0.5); 

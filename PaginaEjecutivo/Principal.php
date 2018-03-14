@@ -1,3 +1,7 @@
+<?php
+	session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -12,22 +16,30 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+	<script language=JavaScript>
+		function recarga()
+		{
+			location.href="Principal.php";
+		}
+		setInterval('recarga()',20000);
+	</script>
+
 </head>
 <body>
 
 	<?php
 
-	  include("conexion.php");
+	  include("conexion.php"); //conecta con la BD
 
 	  $contadorActual=0;
 
 	  $contadorAnterior=0;
 
-	  $registros=$base->query("select * from pedido")->fetchAll(PDO::FETCH_OBJ);
+	  $registros=$base->query("select * from pedido")->fetchAll(PDO::FETCH_OBJ); //consulta mysql
 
 	  $registroDisponibilidad=$base->query("select * from disponibilidadchoferes")->fetchAll(PDO::FETCH_OBJ);
 
-		//-----------------------------
+		//---------Fecha Actual-------//
 		$now = time();
 		$num = date("w");
 
@@ -59,290 +71,493 @@
 		$y="$y";
 
 		$fechaActual="$y-$m-$d";
-		//echo $fechaActual;
-		//echo "$d-$m-$y"; //getdate converted day
+
+		//--------------------------//
+
+		$contador=0;
 
   	?>
 
 	
-	<div class="contenido" >
-		<div class="wrapper">
-			<h2 >Lista de pedido</h2>
-			<div id="divtabla" class="wrapper">
-				<table class="table">
-				    <thead >
-				      	<tr>
-					        <th>#</th>
-					        <th>Nombre Cliente</th>
-					        <th>Apellido Cliente</th>
-					        <th>Dirección Inicial</th>
-					        <th>Dirección Destino</th>
-					        <th>Teléfono</th>
-					        <th>Rut Taxista</th>
-					        <th>Nombre Taxista</th>
-					        <th>Apellido Taxista</th>
-					        <th>Estado</th>
-					        <th>Tiempo Transcurrido</th>
-					        <th>Hora Pedido</th>
-				     	</tr>
-				    </thead>
+	<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+	
+		<div>
+			<!-- TABLA PEDIDO -->
+			<div class="wrapper">
+				<h2 >Lista de pedido</h2>
+				<div id="divtabla" class="wrapper">
+					<table class="table">
+					    <thead >
+					      	<tr>
+						        <th>#</th>
+						        <th>Nombre Cliente</th>
+						        <th>Apellido Cliente</th>
+						        <th>Dirección Inicial</th>
+						        <th>Dirección Destino</th>
+						        <th>Teléfono</th>
+						        <th>Rut Taxista</th>
+						        <th>Nombre Taxista</th>
+						        <th>Apellido Taxista</th>
+						        <th>Estado</th>
+						        <th>Tiempo Transcurrido</th>
+						        <th>Hora Pedido</th>
+					     	</tr>
+					    </thead>
 
-				    <?php foreach ($registros as $pedido):?> 
+					    <?php foreach ($registros as $pedido):?> 
 
-				    	<?php 
+					    	<?php 
 
-				    	  $rutTaxista = $pedido->RefChoferTaxista;
+					    	  $rutTaxista = $pedido->RefChoferTaxista;
 
-						  $RegistroTaxista=$base->query("select * from taxista where rut='$rutTaxista'")->fetchAll(PDO::FETCH_OBJ);
+							  $RegistroTaxista=$base->query("select * from taxista where rut='$rutTaxista'")->fetchAll(PDO::FETCH_OBJ);
 
-						  $nombreTaxista = $RegistroTaxista[0]->nombre;
+							  $nombreTaxista = $RegistroTaxista[0]->nombre;
 
-						  $apellidoTaxista = $RegistroTaxista[0]->apPaterno;
+							  $apellidoTaxista = $RegistroTaxista[0]->apPaterno;
 
-						?> 
+							?> 
 
 
-					    <tbody> 
+						    <tbody> 
 
-						    <?php if( $pedido->fecha == $fechaActual)
-			  					{		
-			  						//echo $fechaActual;
-		  				 	?>    
+							    <?php if( $pedido->fecha == $fechaActual)
+				  					{		
+				  						//echo $fechaActual;
+			  				 	?>    
 
+								    <?php
+									    if( $pedido->estado == 'viajando')
+					  					{
+					  						$color="success";
+					  						
+					  					}
+					  					if( $pedido->estado == 'esperando')
+					  					{		
+					  						$color="danger";
+					  					}
+					  					if( $pedido->estado == 'finalizado')
+					  					{		
+					  						$color="active";
+					  					}
+				  					?>
+
+				  					<?php if( $pedido->estado != 'finalizado')
+				  					{		
+				  					?> 
+								      	<tr class=<?php echo $color ?>>
+									        <td><?php echo $pedido->id ?></td>
+									        <td><?php echo $pedido->nombre ?></td>
+									        <td><?php echo $pedido->apellido ?></td>
+									        <td><?php echo $pedido->direccionInicial ?></td>
+									        <td><?php echo $pedido->direccionFinal ?></td>
+									        <td><?php echo $pedido->telefono ?></td>
+									        <td><?php echo $pedido->RefChoferTaxista ?></td>
+									        <td><?php echo $nombreTaxista ?></td>
+									        <td><?php echo $apellidoTaxista ?></td>
+									        <td><?php echo $pedido->estado ?></td>
+									        <td><?php echo $pedido->duracion ?></td>
+									        <td><?php echo $pedido->hora ?></td>
+								      	</tr>
+								      	<?php $contadorActual++; ?>
+							      	<?php } ?>
+								<?php } ?>
+						    </tbody>
+
+				    	<?php endforeach; ?>
+					</table>
+				</div>
+			</div>
+
+			<?php 
+
+				$cambios=0;
+
+				$registroContador=$base->query("select * from contadorsolicitudes")->fetchAll(PDO::FETCH_OBJ);
+
+				$contadorAnterior = $registroContador[0]->contador;
+
+				//echo "contador anterior $contadorAnterior, contadorActual $contadorActual";
+
+				if($contadorAnterior!=$contadorActual)  
+				{
+					//echo "contador anterior $contadorAnterior, contadorActual $contadorActual";
+
+					if($contadorAnterior<$contadorActual)//significa que de verdad se agrego y no se elimino pedido
+					{
+				    	$cambios = 1;
+				    }
+
+					$base->query("delete from contadorsolicitudes where contador='$contadorAnterior'");
+
+					$sql="insert into contadorsolicitudes (contador) values (:cont)";
+
+				    $resultado = $base->prepare($sql);
+
+				    $resultado->execute(array(":cont"=>$contadorActual));
+
+							    
+				}
+
+				
+			?>
+
+			<?php  
+				if($cambios==1)
+				{
+					$registrosPedidos=$base->query("select * from pedido")->fetchAll(PDO::FETCH_OBJ);
+
+					$num=count($registrosPedidos);
+					$num=$num-1;
+
+					$id=$registrosPedidos[$num]->id;
+
+
+					echo "<script>
+			            alert('Hay nuevo pedido de taxi');
+
+			                location.href='EnvioPedidoTiempoTranscurrido.php?id=$id';
+					</script>";						
+
+			        //$id='89';
+			         		
+				}
+
+			?>
+
+			<!-- TABLA CHOFERES -->
+			<div class="wrapper">
+				<h2>Lista de choferes</h2>
+				<div id="divtabla" class="wrapper">
+					<table class="table">
+					    <thead>
+					      	<tr>			      		
+						        <th># Taxi</th>
+						        <th>Patente Taxi</th>
+						        <th>Rut</th>
+						        <th>Nombre</th>
+						        <th>Apellido</th>
+						        <th>Ubicación</th>
+						        <th>Estado</th>
+					      	</tr>
+					    </thead>
+
+					    <?php foreach ($registroDisponibilidad as $pedido):?> 
+
+					    	<?php 
+					    		//CAPTA LOS VALORES EN LA BD
+					    	  $taxista = $pedido->RefTaxista;
+
+							  $RegistroTaxista=$base->query("select * from taxista where rut='$taxista'")->fetchAll(PDO::FETCH_OBJ);
+
+							  
+							  $rutTaxista = $RegistroTaxista[0]->rut;
+
+							  $nombreTaxista = $RegistroTaxista[0]->nombre;
+
+							  $apellidoTaxista = $RegistroTaxista[0]->apPaterno;
+
+							  $taxi =$RegistroTaxista[0]->RefTaxi;
+
+							  $RegistroTaxi=$base->query("select * from taxi where patente='$taxi'")->fetchAll(PDO::FETCH_OBJ);
+
+							  $numeroTaxi = $RegistroTaxi[0]->numTaxi;
+
+							  $registroDisponibilidad2=$base->query("select * from disponibilidadchoferes where RefTaxista='$taxista'")->fetchAll(PDO::FETCH_OBJ);
+
+							  $tiempoDisponible = $registroDisponibilidad2[0]->tiempoDisponible;
+
+
+							?> 
+
+						    <tbody>  
 							    <?php
-								    if( $pedido->estado == 'viajando')
+								    if( $pedido->estado == 'disponible')
 				  					{
 				  						$color="success";
 				  						
 				  					}
-				  					if( $pedido->estado == 'esperando')
+				  					if( $pedido->estado == 'ocupado')
 				  					{		
 				  						$color="danger";
 				  					}
-				  					if( $pedido->estado == 'finalizado')
+				  					if( $pedido->estado == 'no disponible')
 				  					{		
 				  						$color="active";
 				  					}
 			  					?>
+			  					<?php if($RegistroTaxista[0]->estado=="habilitado")
+							  	{?>
 							      	<tr class=<?php echo $color ?>>
-								        <td><?php echo $pedido->id ?></td>
-								        <td><?php echo $pedido->nombre ?></td>
-								        <td><?php echo $pedido->apellido ?></td>
-								        <td><?php echo $pedido->direccionInicial ?></td>
-								        <td><?php echo $pedido->direccionFinal ?></td>
-								        <td><?php echo $pedido->telefono ?></td>
-								        <td><?php echo $pedido->RefChoferTaxista ?></td>
+							      		<td><?php echo $numeroTaxi ?></td>
+								        <td><?php echo $taxi ?></td>
+								        <td><?php echo $rutTaxista ?></td>
 								        <td><?php echo $nombreTaxista ?></td>
 								        <td><?php echo $apellidoTaxista ?></td>
+								        <td><?php echo $pedido->ubicacion ?></td>
 								        <td><?php echo $pedido->estado ?></td>
-								        <td><?php echo $pedido->duracion ?></td>
-								        <td><?php echo $pedido->hora ?></td>
+
+								        <?php /*if($pedido->estado=="disponible")
+							  			{?>
+
+								        	<td class="bot"><a href="borrar.php?patente=<?php echo $taxi->patente?>"><input type='button' name='del' id='del' value='Seleccionar' enabled='true'></a></td>
+
+								        <?php } 
+								        else{ ?>
+								        	<td class="bot"><a href="borrar.php?patente=<?php echo $taxi->patente?>"><input type='button' name='del' id='del' value='Seleccionar' disabled='true'></a></td>
+							        	<?php }*/ ?>
+
 							      	</tr>
-							      	<?php $contadorActual++; ?>
-							<?php } ?>
-					    </tbody>
+							    <?php }?>
+						    </tbody>
 
-			    	<?php endforeach; ?>
-				</table>
+				    	<?php endforeach; ?>
+					</table>
+				</div>
 			</div>
-		</div>
-
-		<?php 
-
-			$cambios=0;
-
-			$registroContador=$base->query("select * from contadorsolicitudes")->fetchAll(PDO::FETCH_OBJ);
-
-			$contadorAnterior = $registroContador[0]->contador;
-
-			//echo "contador anterior $contadorAnterior, contadorActual $contadorActual";
-
-			if($contadorAnterior!=$contadorActual)  
-			{
-				//echo "contador anterior $contadorAnterior, contadorActual $contadorActual";
-
-				$base->query("delete from contadorsolicitudes where contador='$contadorAnterior'");
-
-				$sql="insert into contadorsolicitudes (contador) values (:cont)";
-
-			    $resultado = $base->prepare($sql);
-
-			    $resultado->execute(array(":cont"=>$contadorActual));
-
-			    $cambios = 1;
-
-						    
-			}
-
 			
-		?>
-
-		<?php  
-			if($cambios==1)
-			{
-				echo "<script>
-		            alert('Hay nuevo pedido de taxi');
-				</script>";	
-			}
-		?>
-
-		
-		<div class="wrapper">
-			<h2>Lista de choferes</h2>
-			<div id="divtabla" class="wrapper">
-				<table class="table">
-				    <thead>
-				      	<tr>			      		
-					        <th># Taxi</th>
-					        <th>Patente Taxi</th>
-					        <th>Rut</th>
-					        <th>Nombre</th>
-					        <th>Apellido</th>
-					        <th>Ubicación</th>
-					        <th>Estado</th>
-					        <th>Tiempo disponible</th>
-				      	</tr>
-				    </thead>
-
-				    <?php foreach ($registroDisponibilidad as $pedido):?> 
-
-				    	<?php 
-
-				    	  $taxista = $pedido->RefTaxista;
-
-						  $RegistroTaxista=$base->query("select * from taxista where rut='$taxista'")->fetchAll(PDO::FETCH_OBJ);
-
-						  
-						  $rutTaxista = $RegistroTaxista[0]->rut;
-
-						  $nombreTaxista = $RegistroTaxista[0]->nombre;
-
-						  $apellidoTaxista = $RegistroTaxista[0]->apPaterno;
-
-						  $taxi =$RegistroTaxista[0]->RefTaxi;
-
-						  $RegistroTaxi=$base->query("select * from taxi where patente='$taxi'")->fetchAll(PDO::FETCH_OBJ);
-
-						  $numeroTaxi = $RegistroTaxi[0]->numTaxi;
-
-						  $registroDisponibilidad2=$base->query("select * from disponibilidadchoferes where RefTaxista='$taxista'")->fetchAll(PDO::FETCH_OBJ);
-
-						  $tiempoDisponible = $registroDisponibilidad2[0]->tiempoDisponible;
+			<!-- TABLA HISTORIAL DE PEDIDOS DURANTE EL DIA DE HOY -->
+			<div class="wrapper">
+				<h2>Historial de pedidos durante el día</h2>
+				<div id="divtabla" class="wrapper">
+				  	<table class="table">
+				    	<thead>
+					      	<tr>
+						        <th>#</th>
+						        <th>Nombre Cliente</th>
+						        <th>Apellido Cliente</th>
+						        <th>Dirección Inicial</th>
+						        <th>Dirección Destino</th>
+						        <th>Teléfono</th>
+						        <th>Rut Taxista</th>
+						        <th>Nombre Taxista</th>
+						        <th>Apellido Taxista</th>
+						        <th>Estado</th>
+						        <th>Tiempo Transcurrido</th>
+						        <th>Hora Pedido</th>
+					     	</tr>
+					    </thead>
+					   
+					   <?php foreach ($registros as $pedido):?> 
 
 
-						?> 
+					   		<?php 
 
-					    <tbody>  
-						    <?php
-							    if( $pedido->estado == 'disponible')
-			  					{
-			  						$color="success";
-			  						
-			  					}
-			  					if( $pedido->estado == 'ocupado')
-			  					{		
-			  						$color="danger";
-			  					}
-			  					if( $pedido->estado == 'no disponible')
-			  					{		
-			  						$color="active";
-			  					}
-		  					?>
-		  					<?php if($RegistroTaxista[0]->estado=="habilitado")
-						  	{?>
-						      	<tr class=<?php echo $color ?>>
-						      		<td><?php echo $numeroTaxi ?></td>
-							        <td><?php echo $taxi ?></td>
-							        <td><?php echo $rutTaxista ?></td>
-							        <td><?php echo $nombreTaxista ?></td>
-							        <td><?php echo $apellidoTaxista ?></td>
-							        <td><?php echo $pedido->ubicacion ?></td>
-							        <td><?php echo $pedido->estado ?></td>
-							        <td><?php echo $tiempoDisponible ?></td>
-						      	</tr>
-						      	<?php }?>
-					    </tbody>
+					    	  $rutTaxista = $pedido->RefChoferTaxista;
 
-			    	<?php endforeach; ?>
-				</table>
+							  $RegistroTaxista=$base->query("select * from taxista where rut='$rutTaxista'")->fetchAll(PDO::FETCH_OBJ);
+
+							  $nombreTaxista = $RegistroTaxista[0]->nombre;
+
+							  $apellidoTaxista = $RegistroTaxista[0]->apPaterno;
+
+							?> 
+
+
+							<?php if( $pedido->fecha == $fechaActual)
+				  					{		
+				  						//echo $fechaActual;
+			  				 	?>  
+
+			  					<?php if( $pedido->estado == 'finalizado')
+				  					{		
+				  						$color="active";
+			  				 	?> 
+
+				  				 	<tbody> 
+								      	<tr class=<?php echo $color ?>>
+									        <td><?php echo $pedido->id ?></td>
+									        <td><?php echo $pedido->nombre ?></td>
+									        <td><?php echo $pedido->apellido ?></td>
+									        <td><?php echo $pedido->direccionInicial ?></td>
+									        <td><?php echo $pedido->direccionFinal ?></td>
+									        <td><?php echo $pedido->telefono ?></td>
+									        <td><?php echo $pedido->RefChoferTaxista ?></td>
+									        <td><?php echo $nombreTaxista ?></td>
+								        	<td><?php echo $apellidoTaxista ?></td>
+									        <td><?php echo $pedido->estado ?></td>
+									        <td><?php echo $pedido->duracion ?></td>
+									        <td><?php echo $pedido->hora ?></td>
+								      	</tr>
+								    </tbody>
+
+								<?php } ?>
+							<?php } ?>
+				    	<?php endforeach; ?>
+				  	</table>
+				  </div>
 			</div>
 		</div>
+
+</form>
+
+<!-- Display the countdown timer in an element -->
+	<p id="demo"></p>
+
+	<script type="text/javascript">
+		var segundos = 0;
+		var minutos = 0;
+		var horas = 0;
+
+		var id=109;
+		var confirma = "false";
 		
-		
-		<div class="wrapper">
-			<h2>Historial de pedidos durante el día</h2>
-			<div id="divtabla" class="wrapper">
-			  	<table class="table">
-			    	<thead>
-				      	<tr>
-					        <th>#</th>
-					        <th>Nombre Cliente</th>
-					        <th>Apellido Cliente</th>
-					        <th>Dirección Inicial</th>
-					        <th>Dirección Destino</th>
-					        <th>Teléfono</th>
-					        <th>Rut Taxista</th>
-					        <th>Nombre Taxista</th>
-					        <th>Apellido Taxista</th>
-					        <th>Estado</th>
-					        <th>Tiempo Transcurrido</th>
-					        <th>Hora Pedido</th>
-				     	</tr>
-				    </thead>
-				   
-				   <?php foreach ($registros as $pedido):?> 
+	</script>
 
-
-				   		<?php 
-
-				    	  $rutTaxista = $pedido->RefChoferTaxista;
-
-						  $RegistroTaxista=$base->query("select * from taxista where rut='$rutTaxista'")->fetchAll(PDO::FETCH_OBJ);
-
-						  $nombreTaxista = $RegistroTaxista[0]->nombre;
-
-						  $apellidoTaxista = $RegistroTaxista[0]->apPaterno;
-
-						?> 
-
-
-						<?php if( $pedido->fecha == $fechaActual)
-			  					{		
-			  						//echo $fechaActual;
-		  				 	?>  
-
-		  					<?php if( $pedido->estado == 'finalizado')
-			  					{		
-			  						$color="active";
-		  				 	?> 
-
-			  				 	<tbody> 
-							      	<tr class=<?php echo $color ?>>
-								        <td><?php echo $pedido->id ?></td>
-								        <td><?php echo $pedido->nombre ?></td>
-								        <td><?php echo $pedido->apellido ?></td>
-								        <td><?php echo $pedido->direccionInicial ?></td>
-								        <td><?php echo $pedido->direccionFinal ?></td>
-								        <td><?php echo $pedido->telefono ?></td>
-								        <td><?php echo $pedido->RefChoferTaxista ?></td>
-								        <td><?php echo $nombreTaxista ?></td>
-							        	<td><?php echo $apellidoTaxista ?></td>
-								        <td><?php echo $pedido->estado ?></td>
-								        <td><?php echo $pedido->duracion ?></td>
-								        <td><?php echo $pedido->hora ?></td>
-							      	</tr>
-							    </tbody>
-
-							<?php } ?>
-						<?php } ?>
-			    	<?php endforeach; ?>
-			  	</table>
-			  </div>
-		</div>
-		
-	</div>
 	
-	<!--este laven hace el espacio entre el contenido anterior y el footer-->
-	<label></label>
+
+	<script>
+		// Set the date we're counting down to
+		var countDownDate = new Date("Sep 5, 2018 15:37:25").getTime();
+
+		// Update the count down every 1 second
+		var x = setInterval(function() {
+
+			 segundos++;
+
+			 if(segundos == 60)
+			 {
+			 	segundos = 0;
+			 	minutos++;
+			 }
+
+			 if(minutos == 60)
+			 {
+			 	minutos = 0;
+			 	horas++;
+			 }
+
+			 if(horas == 24)
+			 {
+			 	horas=0;
+			 }
+
+			 //document.getElementById("demo").innerHTML = horas + ":" + minutos + ":" + segundos;
+
+			$.post("EditarTiempoTranscurrido.php",function (respuesta) {
+
+			});
+
+		}, 1000);
+
+
+	</script>
+
+
+	<?php  
+			$registroPedidos=$base->query("select * from pedido")->fetchAll(PDO::FETCH_OBJ);
+
+			foreach ($registroPedidos as $pedido):
+
+				$id=$pedido->id;
+
+				$estado=$pedido->estado;
+
+				$fechaPedido = $pedido->fecha;
+
+				$tiempoEstimado = $pedido->tiempoEstimado;
+
+				$refTaxista = $pedido->RefChoferTaxista;
+
+				$nombrePasajero =  $pedido->nombre;
+
+				$apellidoPasajero =  $pedido->apellido;
+
+				$tiempoEsperaComienzo = $pedido->tiempoEsperaComienzo;
+
+				
+
+				if(($estado=="esperando" || $estado=="viajando") && ($fechaPedido==$fechaActual))
+	            {
+					$registroTiempoTranscurrido=$base->query("select * from pedidotiempotranscurrido where RefPedido='$id'")->fetchAll(PDO::FETCH_OBJ);
+
+					$tiempoTranscurrido=$registroTiempoTranscurrido[0]->TiempoTranscurrido;
+
+					$tiempoAgotado=$registroTiempoTranscurrido[0]->tiempoAgotado;
+
+					$hora1 = strtotime( $tiempoTranscurrido );
+					$hora2 = strtotime( $tiempoEstimado );
+
+					$hora3 = strtotime( $tiempoEsperaComienzo );
+
+					/*echo "<script>
+
+						alert('$hora1');
+
+						</script>";
+
+						echo "<script>
+
+						alert('$hora2');
+
+						</script>";
+
+						echo "<script>
+
+						alert('$tiempoAgotado');
+
+						</script>";*/
+					
+
+					if($hora1>=$hora3 && $tiempoAgotado==0)
+					{
+						$registroTaxista=$base->query("select * from taxista where rut='$refTaxista'")->fetchAll(PDO::FETCH_OBJ);
+
+						$nombreTaxista = $registroTaxista[0]->nombre;
+
+						$apellidoTaxista = $registroTaxista[0]->apPaterno;
+
+
+						
+						echo "<script>
+							if (confirm('¿Confirma llegada del taxista $nombreTaxista $apellidoTaxista donde pasajero $nombrePasajero $apellidoPasajero ?')) 
+							{ 
+									alert('Taxista comenzo recorrido');
+							    	location.href='EditarTiempoAgotado.php?idPedido=$id & terminar=2';
+								    ////aqui quede, falta que el taxista quede disponible y el pedido finalizado////
+
+							}
+							else 
+							{
+							    alert('Taxista no ha comenzado recorrido');
+							    location.href='EditarTiempoAgotado.php?idPedido=$id & terminar=3';
+							}  
+							</script>";
+					}
+					if( ($hora1>=$hora2) && $tiempoAgotado==2)
+					{
+						$registroTaxista=$base->query("select * from taxista where rut='$refTaxista'")->fetchAll(PDO::FETCH_OBJ);
+
+						$nombreTaxista = $registroTaxista[0]->nombre;
+
+						$apellidoTaxista = $registroTaxista[0]->apPaterno;
+
+						
+
+						
+						echo "<script>
+							if (confirm('¿Confirma termino del recorrido del taxista $nombreTaxista $apellidoTaxista ?')) 
+							{ 
+									alert('Taxista termino recorrido');
+							    	location.href='EditarTiempoAgotado.php?idPedido=$id & terminar=1';
+								    ////aqui quede, falta que el taxista quede disponible y el pedido finalizado////
+
+							} 
+							else 
+							{
+							    alert('Taxista no ha terminado recorrido');
+							    location.href='EditarTiempoAgotado.php?idPedido=$id & terminar=0';
+							} 
+
+							</script>";
+
+					}
+
+	            }
+
+			endforeach;					
+
+	?>
+
 </body>
 </html>
