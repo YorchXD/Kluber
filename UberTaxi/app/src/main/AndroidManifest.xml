@@ -29,7 +29,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
         <activity
             android:name=".Registro"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -48,9 +48,6 @@
         <activity
             android:name=".Home"
             android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Recorrido"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
