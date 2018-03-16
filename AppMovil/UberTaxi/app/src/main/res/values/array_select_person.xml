@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="opciones">
-        <item>Seleccione una opción</item>
-        <item>Yo</item>
-        <item>Otra persona</item>
-    </string-array>
-
-</resources>
