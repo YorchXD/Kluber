@@ -119,7 +119,10 @@
 			    	<optgroup label="Escoja patente del taxi">
 
 		    		<?php foreach ($registros as $taxi):?>
-						<option  value=<?php echo $taxi->patente?>><?php echo $taxi->patente?></option>
+		    			<?php if($taxi->patente!="1") 
+    					{?>
+							<option  value=<?php echo $taxi->patente?>><?php echo $taxi->patente?></option>
+						<?php  } ?>
 					<?php endforeach; ?>
 				</select> 
 

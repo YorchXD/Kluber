@@ -256,6 +256,11 @@ nav ul li a .colorSolicitarTaxi
   background: #e4da07;
 }
 
+nav ul li a .colorEditarPrecio
+{
+  background: #5b1c77;
+}
+
 /*colores del submenu*/
 nav ul li ul .submenuTaxi
 {

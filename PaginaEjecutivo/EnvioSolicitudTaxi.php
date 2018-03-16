@@ -2,7 +2,7 @@
 
     include("conexion.php");
 
-	$nombre = $_POST["nombre"];
+    $nombre = $_POST["nombre"];
     $apellido = $_POST["apellido"];
     $telefono = $_POST["telefono"];
     $origen = $_POST["direccionOrigen"];
@@ -20,31 +20,40 @@
     $costo=$_POST["costo"];
     $segundosEstimados=$_POST["segundosEstimados"];
 
+    if (isset($_GET['id']) && !empty($_GET['id'])) 
+    {
+        
+        $numeroPedido = $_POST["idPedido"];
 
+        $registroPedido=$base->query("select * from pedido where id='$numeroPedido'")->fetchAll(PDO::FETCH_OBJ);
 
-    $registrosDisponibilidad=$base->query("select * from disponibilidadchoferes")->fetchAll(PDO::FETCH_OBJ);
+        $taxistaAnterior = $registroPedido[0]->RefChoferTaxista;
 
-    $registroTaxista=$base->query("select * from taxista where correo='$correoTaxista'")->fetchAll(PDO::FETCH_OBJ);
+        $registroTaxista=$base->query("select * from taxista where correo='$correoTaxista'")->fetchAll(PDO::FETCH_OBJ);
 
-    $taxista = $registroTaxista[0]->rut;
+        $taxistaNuevo = $registroTaxista[0]->rut;
 
-    /*$tiempoDisponible1="00:00:00";
+        $sql="update pedido set nombre=:nomCli, apellido=:apell, direccionInicial=:dirIni, direccionFinal=:dirDes, telefono=:tel, latitudInicial=:latIn, longitudInicial=:lonIn, latitudFinal=:latFin, longitudFinal=:lonFin, RefChoferTaxista=:taxista, distanciaEstimada=:dist, tiempoEstimado=:tiem, costoEstimado=:cost, segundosEstimados=:seg where id=:numPed";
 
-    foreach ($registrosDisponibilidad as $disponibilidad):
-        if($disponibilidad->estado=="disponible")
-        {
-            $tiempoDisponible2=$disponibilidad->tiempoDisponible;
+        $resultado = $base->prepare($sql);
 
-            if($tiempoDisponible2>=$tiempoDisponible1)
-            {
-                $taxista = $disponibilidad->RefTaxista;
-                $tiempoDisponible1=$tiempoDisponible2;
-            }
-        }
-    endforeach;*/
+        $resultado->execute(array(":numPed"=>$numeroPedido, ":nomCli"=>$nombreCliente, ":apell"=>$apellidoCliente,":dirIni"=>$direccionInicial, ":dirDes"=>$direccionDestino, ":tel"=>$telefono, ":latIn"=>$latitudInicial, ":lonIn"=>$longitudInicial, ":latFin"=>$latitudFinal, ":lonFin"=>$longitudFinal, ":taxista"=>$taxistaNuevo, ":dist"=>$distancia, ":tiem"=>$tiempo, ":cost"=>$costo, ":seg"=>$segundosEstimados));
 
-    //if($taxista!="")
-    //{
+        $base->query("update disponibilidadchoferes set estado='disponible' where RefTaxista='$taxistaAnterior'");
+
+        $base->query("update disponibilidadchoferes set estado='ocupado' where RefTaxista='$taxistaNuevo'");
+
+        header("Location:EnvioPedidoTiempoTranscurrido.php?id=$numeroPedido");
+
+        echo "$numeroPedido";
+    }
+    else
+    {
+        $registrosDisponibilidad=$base->query("select * from disponibilidadchoferes")->fetchAll(PDO::FETCH_OBJ);
+
+        $registroTaxista=$base->query("select * from taxista where correo='$correoTaxista'")->fetchAll(PDO::FETCH_OBJ);
+
+        $taxista = $registroTaxista[0]->rut;
 
         $TiempoComienzo="00:10:00";
         $segundosComienzo=600;
@@ -58,20 +67,9 @@
 
         $base->query("update disponibilidadchoferes set estado='ocupado', tiempoDisponible='00:00:00' where RefTaxista='$taxista'");
 
-
-        //echo "La solicitud fue hecha exitosamente";
-
-        //return true;
-
         echo "true";
+    }
 
-    /*}
-    else
-    {
-        //return false;
-        //echo "No se pude enviar solicitud por que no hay taxista disponible";
-        echo "false";
-    }*/
-
+	
 
 ?>

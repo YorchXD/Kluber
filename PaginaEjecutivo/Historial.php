@@ -137,9 +137,11 @@
 	    </script>
 	    
 	    <!-- BOTON PARA BUSCAR LOS DATOS -->
-		<div class="botones">
-			<button name="botonMostrar" id="botonMostrar" type="submit" class="btn btn-warning">Mostrar</button>
-		</div>
+
+		<center>
+			<button name="botonMostrar" type="submit" class="btn btn-warning">Mostrar</button>
+		</center>
+
 
 		<!-- TABLA HISTORIAL DEL PEDIDO DURANTE EL DIA -->
 		<div class="wrapper">
@@ -239,13 +241,19 @@
 				  	</table>
 			  	</div>				
 			</div>
+			
+			<!-- Separador-->
+			<label></label>
 
 			<!-- BOTON PARA PASAR A EXCEL LA TABLA CON LA INFORMACION -->
-			<div class="botones">
-				<button name="botonExcel" id="botonExcel" type="submit" class="btn btn-warning">Excel</button>
-			</div>
+			<center>
+				<button name="botonExcel" type="submit" class="btn btn-warning">Excel</button>
+			</center>
 
 		</div>
+		
+		<!-- Separador-->
+		<label></label>
 
 		<input  type="hidden" class="form-control" name='Fecha1' value="<?php echo $fechaDesde ?>">
 

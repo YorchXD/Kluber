@@ -174,7 +174,10 @@
 			    	<optgroup label="Escoja correo">
 
 		    		<?php foreach ($RegistroTaxista as $taxista):?>
-						<option  value=<?php echo $taxista->correo?>><?php echo $taxista->correo?></option>
+		    			<?php if($taxista->correo!="1") 
+    					{?>
+							<option  value=<?php echo $taxista->correo?>><?php echo $taxista->correo?></option>
+						<?php  } ?>
 					<?php endforeach; ?>
 				</select> 
 
@@ -253,6 +256,8 @@
 			</center>
 		</form>
 	  </div>
+	  <!-- Separador-->
+		<label></label>
 	  
 </body>
 </html>

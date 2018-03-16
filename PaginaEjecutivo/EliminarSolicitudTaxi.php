@@ -160,18 +160,20 @@
 
 	  			<!-- ComboBox para seleccionar pedido y buscarlo -->
 			    <div class="registroTaxitaForm"> 
+					<center>
+						<select class="registroTaxitaForm" name="comboboxPedidos">
+					    	<optgroup label="Escoja id del pedido">
+					    		<option  value=<Escoja>Escoja id</option>
 
-				    <select class="registroTaxitaForm" name="comboboxPedidos">
-				    	<optgroup label="Escoja id del pedido">
-				    		<option  value=<Escoja>Escoja id</option>
-
-				    		<?php foreach ($RegistroPedido as $pedidos):?>
-				    			<?php if(($pedidos->fecha == $fechaActual) && ($pedidos->estado == "esperando")) 
-				    			{?>
-									<option  value=<?php echo $pedidos->id?>><?php echo $pedidos->id?></option>
-								<?php } ?>
-							<?php endforeach; ?>
-					</select> 
+					    		<?php foreach ($RegistroPedido as $pedidos):?>
+					    			<?php if(($pedidos->fecha == $fechaActual) && ($pedidos->estado == "esperando")) 
+					    			{?>
+										<option  value=<?php echo $pedidos->id?>><?php echo $pedidos->id?></option>
+									<?php } ?>
+								<?php endforeach; ?>
+						</select> 
+					</center>
+				    
 
 				</div>
 
@@ -225,6 +227,9 @@
 				</center>
 			 </form>	
 	</div>
+
+	<!-- Separador-->
+	<label></label>
 
 </body>
 </html>

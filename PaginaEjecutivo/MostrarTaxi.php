@@ -46,6 +46,8 @@
 
 						<?php foreach ($registros as $taxi):?> 
 
+							<?php if($taxi->patente!="1") 
+    						{?>
 							    <tbody>      
 							      	<tr class="success">
 								        <td><?php echo $taxi->patente ?></td>
@@ -55,7 +57,7 @@
 								        <td><?php echo $taxi->anio ?></td>
 							      	</tr>
 							    </tbody>
-
+							<?php } ?>
 					    <?php endforeach; ?>
 
 		    		</table>

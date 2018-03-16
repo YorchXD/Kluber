@@ -15,6 +15,15 @@ var tiempoLlegadaTaxi = 600;
 var costoInicial = 0;
 var costoMetro = 0;
 
+var latOrigen= '';
+var lngOrigen= '';
+var latDestino= '';
+var lngDestino= '';
+
+var idValue="-1"; 
+var direccionOrigen;
+var direccionDestino;
+var distanciaValue;
 
 
 
@@ -77,6 +86,8 @@ google.maps.event.addDomListener(window, "load", function(){
 				}
 
 				origenValue = place.geometry.location;
+				latOrigen= ''+origenValue.lat();
+				lngOrigen= ''+origenValue.lng();
 				marcadorInicio.setPosition(place.geometry.location);
 				marcadorInicio.setVisible(true);
 
@@ -131,6 +142,9 @@ google.maps.event.addDomListener(window, "load", function(){
 				}
 
 				destinoValue = place.geometry.location;
+				latDestino= ''+destinoValue.lat();
+				lngDestino= ''+destinoValue.lng();
+
 				marcadorDestino.setPosition(place.geometry.location);
 				marcadorDestino.setVisible(true);
 
@@ -320,40 +334,78 @@ function mostrarAlerta2()
 		apellidoValue = document.getElementById('Apellido').value;
 		telefonoValue = document.getElementById('Telefono').value;
 
-		var latOrigen= ''+origenValue.lat();
-		var lngOrigen= ''+origenValue.lng();
-		var latDestino= ''+destinoValue.lat();
-		var lngDestino= ''+destinoValue.lng();
-
-		var direccionOrigen= document.getElementById('autocompleteInicio').value;
-		var direccionDestino= document.getElementById('autocompleteDestino').value;
+		direccionOrigen= document.getElementById('autocompleteInicio').value;
+		direccionDestino= document.getElementById('autocompleteDestino').value;
 
 	    var taxista= document.getElementById('comboboxTaxista').value;
-	
-	
-		if (confirm("¿Seguro que desean enviar la solicitud?")) {
-		    $.post("EnvioSolicitudTaxi.php",{nombre: nombreValue, apellido: apellidoValue, 
-		    	telefono: telefonoValue,fecha: fechaValue, 
-		    	hora: horaValue, latOrigen: latOrigen, lngOrigen: lngOrigen, 
-		    	latDestino: latDestino, lngDestino: lngDestino, direccionOrigen: direccionOrigen, 
-		    	direccionDestino: direccionDestino, taxista:taxista, distancia:distanciaValue, tiempo:tiempoString,
-		    	costo:calculaCosto, segundosEstimados:tiempoInt }, validarEnvio);
-		    alert("verificando datos...");
-
-		    if(validar)
-		    {
-		    	return true;
-		    }
-		    else
-		    {
-		    	return false;
-		    }
-
-		} 
-		else 
+		alert("idValue: " + idValue);
+		if(taxista!="Correo")
 		{
-		    alert("Error, los datos no fueron enviados");
-		    return false;
+			if (idValue=="-1") 
+			{
+				if (confirm("¿Seguro que desean enviar la solicitud?")) 
+				{
+				    $.post("EnvioSolicitudTaxi.php",{nombre: nombreValue, apellido: apellidoValue, 
+				    	telefono: telefonoValue,fecha: fechaValue, 
+				    	hora: horaValue, latOrigen: latOrigen, lngOrigen: lngOrigen, 
+				    	latDestino: latDestino, lngDestino: lngDestino, direccionOrigen: direccionOrigen, 
+				    	direccionDestino: direccionDestino, taxista:taxista, distancia:distanciaValue, tiempo:tiempoString,
+				    	costo:calculaCosto, segundosEstimados:tiempoInt }, validarEnvio);
+				    alert("verificando datos...");
+
+				    if(validar)
+				    {
+				    	return true;
+				    }
+				    else
+				    {
+				    	return false;
+				    }
+
+				} 
+				else 
+				{
+				    alert("Error, los datos no fueron enviados");
+				    return false;
+				}
+
+			}
+			else
+			{
+				if (confirm("¿Seguro que desean enviar la solicitud?")) 
+				{
+
+
+				    $.post("EnvioSolicitudTaxiEditar.php",{idPedido: idValue,nombre: nombreValue, apellido: apellidoValue, 
+				    	telefono: telefonoValue, fecha: fechaValue, hora: horaValue, 
+				    	latOrigen: latOrigen, lngOrigen: lngOrigen, latDestino: latDestino, lngDestino: lngDestino, 
+				    	direccionOrigen: direccionOrigen, direccionDestino: direccionDestino, taxista:taxista, 
+				    	distancia:distanciaValue, tiempo:tiempoString, costo:calculaCosto, segundosEstimados:tiempoInt }, validarEnvio2);
+				    	//location.href='EnvioPedidoTiempoTranscurrido.php?id=idValue';
+				    alert("verificando datos... movil");
+
+				    if(validar)
+				    {
+				    	return true;
+				    }
+				    else
+				    {
+				    	return false;
+				    }
+
+				} 
+				else 
+				{
+				    alert("Error, los datos no fueron enviados");
+				    return false;
+				}
+			}
+			
+		}
+		else
+		{
+			alert("Seleccione correo taxista valido");
+			return false;
 		}
 	}
 	else
@@ -380,6 +432,13 @@ function validarEnvio(respuesta){
 
 }
 
+function validarEnvio2(respuesta)
+{			
+	alert("La modificación de la solicitud fue hecha exitosamente");
+
+	validar = true;
+}
+
 function devuelvePrecio() 
 {
     $.post("consultaPrecioInicial.php",{numer:1},function( respuesta)//costo Inicial
@@ -394,6 +453,33 @@ function devuelvePrecio()
 		//alert("costoMetro: "+costoMetro);
 	});
 }
+
+function mostrarDatos2(numeroPedido, nombreCliente, apellidoCliente, direccionInicial, direccionDestino, telefono, latitudInicial, longitudInicial, latitudFinal, longitudFinal, tiempoEst, segundosEst, distanciaEst, costoEst, fecha, hora)
+{
+
+	idValue = numeroPedido;
+	nombreValue = nombreCliente;
+	apellidoValue = apellidoCliente;
+	telefonoValue = telefono;
+	fechaValue = fecha;
+	horaValue = hora;
+	latOrigen=latitudInicial;
+	lngOrigen=longitudInicial;
+	latDestino=latitudFinal;
+	lngDestino=longitudFinal
+	direccionOrigen=direccionInicial;
+	direccionDestino=direccionDestino;
+	distanciaValue = distanciaEst;
+	tiempoString = tiempoEst;
+	calculaCosto = costoEst
+	tiempoInt = segundosEst;
+}
+
+function mostrarDatosMapa()
+{
+
+}
+
 
 
 

@@ -20,11 +20,12 @@
     $telefono = $_POST["telefono"];
     $tiempoEsperaComienzo = "00:10:00"; 
     $segundosEsperaComienzo = 600;
+    $refTaxista ="1";
 
 
     /*Inserta los datos*/
-    $statement = mysqli_prepare($con, "INSERT INTO pedido (nombre, apellido, fecha, hora, direccionInicial, direccionFinal, latitudInicial, longitudInicial, latitudFinal, longitudFinal, distanciaEstimada, tiempoEstimado, segundosEstimados, costoEstimado, estado, telefono, tiempoEsperaComienzo, segundosEsperaComienzo ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    mysqli_stmt_bind_param($statement, "ssssssssssssssssss", $nombre, $apellido, $fecha, $hora, $lugarInicio, $lugarDestino, $latitudInicio, $longitudInicio, $latitudDestino, $longitudDestino, $distanciaEstimada, $tiempoEstimado, $segundosEstimados , $costoEstimado, $estado, $telefono, $tiempoEsperaComienzo, $segundosEsperaComienzo);
+    $statement = mysqli_prepare($con, "INSERT INTO pedido (nombre, apellido, fecha, hora, direccionInicial, direccionFinal, latitudInicial, longitudInicial, latitudFinal, longitudFinal, distanciaEstimada, tiempoEstimado, segundosEstimados, costoEstimado, estado, telefono, tiempoEsperaComienzo, segundosEsperaComienzo , RefChpferTaxista ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?)");
+    mysqli_stmt_bind_param($statement, "sssssssssssssssssss", $nombre, $apellido, $fecha, $hora, $lugarInicio, $lugarDestino, $latitudInicio, $longitudInicio, $latitudDestino, $longitudDestino, $distanciaEstimada, $tiempoEstimado, $segundosEstimados , $costoEstimado, $estado, $telefono, $tiempoEsperaComienzo, $segundosEsperaComienzo, $refTaxista);
     mysqli_stmt_execute($statement);
 
     $response = array();

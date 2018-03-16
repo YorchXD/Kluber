@@ -67,16 +67,21 @@ body
   overflow: hidden;
 }
 
-#botonSolicitar
+.btn
 {
-  border: none;
-  outline: none;
-  height: 40px;
-  font-size: 16px;
-  background: rgba(214, 124, 0, 0.9);
-  color: #fff;
-  cursor: pointer;
+  background-color: #FEBC1D;
+  border-radius: 6px;
+  border: 2px solid #FEBC1D;
+  *display: inline;
+  display: inline-block;
+  
 }
+
+.separador
+{
+  margin: 10px;
+}
+
 
 .formulario
 {

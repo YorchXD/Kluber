@@ -47,6 +47,13 @@
 	                  
 	</script>
 
+	<script type="text/javascript">
+		function mostrarDatos(numeroPedido, nombreCliente , apellidoCliente ,direccionInicial, direccionDestino, telefono, latitudInicial, longitudInicial, latitudFinal, longitudFinal,tiempoEst, segundosEst, distanciaEst, costoEst, fecha, hora)		{
+			//alert("direccion inicicial: " + direccionInicial);
+			mostrarDatos2(numeroPedido, nombreCliente, apellidoCliente, direccionInicial, direccionDestino, telefono, latitudInicial, longitudInicial, latitudFinal, longitudFinal, tiempoEst, segundosEst, distanciaEst, costoEst, fecha, hora);
+		}
+	</script>
+
 </head>
 <body>
 
@@ -58,7 +65,82 @@
 
 		$RegistroTaxista=$base->query("select * from taxista inner join disponibilidadchoferes on taxista.rut = disponibilidadchoferes.RefTaxista where disponibilidadchoferes.estado='disponible'")->fetchAll(PDO::FETCH_OBJ); //consulta para obtener los datos del taxista que este disponible
 
+
+
+		$editar = 0;
+
+		if (isset($_GET['id']) && !empty($_GET['id'])) 
+		{
+		  	// assign value to local variable
+			
+
+
+		  	$numeroPedido = $_GET['id'];
+		  	$nombreCliente =  $_GET["nombreCliente"];
+			$apellidoCliente =  $_GET["apellidoCliente"];
+			$direccionInicial =  $_GET["direccionInicial"];
+			$direccionDestino =  $_GET["direccionDestino"];
+			$telefono =  $_GET["telefono"];
+			$latitudInicial = $_GET["latitudInicial"];
+			$longitudInicial = $_GET["longitudInicial"];
+			$latitudFinal = $_GET["latitudFinal"];
+			$longitudFinal = $_GET["longitudFinal"];
+
+			$tiempoEst = $_GET["tiempo"];
+			$segundosEst = $_GET["segundos"];
+			$distanciaEst = $_GET["distancia"];
+			$costoEst = $_GET["costo"];
+			$fecha = $_GET["fecha"];
+			$hora = $_GET["hora"];
+
+			$editar = 1;
+
+
+		} 
+		else 
+		{
+
+		  	$numeroPedido = "Numero Pedido";
+		  	$nombreCliente = "Nombre Cliente";
+			$apellidoCliente = "Apellido Cliente";
+			$direccionInicial = "Dirección Inicial";
+			$direccionDestino = "Dirección Destino";
+			$nombreTaxista = "Nombre Taxista";
+			$apellidoTaxista = "Apellido Taxista";
+			$estado = "Estado";
+			$telefono = "Teléfono";
+
+		}
+
+
 	?>
+
+	<script type="text/javascript">
+	 	if('<?php echo $editar; ?>'==1)
+	 	{
+
+			var numeroPedido = '<?php echo $numeroPedido; ?>';
+			var nombreCliente = '<?php echo $nombreCliente; ?>';
+			var apellidoCliente = '<?php echo $apellidoCliente; ?>';
+			var direccionInicial = '<?php echo $direccionInicial; ?>';
+			var direccionDestino = '<?php echo $direccionDestino; ?>';
+			var telefono = '<?php echo $telefono; ?>';
+			var latitudInicial = '<?php echo $latitudInicial; ?>';
+			var longitudInicial = '<?php echo $longitudInicial; ?>';
+			var latitudFinal = '<?php echo $latitudFinal; ?>';
+			var longitudFinal = '<?php echo $longitudFinal; ?>';
+			var tiempoEst = '<?php echo $tiempoEst; ?>';
+			var segundosEst = '<?php echo $segundosEst; ?>';
+			var distanciaEst = '<?php echo $distanciaEst; ?>';
+			var costoEst = '<?php echo $costoEst; ?>';
+			var fecha = '<?php echo $fecha; ?>';
+			var hora = '<?php echo $hora; ?>';
+
+			mostrarDatos(numeroPedido, nombreCliente , apellidoCliente ,direccionInicial, direccionDestino, telefono, latitudInicial, longitudInicial,
+				latitudFinal, longitudFinal,tiempoEst, segundosEst, distanciaEst, costoEst, fecha, hora);
+		}
+		
+	</script>
 
 	<div class="wrapper">
 		<center>
@@ -69,23 +151,23 @@
 				<form action="Principal.php" onsubmit="return mostrarAlerta()">
 				
 				    <div class="solicitud">
-					    <input type="Nombre" class="form-control" id="Nombre" placeholder="Nombre" name="Nombre">
+					    <input type="Nombre" class="form-control" id="Nombre" placeholder="Nombre" name="Nombre" value="<?php echo $nombreCliente?>">
 				    </div>
 				
 				    <div class="solicitud">         
-				        <input type="ApellidoPaterno" class="form-control" id="Apellido" placeholder="Apellido Paterno" name="ApellidoPaterno">
+				        <input type="ApellidoPaterno" class="form-control" id="Apellido" placeholder="Apellido Paterno" name="ApellidoPaterno" value="<?php echo $apellidoCliente?>">
 				    </div>
 				
 				    <div class="solicitud">         
-				        <input type="Telefono" class="form-control" id="Telefono" placeholder="Teléfono" name="Telefono">
+				        <input type="Telefono" class="form-control" id="Telefono" placeholder="Teléfono" name="Telefono" value="<?php echo $telefono?>">
 				    </div>
 				
 				    <div class="solicitud">         
-				    	<input type="text" class="form-control" id="autocompleteInicio" placeholder="Origen" name="Origen">
+				    	<input type="text" class="form-control" id="autocompleteInicio" placeholder="Origen" name="Origen" value="<?php echo $direccionInicial?>">
 				    </div>
 				
 				    <div class="solicitud">
-				    	<input type="text" class="form-control" id="autocompleteDestino" placeholder="Destino" name="Destino">
+				    	<input type="text" class="form-control" id="autocompleteDestino" placeholder="Destino" name="Destino" value="<?php echo $direccionDestino?>">
 				    </div>
 
 				    <!-- Combobox para seleccionar al taxista que va a hacer el recorrido de la solicitud -->
@@ -93,13 +175,17 @@
 
 					    <select class="registroTaxistaForm" name="comboboxTaxista" id="comboboxTaxista">
 					    	<optgroup label="Escoja correo del taxista">
+				    		<option  value="Correo">Correo</option>
 				    		<?php foreach ($RegistroTaxista as $taxista):?>
 								<option  value=<?php echo $taxista->correo?>><?php echo $taxista->correo?></option>
 							<?php endforeach; ?>
 						</select> 
 
 					</div>
-				
+					
+					<!-- Separador-->
+					<label></label>
+					
 					<center>
 						<button id="botonSolicitar" type="submit" class="btn btn-warning" >Enviar solicitud</button>
 					</center>

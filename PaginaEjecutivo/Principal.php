@@ -212,11 +212,55 @@
 
 					$id=$registrosPedidos[$num]->id;
 
+					$taxistaRut=$registrosPedidos[$num]->RefChoferTaxista;
+
+					$nombreCliente = $registrosPedidos[$num]->nombre;
+
+					$apellidoCliente = $registrosPedidos[$num]->apellido;
+
+					$direccionInicial = $registrosPedidos[$num]->direccionInicial;
+
+					$direccionDestino = $registrosPedidos[$num]->direccionFinal;
+
+					$telefono = $registrosPedidos[$num]->telefono;
+
+					$latitudInicial = $registrosPedidos[$num]->latitudInicial;
+
+					$longitudInicial = $registrosPedidos[$num]->longitudInicial;
+
+					$latitudFinal = $registrosPedidos[$num]->latitudFinal;
+
+					$longitudFinal = $registrosPedidos[$num]->longitudFinal;
+
+					$tiempo = $registrosPedidos[$num]->tiempoEstimado;
+
+					$segundos = $registrosPedidos[$num]->segundosEstimados;
+
+					$distancia = $registrosPedidos[$num]->distanciaEstimada;
+
+					$costo = $registrosPedidos[$num]->costoEstimado;
+
+					$fecha = $registrosPedidos[$num]->fecha;
+
+					$hora = $registrosPedidos[$num]->hora;
+
+
 
 					echo "<script>
-			            alert('Hay nuevo pedido de taxi');
 
-			                location.href='EnvioPedidoTiempoTranscurrido.php?id=$id';
+			            	if($taxistaRut=='1')
+			            	{
+			            		alert('latitud inicial: $latitudInicial longitud inicial: $longitudInicial latitud final: $latitudFinal longitud final: $longitudFinal tiempo: $tiempo segundos: $segundos distancia: $distancia costo: $costo');
+			            		alert('Hay nuevo pedido de taxi desde usuario ingrese taxista ');
+								location.href='SolicitarTaxi.php?id=$id & nombreCliente=$nombreCliente & apellidoCliente=$apellidoCliente & direccionInicial=$direccionInicial & direccionDestino=$direccionDestino & telefono=$telefono & latitudInicial=$latitudInicial & longitudInicial=$longitudInicial & latitudFinal=$latitudFinal & longitudFinal=$longitudFinal & tiempo=$tiempo & segundos=$segundos & distancia=$distancia & costo=$costo & fecha=$fecha & hora=$hora';
+			            	}
+							else
+							{
+								alert('Hay nuevo pedido de taxi');
+								location.href='EnvioPedidoTiempoTranscurrido.php?id=$id';
+			                	
+			                }
+
 					</script>";						
 
 			        //$id='89';
@@ -391,173 +435,7 @@
 
 </form>
 
-<!-- Display the countdown timer in an element -->
-	<p id="demo"></p>
 
-	<script type="text/javascript">
-		var segundos = 0;
-		var minutos = 0;
-		var horas = 0;
-
-		var id=109;
-		var confirma = "false";
-		
-	</script>
-
-	
-
-	<script>
-		// Set the date we're counting down to
-		var countDownDate = new Date("Sep 5, 2018 15:37:25").getTime();
-
-		// Update the count down every 1 second
-		var x = setInterval(function() {
-
-			 segundos++;
-
-			 if(segundos == 60)
-			 {
-			 	segundos = 0;
-			 	minutos++;
-			 }
-
-			 if(minutos == 60)
-			 {
-			 	minutos = 0;
-			 	horas++;
-			 }
-
-			 if(horas == 24)
-			 {
-			 	horas=0;
-			 }
-
-			 //document.getElementById("demo").innerHTML = horas + ":" + minutos + ":" + segundos;
-
-			$.post("EditarTiempoTranscurrido.php",function (respuesta) {
-
-			});
-
-		}, 1000);
-
-
-	</script>
-
-
-	<?php  
-			$registroPedidos=$base->query("select * from pedido")->fetchAll(PDO::FETCH_OBJ);
-
-			foreach ($registroPedidos as $pedido):
-
-				$id=$pedido->id;
-
-				$estado=$pedido->estado;
-
-				$fechaPedido = $pedido->fecha;
-
-				$tiempoEstimado = $pedido->tiempoEstimado;
-
-				$refTaxista = $pedido->RefChoferTaxista;
-
-				$nombrePasajero =  $pedido->nombre;
-
-				$apellidoPasajero =  $pedido->apellido;
-
-				$tiempoEsperaComienzo = $pedido->tiempoEsperaComienzo;
-
-				
-
-				if(($estado=="esperando" || $estado=="viajando") && ($fechaPedido==$fechaActual))
-	            {
-					$registroTiempoTranscurrido=$base->query("select * from pedidotiempotranscurrido where RefPedido='$id'")->fetchAll(PDO::FETCH_OBJ);
-
-					$tiempoTranscurrido=$registroTiempoTranscurrido[0]->TiempoTranscurrido;
-
-					$tiempoAgotado=$registroTiempoTranscurrido[0]->tiempoAgotado;
-
-					$hora1 = strtotime( $tiempoTranscurrido );
-					$hora2 = strtotime( $tiempoEstimado );
-
-					$hora3 = strtotime( $tiempoEsperaComienzo );
-
-					/*echo "<script>
-
-						alert('$hora1');
-
-						</script>";
-
-						echo "<script>
-
-						alert('$hora2');
-
-						</script>";
-
-						echo "<script>
-
-						alert('$tiempoAgotado');
-
-						</script>";*/
-					
-
-					if($hora1>=$hora3 && $tiempoAgotado==0)
-					{
-						$registroTaxista=$base->query("select * from taxista where rut='$refTaxista'")->fetchAll(PDO::FETCH_OBJ);
-
-						$nombreTaxista = $registroTaxista[0]->nombre;
-
-						$apellidoTaxista = $registroTaxista[0]->apPaterno;
-
-
-						
-						echo "<script>
-							if (confirm('¿Confirma llegada del taxista $nombreTaxista $apellidoTaxista donde pasajero $nombrePasajero $apellidoPasajero ?')) 
-							{ 
-									alert('Taxista comenzo recorrido');
-							    	location.href='EditarTiempoAgotado.php?idPedido=$id & terminar=2';
-								    ////aqui quede, falta que el taxista quede disponible y el pedido finalizado////
-
-							}
-							else 
-							{
-							    alert('Taxista no ha comenzado recorrido');
-							    location.href='EditarTiempoAgotado.php?idPedido=$id & terminar=3';
-							}  
-							</script>";
-					}
-					if( ($hora1>=$hora2) && $tiempoAgotado==2)
-					{
-						$registroTaxista=$base->query("select * from taxista where rut='$refTaxista'")->fetchAll(PDO::FETCH_OBJ);
-
-						$nombreTaxista = $registroTaxista[0]->nombre;
-
-						$apellidoTaxista = $registroTaxista[0]->apPaterno;
-
-						
-
-						
-						echo "<script>
-							if (confirm('¿Confirma termino del recorrido del taxista $nombreTaxista $apellidoTaxista ?')) 
-							{ 
-									alert('Taxista termino recorrido');
-							    	location.href='EditarTiempoAgotado.php?idPedido=$id & terminar=1';
-								    ////aqui quede, falta que el taxista quede disponible y el pedido finalizado////
-
-							} 
-							else 
-							{
-							    alert('Taxista no ha terminado recorrido');
-							    location.href='EditarTiempoAgotado.php?idPedido=$id & terminar=0';
-							} 
-
-							</script>";
-
-					}
-
-	            }
-
-			endforeach;					
-
-	?>
 
 </body>
 </html>

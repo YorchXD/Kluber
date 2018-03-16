@@ -14,7 +14,17 @@ var tiempoString;
 var tiempoLlegadaTaxi = 600;
 var costoInicial = 0;
 var costoMetro = 0;
+/*###########################cambio######################################*/
+var latOrigen= '';
+var lngOrigen= '';
+var latDestino= '';
+var lngDestino= '';
 
+var idValue; 
+var direccionOrigen;
+var direccionDestino;
+var distanciaValue;
+/*#######################################################################*/
 
 
 google.maps.event.addDomListener(window, "load", function(){
@@ -76,7 +86,11 @@ google.maps.event.addDomListener(window, "load", function(){
 				}
 
 				origenValue = place.geometry.location;
+				/*###########################cambio######################################*/
+				latOrigen= ''+origenValue.lat();
+				lngOrigen= ''+origenValue.lng();
 				marcadorInicio.setPosition(place.geometry.location);
+				/*#######################################################################*/
 				marcadorInicio.setVisible(true);
 
 				var address = "";
@@ -130,6 +144,10 @@ google.maps.event.addDomListener(window, "load", function(){
 				}
 
 				destinoValue = place.geometry.location;
+				/*###########################cambio######################################*/
+				latDestino= ''+destinoValue.lat();
+				lngDestino= ''+destinoValue.lng();
+				/*#######################################################################*/
 				marcadorDestino.setPosition(place.geometry.location);
 				marcadorDestino.setVisible(true);
 
@@ -321,40 +339,50 @@ function mostrarAlerta2()
 		apellidoValue = document.getElementById('Apellido').value;
 		telefonoValue = document.getElementById('Telefono').value;
 
-		var latOrigen= ''+origenValue.lat();
-		var lngOrigen= ''+origenValue.lng();
-		var latDestino= ''+destinoValue.lat();
-		var lngDestino= ''+destinoValue.lng();
-
-		var direccionOrigen= document.getElementById('autocompleteInicio').value;
-		var direccionDestino= document.getElementById('autocompleteDestino').value;
+		direccionOrigen= document.getElementById('autocompleteInicio').value;
+		direccionDestino= document.getElementById('autocompleteDestino').value;
 
 		var taxista= document.getElementById('comboboxTaxista').value;
-	
-	
-		if (confirm("¿Seguro que desean enviar la solicitud?")) {
-		    $.post("EnvioSolicitudTaxiEditar.php",{idPedido: idValue,nombre: nombreValue, apellido: apellidoValue, 
-		    	telefono: telefonoValue, distancia: distanciaValue, fecha: fechaValue, hora: horaValue, 
-		    	latOrigen: latOrigen, lngOrigen: lngOrigen, latDestino: latDestino, lngDestino: lngDestino, 
-		    	direccionOrigen: direccionOrigen, direccionDestino: direccionDestino, taxista:taxista, 
-		    	distancia:distanciaValue, tiempo:tiempoString, costo:calculaCosto, segundosEstimados:tiempoInt }, validarEnvio);
-		    alert("verificando datos...");
 
-		    if(validar)
-		    {
-		    	return true;
-		    }
-		    else
-		    {
-		    	return false;
-		    }
-
-		} 
-		else 
+		alert("taxista: " +taxista);
+	
+		if(taxista!="Correo")
 		{
-		    alert("Error, los datos no fueron enviados");
-		    return false;
+	
+			if (confirm("¿Seguro que desean enviar la solicitud?")) 
+			{
+
+
+			    $.post("EnvioSolicitudTaxiEditar.php",{idPedido: idValue,nombre: nombreValue, apellido: apellidoValue, 
+			    	telefono: telefonoValue, fecha: fechaValue, hora: horaValue, 
+			    	latOrigen: latOrigen, lngOrigen: lngOrigen, latDestino: latDestino, lngDestino: lngDestino, 
+			    	direccionOrigen: direccionOrigen, direccionDestino: direccionDestino, taxista:taxista, 
+			    	distancia:distanciaValue, tiempo:tiempoString, costo:calculaCosto, segundosEstimados:tiempoInt }, validarEnvio);
+			    	//location.href='EnvioPedidoTiempoTranscurrido.php?id=idValue';
+			    alert("verificando datos...");
+
+			    if(validar)
+			    {
+			    	return true;
+			    }
+			    else
+			    {
+			    	return false;
+			    }
+
+			} 
+			else 
+			{
+			    alert("Error, los datos no fueron enviados");
+			    return false;
+			}
 		}
+		else
+		{
+			alert("Seleccione correo taxista valido");
+			return false;
+		}
+
 	}
 	else
 	{
@@ -367,10 +395,10 @@ function mostrarAlerta2()
 function validarEnvio(respuesta){			
 
 	//alert(respuesta); //Mostramos un alert del resultado devuelto por el php
-
 	//alert("respuesta: "+respuesta);
 
 	alert("La modificación de la solicitud fue hecha exitosamente");
+
 	validar = true;
 
 
@@ -378,7 +406,7 @@ function validarEnvio(respuesta){
 
 function devuelvePrecio() 
 {
-    $.post("consultaPrecioInicial.php",{numer:1},function( respuesta)//costo Inicial
+    $.post("consultaPrecioInicial.php",{numer:1},function(respuesta)//costo Inicial
 	{
 		costoInicial = parseInt(respuesta);
 		//alert("costoInicial: "+costoInicial);
@@ -390,6 +418,40 @@ function devuelvePrecio()
 		//alert("costoMetro: "+costoMetro);
 	});
 }
+
+
+
+/*###########################cambio######################################*/
+function mostrarDatos2(numeroPedido, nombreCliente, apellidoCliente, direccionInicial, direccionDestino, telefono, latitudInicial, longitudInicial, latitudFinal, longitudFinal, tiempoEst, segundosEst, distanciaEst, costoEst, fecha, hora)
+{
+	idValue = numeroPedido;
+	nombreValue = nombreCliente;
+	apellidoValue = apellidoCliente;
+	telefonoValue = telefono;
+	fechaValue = fecha;
+	horaValue = hora;
+	latOrigen=latitudInicial;
+	lngOrigen=longitudInicial;
+	latDestino=latitudFinal;
+	lngDestino=longitudFinal
+	direccionOrigen=direccionInicial;
+	direccionDestino=direccionDestino;
+	distanciaValue = distanciaEst;
+	tiempoString = tiempoEst;
+	calculaCosto = costoEst
+	tiempoInt = segundosEst;
+}
+
+
+
+
+
+
+function mostrarDatosMapa()
+{
+
+}
+/*#######################################################################*/
 
 
 

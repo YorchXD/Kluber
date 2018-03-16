@@ -50,6 +50,9 @@
 
 						<?php foreach ($registros as $taxista):?> 
 
+							<?php if($taxista->correo!="1") 
+    						{?>
+
 							    <tbody>    
 
 								    <?php
@@ -75,6 +78,8 @@
 								        <td><?php echo $taxista->estado ?></td>
 							      	</tr>
 							    </tbody>
+
+							<?php }  ?>
 
 					    <?php endforeach; ?>
 

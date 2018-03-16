@@ -87,7 +87,7 @@
 			    </div>
 			    
 				<center>
-					<button name="botonRegistro" id="botonRegistro" type="submit" class="btn btn-warning">Registrar</button>
+					<button name="botonRegistro" type="submit" class="btn btn-warning">Registrar</button>
 				</center>
 
 			</form>

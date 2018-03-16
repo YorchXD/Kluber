@@ -165,7 +165,7 @@
     }
 
 
-    header("Location:Principal.php");
+    header("Location:encabezado.php");
 
     /*$registrosDisponibilidad=$base->query("select * from disponibilidadchoferes")->fetchAll(PDO::FETCH_OBJ);
 

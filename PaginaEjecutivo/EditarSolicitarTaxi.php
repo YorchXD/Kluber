@@ -28,7 +28,8 @@
 		//al hacer click en el boton Solicitar se edita Pedido
 	    $(document).on("click","#botonEditar", mostrarAlerta);    
 
-		function mostrarAlerta(){
+		function mostrarAlerta()
+		{
 			nombreValue = document.getElementById('Nombre').value;
 			apellidoValue = document.getElementById('Apellido').value;
 			telefonoValue = document.getElementById('Telefono').value;
@@ -44,13 +45,21 @@
 				alert("Verifica que los campos no esten vacios");
 				return false;
 			}
-
 	    }
 	                  
 	</script>
 
+	<script type="text/javascript">
+		function mostrarDatos(numeroPedido, nombreCliente , apellidoCliente ,direccionInicial, direccionDestino, telefono, latitudInicial, longitudInicial, latitudFinal, longitudFinal,tiempoEst, segundosEst, distanciaEst, costoEst, fecha, hora)		{
+			//alert("direccion inicicial: " + direccionInicial);
+			mostrarDatos2(numeroPedido, nombreCliente, apellidoCliente, direccionInicial, direccionDestino, telefono, latitudInicial, longitudInicial, latitudFinal, longitudFinal, tiempoEst, segundosEst, distanciaEst, costoEst, fecha, hora);
+		}
+	</script>
+
 </head>
 <body>
+
+	
 	<?php 
 
 		//-------- Captura fecha actual ---------//
@@ -91,27 +100,76 @@
 
 		include("conexion.php");//conexion BD
 
-		$RegistroTaxis=$base->query("select * from taxi")->fetchAll(PDO::FETCH_OBJ);		
+		$RegistroTaxis=$base->query("select * from taxi")->fetchAll(PDO::FETCH_OBJ);	
 
-		$numeroPedido = "Numero Pedido";
+		
 
-		$nombreCliente = "Nombre Cliente";
+	    /*if($_POST["comboboxPedidos"] == "Escoja id")
+	  	{
+		  	$numeroPedido = "Numero Pedido";
+		}
+		else
+		{
+			$numeroPedido =  $_GET["id"];
+		}*/
+		/*echo "<script>
 
-		$apellidoCliente = "Apellido Cliente";
+        	alert($_POST['idCaptura']);
+		</script>";	*/
 
-		$direccionInicial = "Dirección Inicial";
+		//$prueba = $_POST["idCaptura"];
+		$RegistroTaxista=$base->query("select * from taxista inner join disponibilidadchoferes on taxista.rut = disponibilidadchoferes.RefTaxista where disponibilidadchoferes.estado='disponible'")->fetchAll(PDO::FETCH_OBJ); //consulta par aobtener los datos del taxista que este disponible y el que se haya seleccionado
 
-		$direccionDestino = "Dirección Destino";
+		$editar = 0;
 
-		$nombreTaxista = "Nombre Taxista";
+		if (isset($_GET['id']) && !empty($_GET['id'])) 
+		{
+		  	// assign value to local variable
+			
 
-		$apellidoTaxista = "Apellido Taxista";
 
-		$estado = "Estado";
+		  	$numeroPedido = $_GET['id'];
+		  	$nombreCliente =  $_GET["nombreCliente"];
+			$apellidoCliente =  $_GET["apellidoCliente"];
+			$direccionInicial =  $_GET["direccionInicial"];
+			$direccionDestino =  $_GET["direccionDestino"];
+			$telefono =  $_GET["telefono"];
+			$latitudInicial = $_GET["latitudInicial"];
+			$longitudInicial = $_GET["longitudInicial"];
+			$latitudFinal = $_GET["latitudFinal"];
+			$longitudFinal = $_GET["longitudFinal"];
 
-		$telefono = "Teléfono";
+			$tiempoEst = $_GET["tiempo"];
+			$segundosEst = $_GET["segundos"];
+			$distanciaEst = $_GET["distancia"];
+			$costoEst = $_GET["costo"];
+			$fecha = $_GET["fecha"];
+			$hora = $_GET["hora"];
 
+			$editar = 1;
+
+
+		} 
+		else 
+		{
+
+		  	$numeroPedido = "Numero Pedido";
+		  	$nombreCliente = "Nombre Cliente";
+			$apellidoCliente = "Apellido Cliente";
+			$direccionInicial = "Dirección Inicial";
+			$direccionDestino = "Dirección Destino";
+			$nombreTaxista = "Nombre Taxista";
+			$apellidoTaxista = "Apellido Taxista";
+			$estado = "Estado";
+			$telefono = "Teléfono";
+
+		}
+
+		
 		$correoTaxista = "Correo";
+
+
+		
 
 		$RegistroPedido=$base->query("select * from pedido")->fetchAll(PDO::FETCH_OBJ);//consulta para obtener datos de los pedidos
 
@@ -160,6 +218,33 @@
 
 	 ?>
 
+	 <script type="text/javascript">
+	 	if('<?php echo $editar; ?>'==1)
+	 	{
+
+			var numeroPedido = '<?php echo $numeroPedido; ?>';
+			var nombreCliente = '<?php echo $nombreCliente; ?>';
+			var apellidoCliente = '<?php echo $apellidoCliente; ?>';
+			var direccionInicial = '<?php echo $direccionInicial; ?>';
+			var direccionDestino = '<?php echo $direccionDestino; ?>';
+			var telefono = '<?php echo $telefono; ?>';
+			var latitudInicial = '<?php echo $latitudInicial; ?>';
+			var longitudInicial = '<?php echo $longitudInicial; ?>';
+			var latitudFinal = '<?php echo $latitudFinal; ?>';
+			var longitudFinal = '<?php echo $longitudFinal; ?>';
+			var tiempoEst = '<?php echo $tiempoEst; ?>';
+			var segundosEst = '<?php echo $segundosEst; ?>';
+			var distanciaEst = '<?php echo $distanciaEst; ?>';
+			var costoEst = '<?php echo $costoEst; ?>';
+			var fecha = '<?php echo $fecha; ?>';
+			var hora = '<?php echo $hora; ?>';
+
+			mostrarDatos(numeroPedido, nombreCliente , apellidoCliente ,direccionInicial, direccionDestino, telefono, latitudInicial, longitudInicial,
+				latitudFinal, longitudFinal,tiempoEst, segundosEst, distanciaEst, costoEst, fecha, hora);
+		}
+		
+	</script>
+
 	<div class="wrapper">
 		<center>
 			<div class="formulario">
@@ -174,7 +259,7 @@
 					    <select class="registroTaxitaForm" name="comboboxPedidos" id="comboboxPedidos">
 					    	<optgroup label="Escoja id del pedido">
 
-				    			<option  value=<Escoja>Escoja id</option>
+				    			<option  value=Escoja>Escoja id</option>
 
 					    		<?php foreach ($RegistroPedido as $pedidos):?>
 					    			<?php if(($pedidos->fecha == $fechaActual) && ($pedidos->estado == "esperando")) 
@@ -185,11 +270,14 @@
 							</optgroup>
 						</select> 
 					</div>
-
+					
+					<!-- Separador-->
+					<label></label>
 					<center>
 						<button name="botonBuscar" id="botonBuscar" type="submit" class="btn btn-warning">Buscar</button>
 					</center>
-
+					<!-- Separador-->
+					<label></label>
 					<div class="solicitud">
 					    <input type="NumeroPedido" class="form-control" id="NumeroPedido" placeholder="Numero Pedido" name="NumeroPedido" value="<?php echo $numeroPedido?>" readonly="readonly">
 				    </div>
@@ -219,7 +307,10 @@
 
 					    <select class="registroTaxistaForm" name="comboboxTaxista" id="comboboxTaxista">
 					    	<optgroup label="Escoja correo del taxista">
-					    	<option  value=<?php echo $correoTaxista?>><?php echo $correoTaxista?></option>
+				    		<?php if($correoTaxista!="1") 
+	    					{?>
+					    		<option  value=<?php echo $correoTaxista?>><?php echo $correoTaxista?></option>
+				    		<?php  }?>
 				    		<?php foreach ($RegistroTaxista as $taxista):?>
 				    			<?php if($correoTaxista!=$taxista->correo) 
 		    					{?>
@@ -229,10 +320,15 @@
 						</select> 
 
 					</div>
-				
+					
+					<!-- Separador-->
+					<label></label>
 					<center>
 						<button id="botonEditar" name="botonEditar" type="submit" class="btn btn-warning" >Editar solicitud</button>
 					</center>
+
+					<input  type="hidden" class="form-control" name="idCaptura" value="">
+
 
 				</form>
 			</div>

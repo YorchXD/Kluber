@@ -8,7 +8,6 @@
     $telefono = $_POST["telefono"];
     $direccionInicial = $_POST["direccionOrigen"];
     $direccionDestino = $_POST["direccionDestino"];
-    $distancia = $_POST["distancia"];
     $fecha = $_POST["fecha"];
     $hora = $_POST["hora"];
     $estado = "esperando";
@@ -42,6 +41,8 @@
         $base->query("update disponibilidadchoferes set estado='disponible' where RefTaxista='$taxistaAnterior'");
 
         $base->query("update disponibilidadchoferes set estado='ocupado' where RefTaxista='$taxistaNuevo'");
+
+        header("Location:EnvioPedidoTiempoTranscurrido.php?id=$numeroPedido");
 
         echo "$numeroPedido";
 

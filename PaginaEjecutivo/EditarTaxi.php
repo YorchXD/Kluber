@@ -108,18 +108,21 @@
 	  		
 	  	<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
 
-
+		
 	  		<!-- Combobox para seleccionar taxi a editar -->
 		    <div class="registroTaxitaForm"> 
+				<center>
+				    <select class="registroTaxitaForm" name="comboboxTaxis">
+				    	<optgroup label="Escoja Pantente del taxi">
 
-			    <select class="registroTaxitaForm" name="comboboxTaxis">
-			    	<optgroup label="Escoja Pantente del taxi">
-
-		    		<?php foreach ($RegistroTaxis as $taxis):?>
-						<option  value=<?php echo $taxis->patente?>><?php echo $taxis->patente?></option>
-					<?php endforeach; ?>
-				</select> 
-
+			    		<?php foreach ($RegistroTaxis as $taxis):?>
+			    			<?php if($taxis->patente!="1") 
+	    					{?>
+								<option  value=<?php echo $taxis->patente?>><?php echo $taxis->patente?></option>
+							<?php } ?>
+						<?php endforeach; ?>
+					</select> 
+				</center>
 			</div>
 
 		    <center>
