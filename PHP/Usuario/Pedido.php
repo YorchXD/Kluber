@@ -24,7 +24,7 @@
 
 
     /*Inserta los datos*/
-    $statement = mysqli_prepare($con, "INSERT INTO pedido (nombre, apellido, fecha, hora, direccionInicial, direccionFinal, latitudInicial, longitudInicial, latitudFinal, longitudFinal, distanciaEstimada, tiempoEstimado, segundosEstimados, costoEstimado, estado, telefono, tiempoEsperaComienzo, segundosEsperaComienzo , RefChpferTaxista ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?)");
+    $statement = mysqli_prepare($con, "INSERT INTO pedido (nombre, apellido, fecha, hora, direccionInicial, direccionFinal, latitudInicial, longitudInicial, latitudFinal, longitudFinal, distanciaEstimada, tiempoEstimado, segundosEstimados, costoEstimado, estado, telefono, tiempoEsperaComienzo, segundosEsperaComienzo , RefChoferTaxista ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?)");
     mysqli_stmt_bind_param($statement, "sssssssssssssssssss", $nombre, $apellido, $fecha, $hora, $lugarInicio, $lugarDestino, $latitudInicio, $longitudInicio, $latitudDestino, $longitudDestino, $distanciaEstimada, $tiempoEstimado, $segundosEstimados , $costoEstimado, $estado, $telefono, $tiempoEsperaComienzo, $segundosEsperaComienzo, $refTaxista);
     mysqli_stmt_execute($statement);
 
