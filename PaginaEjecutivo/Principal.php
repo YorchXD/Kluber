@@ -250,7 +250,6 @@
 
 			            	if($taxistaRut=='1')
 			            	{
-			            		alert('latitud inicial: $latitudInicial longitud inicial: $longitudInicial latitud final: $latitudFinal longitud final: $longitudFinal tiempo: $tiempo segundos: $segundos distancia: $distancia costo: $costo');
 			            		alert('Hay nuevo pedido de taxi desde usuario ingrese taxista ');
 								location.href='SolicitarTaxi.php?id=$id & nombreCliente=$nombreCliente & apellidoCliente=$apellidoCliente & direccionInicial=$direccionInicial & direccionDestino=$direccionDestino & telefono=$telefono & latitudInicial=$latitudInicial & longitudInicial=$longitudInicial & latitudFinal=$latitudFinal & longitudFinal=$longitudFinal & tiempo=$tiempo & segundos=$segundos & distancia=$distancia & costo=$costo & fecha=$fecha & hora=$hora';
 			            	}

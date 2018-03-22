@@ -82,7 +82,7 @@ function mostrarAlerta2()
 
 		var taxista= document.getElementById('comboboxTaxista').value;
 
-		alert("taxista: " +taxista);
+		//alert("taxista: " +taxista);
 	
 		if(taxista!="Correo")
 		{
@@ -341,14 +341,14 @@ function mostrarDatosMapa()
 
 				if(marcar==1)
 				{
-					alert("creo que entra 2: " + origenValue);
+					//alert("creo que entra 2: " + origenValue);
 					var objConfigDS={
 						origin: origenValue,
 						destination: destinoValue,
 						travelMode: google.maps.TravelMode.DRIVING
 					}
 
-					alert("creo que entra 2: " + origenValue);
+					//alert("creo que entra 2: " + origenValue);
 
 					ds.route(objConfigDS, funRutear);
 
@@ -492,49 +492,6 @@ function mostrarDatosMapa()
 
 			});
 	});
-}
-/*#######################################################################*/
-
-function trayectoria(dr, ds)
-{
-	/*alert("entro");
-	var objConfigDS={
-		origin: origenValue,
-		destination: destinoValue,
-		travelMode: google.maps.TravelMode.DRIVING
-	}
-
-	ds.route(objConfigDS, fnRutear);
-
-	function fnRutear(resultados, status)
-	{
-		if (status=='OK') 
-		{
-			dr.setDirections(resultados);
-			distanciaYtiempo()
-		}
-		else
-		{
-			alert('Error'+status);
-		}
-	}
-	alert("entro");*/
-
-	alert("entro");
-	var mapa = new google.maps.Map(document.getElementById('map'), {
-	    zoom: 4,
-	    center: myLatLng
-	  });
-
-	var myLatLng = {lat: latitudInicial, lng: longitudInicial};
-
-
-  	var marker = new google.maps.Marker({
-    	position: myLatLng,
-    	map: mapa,
-    	title: 'Hello World!'
-  	});
-
 }
 
 

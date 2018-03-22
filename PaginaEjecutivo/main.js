@@ -338,7 +338,7 @@ function mostrarAlerta2()
 		direccionDestino= document.getElementById('autocompleteDestino').value;
 
 	    var taxista= document.getElementById('comboboxTaxista').value;
-		alert("idValue: " + idValue);
+		//alert("idValue: " + idValue);
 		if(taxista!="Correo")
 		{
 			if (idValue=="-1") 

@@ -52,6 +52,8 @@
 	<script type="text/javascript">
 		function mostrarDatos(numeroPedido, nombreCliente , apellidoCliente ,direccionInicial, direccionDestino, telefono, latitudInicial, longitudInicial, latitudFinal, longitudFinal,tiempoEst, segundosEst, distanciaEst, costoEst, fecha, hora)		{
 			//alert("direccion inicicial: " + direccionInicial);
+
+			
 			mostrarDatos2(numeroPedido, nombreCliente, apellidoCliente, direccionInicial, direccionDestino, telefono, latitudInicial, longitudInicial, latitudFinal, longitudFinal, tiempoEst, segundosEst, distanciaEst, costoEst, fecha, hora);
 		}
 	</script>
@@ -148,7 +150,6 @@
 
 			$editar = 1;
 
-
 		} 
 		else 
 		{
@@ -164,8 +165,6 @@
 			$telefono = "Teléfono";
 
 		}
-
-		
 		$correoTaxista = "Correo";
 
 
@@ -192,20 +191,27 @@
 					$RegistroTaxista=$base->query("select * from taxista inner join disponibilidadchoferes on taxista.rut = disponibilidadchoferes.RefTaxista where disponibilidadchoferes.estado='disponible' or disponibilidadchoferes.RefTaxista='$rutTaxista'")->fetchAll(PDO::FETCH_OBJ); //consulta par aobtener los datos del taxista que este disponible y el que se haya seleccionado
 
 			    	$numeroPedido = $registros[0]->id;
-
 				 	$nombreCliente = $registros[0]->nombre;
-
 				 	$apellidoCliente = $registros[0]->apellido;
-
 				  	$direccionInicial = $registros[0]->direccionInicial;
-
 		  		  	$direccionDestino = $registros[0]->direccionFinal;
-
 		  		  	$telefono = $registros[0]->telefono;
 
-		  		  	$registroTaxista2=$base->query("select * from taxista where rut='$rutTaxista'")->fetchAll(PDO::FETCH_OBJ);//consulta para obtener datos del taxista
+					$latitudInicial =  $registros[0]->latitudInicial;
+					$longitudInicial = $registros[0]->longitudInicial;
+					$latitudFinal = $registros[0]->latitudFinal;
+					$longitudFinal = $registros[0]->longitudFinal;
 
+					$tiempoEst = $registros[0]->tiempoEstimado;
+					$segundosEst = $registros[0]->segundosEstimados;
+					$distanciaEst = $registros[0]->distanciaEstimada;
+					$costoEst = $registros[0]->costoEstimado;
+					$fecha = $registros[0]->fecha;
+					$hora = $registros[0]->hora;
+
+		  		  	$registroTaxista2=$base->query("select * from taxista where rut='$rutTaxista'")->fetchAll(PDO::FETCH_OBJ);//consulta para obtener datos del taxista
 		  		  	$correoTaxista = $registroTaxista2[0]->correo;
+		  		  	$editar = 1;
 			
 				}
 				else
@@ -238,6 +244,8 @@
 			var costoEst = '<?php echo $costoEst; ?>';
 			var fecha = '<?php echo $fecha; ?>';
 			var hora = '<?php echo $hora; ?>';
+
+			
 
 			mostrarDatos(numeroPedido, nombreCliente , apellidoCliente ,direccionInicial, direccionDestino, telefono, latitudInicial, longitudInicial,
 				latitudFinal, longitudFinal,tiempoEst, segundosEst, distanciaEst, costoEst, fecha, hora);
