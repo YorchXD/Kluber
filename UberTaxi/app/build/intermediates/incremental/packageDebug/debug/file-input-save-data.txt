@@ -1,5 +1,4 @@
 #Internal package file, do not edit.
-<<<<<<< Updated upstream
 #Fri Mar 16 23:56:17 CLST 2018
 1.base=C\:\\Users\\Fito\\Desktop\\Repositorio Kluber\\Kluber\\UberTaxi\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
 0.baseType=DIRECTORY
@@ -10,15 +9,3 @@ count=2
 0.set=ASSET
 0.base=C\:\\Users\\Fito\\Desktop\\Repositorio Kluber\\Kluber\\UberTaxi\\app\\build\\intermediates\\assets\\debug
 1.path=classes.dex
-=======
-#Thu Mar 22 11:14:27 CLST 2018
-1.base=D\:\\Repositorios\\Kluber\\UberTaxi\\app\\build\\intermediates\\assets\\debug
-0.baseType=DIRECTORY
-1.baseType=DIRECTORY
-count=2
-1.set=ASSET
-0.path=classes.dex
-0.set=DEX
-0.base=D\:\\Repositorios\\Kluber\\UberTaxi\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
-1.path=gifKluber.gif
->>>>>>> Stashed changes
