@@ -84,6 +84,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     private int distanciaEstimada = -1;
     LatLng coordenadasInicio, coordenadasFin;
 
+    boolean confirma;
+
+    Pedido pedido;
+
     /**
      * Se encarga de inicializar la varibles, el mapa y acciones de botones
      * @param savedInstanceState
@@ -99,6 +103,9 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         seMarcoDestino = false;
         direccionOrigen = "";
         direccionDestino = "";
+
+        confirma=false;
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -967,7 +974,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     {
         Persona persona = new Persona(miNombre, miApellido ,miTelefono);
         Recorrido recorrido = obtenerRecorrido();
-        Pedido pedido = pedido(persona, recorrido);
+        pedido = pedido(persona, recorrido);
         ingresarPedido(pedido, recorrido);
     }
 
@@ -993,7 +1000,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                     if (success)
                     {
                         String idPedido = jsonResponse.getString("id");
-                        //Log.d("pasos","1. paso por ingresar pedido y su id es " + jsonResponse.getString("id"));
+                        Log.d("pasos","1. paso por ingresar pedido y su id es " + jsonResponse.getString("id"));
                         ingresarRecorrido(idPedido, recorrido);
 
                     }
@@ -1021,10 +1028,97 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
      * donde el taxista debe recoger al cliente y el lugar de destino donde debe llevar a este. Ademas se registran
      * otros datos que conlleva un recorrido.
      * @param idPedido
+     */
+    public void ConfirmaPedido(final String idPedido)
+    {
+        Log.d("idPEdido",""+idPedido);
+
+        try
+        {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //confirma = true;
+        Response.Listener<String> responseListener = new Response.Listener<String>()
+        {
+
+            @Override
+            public void onResponse(String response)
+            {
+                try
+                {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    boolean success = jsonResponse.getBoolean("success");
+                    if (success)
+                    {
+                        String duracion = jsonResponse.getString("duracion");
+
+                        Log.d("duracion",""+duracion);
+                        Log.d("pasos","3. paso por ingresar recorrido");
+                        enviaMesanjeConfirmaPedido(duracion);
+                        if(confirma)
+                        {
+                            //Log.d("AquiALerta","");
+                            CommandNames.alerta(Home.this, "Pedido Confirmado", "Taxi va en camino");
+                        }
+                        else
+                        {
+                            ConfirmaPedido(idPedido);
+                        }
+
+                    }
+                    else
+                    {
+                        CommandNames.alerta(Home.this, "Error", "Intente nuevamente");
+                    }
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                    Log.d("e.printStackTrace()","");
+                }
+            }
+        };
+        Log.d("aers","");
+        //final String idYo = getIntent().getStringExtra("correo");
+        //final String clave = getIntent().getStringExtra("clave");
+
+        ConfirmaPedidoRequest confirmaPedidoRequest = new ConfirmaPedidoRequest(idPedido, responseListener);
+        RequestQueue queue = Volley.newRequestQueue(Home.this);
+        queue.add(confirmaPedidoRequest);
+
+    }
+
+    /**
+     * En caso de que el pedido sea registrado correctamente, se procede a guardar en la base de datos, los puntos
+     * donde el taxista debe recoger al cliente y el lugar de destino donde debe llevar a este. Ademas se registran
+     * otros datos que conlleva un recorrido.
+     * @param duracion
+     */
+    public void enviaMesanjeConfirmaPedido(String duracion)
+    {
+        Log.d("duracion",""+duracion);
+        if(duracion.compareTo("00:00:01") > 0)
+        {
+            Log.d("entro","es mayor");
+            confirma = true;
+        }
+
+
+    }
+
+    /**
+     * En caso de que el pedido sea registrado correctamente, se procede a guardar en la base de datos, los puntos
+     * donde el taxista debe recoger al cliente y el lugar de destino donde debe llevar a este. Ademas se registran
+     * otros datos que conlleva un recorrido.
+     * @param idPedido
      * @param recorrido
      */
-    public void ingresarRecorrido(String idPedido, Recorrido recorrido)
+    public void ingresarRecorrido(final String idPedido, Recorrido recorrido)
     {
+
         Response.Listener<String> responseListener = new Response.Listener<String>()
         {
 
@@ -1039,8 +1133,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                     if (success)
                     {
                         String idRecorrido = jsonResponse.getString("id");
-                        //Log.d("pasos","2. paso por ingresar recorrido");
-                        ingresarPersonaRecorrido(idRecorrido);
+                        Log.d("pasos","2. paso por ingresar recorrido");
+                        ingresarPersonaRecorrido(idRecorrido, idPedido);
                     }
                     else
                     {
@@ -1054,17 +1148,22 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             }
         };
 
+        //Log.d("ingresaREc","");
         RecorridoRequest recorridoRequest = new RecorridoRequest(recorrido, idPedido, responseListener);
         RequestQueue queue = Volley.newRequestQueue(Home.this);
         queue.add(recorridoRequest);
     }
+
+
+
+
 
     /**
      * Sirve para unir el id del recorrido con el id del usuario registrado. Estos datos quedan registrado
      * en la base de datos, en la tabla personaRecorrido
      * @param idRecorrido
      */
-    public void ingresarPersonaRecorrido(String idRecorrido)
+    public void ingresarPersonaRecorrido(String idRecorrido, final String idPedido)
     {
         final String refRecorrido = idRecorrido;
         final String refPersona = getIntent().getStringExtra("correo"); //capta el dato correo del activity MainActivity
@@ -1083,6 +1182,9 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                     if (success)
                     {
                         CommandNames.alerta(Home.this, "PEDIDO TAXI EXITOSO", "Se ha pedido taxi a operadora, espere un momento");
+
+
+                        ConfirmaPedido(idPedido);
                     }
                     else
                     {

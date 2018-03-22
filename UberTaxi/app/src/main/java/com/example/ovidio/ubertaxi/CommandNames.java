@@ -12,7 +12,7 @@ import android.support.v7.app.AlertDialog;
  */
 public class CommandNames
 {
-    public static final String url = "http://192.168.0.14/Usuario/";
+    public static final String url = "http://192.168.33.6/Usuario/";
 
     /**
      * Sirve para crear cualquier alerta
