@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="C:\Users\YorchXD\Desktop\UberTaxi\app\src\main\assets"><file name="gifKluber.gif" path="C:\Users\YorchXD\Desktop\UberTaxi\app\src\main\assets\gifKluber.gif"/></source><source path="C:\Users\YorchXD\Desktop\UberTaxi\app\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="C:\Users\YorchXD\Desktop\UberTaxi\app\src\debug\assets"/></dataSet></merger>

@@ -54,6 +54,13 @@
 		}
 	</script>
 
+	<script type="text/javascript">
+		function mostrarMapa()
+		{
+			mostrarDatosMapa();
+		}
+	</script>
+
 </head>
 <body>
 
@@ -72,8 +79,6 @@
 		if (isset($_GET['id']) && !empty($_GET['id'])) 
 		{
 		  	// assign value to local variable
-			
-
 
 		  	$numeroPedido = $_GET['id'];
 		  	$nombreCliente =  $_GET["nombreCliente"];
@@ -92,9 +97,7 @@
 			$costoEst = $_GET["costo"];
 			$fecha = $_GET["fecha"];
 			$hora = $_GET["hora"];
-
 			$editar = 1;
-
 
 		} 
 		else 
@@ -109,6 +112,7 @@
 			$apellidoTaxista = "Apellido Taxista";
 			$estado = "Estado";
 			$telefono = "Teléfono";
+			echo "<script> mostrarMapa(); </script>";
 
 		}
 

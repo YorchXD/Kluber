@@ -25,269 +25,11 @@ var direccionOrigen;
 var direccionDestino;
 var distanciaValue;
 
-
-
-google.maps.event.addDomListener(window, "load", function(){
-	const ubicacion = new Localizacion(()=>
-		{
-			const latLng = {lat: ubicacion.latitude, lng: ubicacion.longitude};
-			const options = {
-				center: latLng,
-				zoom: 14
-			}
-
-			var map = document.getElementById('map');
-			const mapa = new google.maps.Map(map, options);
-
-			/*obtiene las coordenadas*/
-			var ds = new google.maps.DirectionsService;
-			/*Traduce coordenadas a la ruta visible*/
- 			var dr = new google.maps.DirectionsRenderer;
- 			dr.setMap (mapa);
-
- 			var service = new google.maps.DistanceMatrixService;
-
- 			
-
-			/*------------------------------------Datos de inicio-----------------------------------*/
-
-			devuelvePrecio(); //Inicializar precios de recorrido
-			
-			const marcadorInicio = new google.maps.Marker({position: latLng, map: mapa});
-			var informacionInicio = new google.maps.InfoWindow();
-			marcadorInicio.addListener('click', function()
-				{
-					informacionInicio.open(mapa,marcadorInicio);
-				});
-			informacionInicio.close();
-			marcadorInicio.setVisible(false);
-			var autocompleteInicio = document.getElementById('autocompleteInicio');
-			const searchInicio = new google.maps.places.Autocomplete(autocompleteInicio);
-			searchInicio.bindTo("bounds", mapa);
-			searchInicio.addListener('place_changed', function()
-			{
-				informacionInicio.close();
-				marcadorInicio.setVisible(false);
-				var place = searchInicio.getPlace();
-
-				if (!place.geometry.viewport) 
-				{
-					window.alert("Error al mostrar el lugar");
-					return;
-				}
-				if (place.geometry.viewport) 
-				{
-					mapa.fitBounds(place.geometry.viewport);
-				}
-				else
-				{
-					mapa.setCenter(place.geometry.location);
-					mapa.setZoom(18);
-				}
-
-				origenValue = place.geometry.location;
-				latOrigen= ''+origenValue.lat();
-				lngOrigen= ''+origenValue.lng();
-				marcadorInicio.setPosition(place.geometry.location);
-				marcadorInicio.setVisible(true);
-
-				var address = "";
-
-				if (place.address_components) 
-				{
-					address = [
-						(place.address_components[0] && place.address_components[0].short_name || ''),
-						(place.address_components[1] && place.address_components[1].short_name || ''),
-						(place.address_components[2] && place.address_components[2].short_name || '')
-					];
-				}
-
-				informacionInicio.setContent('<div><strong>'+ place.name + '</strong><br>'+address);
-				informacionInicio.open(map,marcadorInicio);
-				trazarTrayectoria(dr, ds, service);
-			});
-			/*--------------------------------------------------------------------------------------*/
-
-			/*------------------------------------Datos de destino----------------------------------*/
-			const marcadorDestino = new google.maps.Marker({position: latLng, map: mapa});
-			var informacionDestino= new google.maps.InfoWindow();
-			marcadorDestino.addListener('click', function()
-				{
-					informacionDestino.open(mapa,marcadorDestino);
-				});
-			informacionDestino.close();
-			marcadorDestino.setVisible(false);
-			var autocompleteDestino = document.getElementById('autocompleteDestino');
-			const searchDestino = new google.maps.places.Autocomplete(autocompleteDestino);
-			searchDestino.bindTo("bounds", mapa);
-			searchDestino.addListener('place_changed', function()
-			{
-				informacionDestino.close();
-				marcadorDestino.setVisible(false);
-				var place = searchDestino.getPlace();
-
-				if (!place.geometry.viewport) 
-				{
-					window.alert("Error al mostrar el lugar");
-					return;
-				}
-				if (place.geometry.viewport) 
-				{
-					mapa.fitBounds(place.geometry.viewport);
-				}
-				else
-				{
-					mapa.setCenter(place.geometry.location);
-					mapa.setZoom(18);
-				}
-
-				destinoValue = place.geometry.location;
-				latDestino= ''+destinoValue.lat();
-				lngDestino= ''+destinoValue.lng();
-
-				marcadorDestino.setPosition(place.geometry.location);
-				marcadorDestino.setVisible(true);
-
-				var address = "";
-
-				if (place.address_components) 
-				{
-					address = [
-						(place.address_components[0] && place.address_components[0].short_name || ''),
-						(place.address_components[1] && place.address_components[1].short_name || ''),
-						(place.address_components[2] && place.address_components[2].short_name || '')
-					];
-				}
-
-				informacionDestino.setContent('<div><strong>'+ place.name + '</strong><br>'+address);
-				informacionDestino.open(map,marcadorDestino);
-				trazarTrayectoria(dr, ds);
-			});
-			/*--------------------------------------------------------------------------------------*/
+var marcar = 0;
 
 
 
-			function trazarTrayectoria(dr, ds)
-			{
-				if(searchInicio.getPlace()!=null && searchDestino.getPlace()!=null)
-				{
-					
-					var objConfigDS={
-						origin: origenValue,
-						destination: destinoValue,
-						travelMode: google.maps.TravelMode.DRIVING
-					}
 
-					ds.route(objConfigDS, fnRutear);
-
-					function fnRutear(resultados, status)
-					{
-						if (status=='OK') 
-						{
-							marcadorInicio.setVisible(false);
-							marcadorDestino.setVisible(false);
-							dr.setDirections(resultados);
-							distanciaYtiempo()
-						}
-						else
-						{
-							alert('Error'+status);
-						}
-					}
-				}
-			}
-
-
-			function distanciaYtiempo()
-			{
-				var origin1 = origenValue;
-        		var destinationA = destinoValue;
-
-        		var configSevice = {
-		          	origins: [origin1],
-		          	destinations: [destinationA],
-		          	travelMode: 'DRIVING',
-		          	unitSystem: google.maps.UnitSystem.METRIC,
-		          	avoidHighways: false,
-		          	avoidTolls: false
-		        	}
-
-				service.getDistanceMatrix(configSevice, calcular);
-
-				function calcular(response, status) 
-				{
-	          		if (status !== 'OK') 
-	          		{
-	            		alert('El error fue: ' + status);
-	          		} 
-	          		else 
-	          		{
-			            var originList = response.originAddresses;
-			            var destinationList = response.destinationAddresses;
-			            var distanciaTex = document.getElementById('distancia');
-            			var tiempo = document.getElementById('tiempo');
-            			var dinero = document.getElementById('dinero');
-			            distanciaTex.innerHTML = '';
-            			tiempo.innerHTML = '';
-            			dinero.innerHTML = '';
-
-			            for (var i = 0; i < originList.length; i++) 
-			            {
-			              	var results = response.rows[i].elements;
-			              	for (var j = 0; j < results.length; j++) 
-			              	{
-			              		distanciaTex.innerHTML+=results[j].distance.text;
-			              		tiempo.innerHTML+=results[j].duration.text;
-			                	distanciaValue= results[j].distance.value;
-			                	tiempoValue = results[j].duration.text;
-			                	tiempoInt = results[j].duration.value;
-
-			              	}
-			            }
-
-
-			            if(distanciaValue>=200)
-		                {
-		                    var num = distanciaValue/200;
-
-		                    calculaCosto = costoInicial+(num*costoMetro); //calculo aproximado de recorrido
-		                    calculaCosto = parseInt(calculaCosto);
-		                    //alert("calculoCosto: "+calculaCosto);
-		                }
-
-
-		                //alert("costo: "+calculoCosto);
-
-		                dinero.innerHTML += "$"+calculaCosto.toString();
-
-		                tiempoInt += tiempoLlegadaTaxi;
-
-		                //alert("tiempoInt: "+tiempoInt);
-
-		                var hours = Math.floor((tiempoInt % (60 * 60 * 24)) / (60 * 60));
-						var minutes = Math.floor((tiempoInt % (60 * 60)) / (60));
-						var seconds = Math.floor(tiempoInt % 60);
-
-						if(hours<10){
-						    hours='0'+hours;
-						} 
-						if(minutes<10){
-						    minutes='0'+minutes;
-						}
-						if(seconds<10){
-						    seconds='0'+seconds;
-						}
-
-
-						tiempoString =hours+":"+minutes+":"+seconds;
-						//alert("tiempo: "+tiempoString);
-
-			        }
-		        }
-			}
-
-		});
-});
 
 function obtenerFechaHora() {
 	/* Capturamos la Hora, los minutos y los segundos */
@@ -374,7 +116,6 @@ function mostrarAlerta2()
 			{
 				if (confirm("¿Seguro que desean enviar la solicitud?")) 
 				{
-
 
 				    $.post("EnvioSolicitudTaxiEditar.php",{idPedido: idValue,nombre: nombreValue, apellido: apellidoValue, 
 				    	telefono: telefonoValue, fecha: fechaValue, hora: horaValue, 
@@ -473,10 +214,304 @@ function mostrarDatos2(numeroPedido, nombreCliente, apellidoCliente, direccionIn
 	tiempoString = tiempoEst;
 	calculaCosto = costoEst
 	tiempoInt = segundosEst;
+	origenValue = new google.maps.LatLng(latOrigen, lngOrigen);
+	destinoValue = new google.maps.LatLng(latDestino, lngDestino);
+	marcar=1;
+	mostrarDatosMapa();
 }
 
 function mostrarDatosMapa()
 {
+	google.maps.event.addDomListener(window, "load", function(){
+		const ubicacion = new Localizacion(()=>
+			{
+				const latLng = {lat: ubicacion.latitude, lng: ubicacion.longitude};
+				const options = {
+					center: latLng,
+					zoom: 14
+				}
+
+				var map = document.getElementById('map');
+				const mapa = new google.maps.Map(map, options);
+
+				/*obtiene las coordenadas*/
+				var ds = new google.maps.DirectionsService;
+				/*Traduce coordenadas a la ruta visible*/
+	 			var dr = new google.maps.DirectionsRenderer;
+	 			dr.setMap (mapa);
+
+	 			var service = new google.maps.DistanceMatrixService;
+
+	 			
+
+				/*------------------------------------Datos de inicio-----------------------------------*/
+
+				devuelvePrecio(); //Inicializar precios de recorrido
+				
+				const marcadorInicio = new google.maps.Marker({position: latLng, map: mapa});
+				var informacionInicio = new google.maps.InfoWindow();
+				marcadorInicio.addListener('click', function()
+					{
+						informacionInicio.open(mapa,marcadorInicio);
+					});
+				informacionInicio.close();
+				marcadorInicio.setVisible(false);
+				var autocompleteInicio = document.getElementById('autocompleteInicio');
+				const searchInicio = new google.maps.places.Autocomplete(autocompleteInicio);
+				searchInicio.bindTo("bounds", mapa);
+				searchInicio.addListener('place_changed', function()
+				{
+					informacionInicio.close();
+					marcadorInicio.setVisible(false);
+					var place = searchInicio.getPlace();
+
+					if (!place.geometry.viewport) 
+					{
+						window.alert("Error al mostrar el lugar");
+						return;
+					}
+					if (place.geometry.viewport) 
+					{
+						mapa.fitBounds(place.geometry.viewport);
+					}
+					else
+					{
+						mapa.setCenter(place.geometry.location);
+						mapa.setZoom(18);
+					}
+
+					origenValue = place.geometry.location;
+					latOrigen= ''+origenValue.lat();
+					lngOrigen= ''+origenValue.lng();
+					marcadorInicio.setPosition(place.geometry.location);
+					marcadorInicio.setVisible(true);
+
+					var address = "";
+
+					if (place.address_components) 
+					{
+						address = [
+							(place.address_components[0] && place.address_components[0].short_name || ''),
+							(place.address_components[1] && place.address_components[1].short_name || ''),
+							(place.address_components[2] && place.address_components[2].short_name || '')
+						];
+					}
+
+					informacionInicio.setContent('<div><strong>'+ place.name + '</strong><br>'+address);
+					informacionInicio.open(map,marcadorInicio);
+					trazarTrayectoria(dr, ds, service);
+				});
+				/*--------------------------------------------------------------------------------------*/
+
+				/*------------------------------------Datos de destino----------------------------------*/
+				const marcadorDestino = new google.maps.Marker({position: latLng, map: mapa});
+				var informacionDestino= new google.maps.InfoWindow();
+				marcadorDestino.addListener('click', function()
+					{
+						informacionDestino.open(mapa,marcadorDestino);
+					});
+				informacionDestino.close();
+				marcadorDestino.setVisible(false);
+				var autocompleteDestino = document.getElementById('autocompleteDestino');
+				const searchDestino = new google.maps.places.Autocomplete(autocompleteDestino);
+				searchDestino.bindTo("bounds", mapa);
+				searchDestino.addListener('place_changed', function()
+				{
+					informacionDestino.close();
+					marcadorDestino.setVisible(false);
+					var place = searchDestino.getPlace();
+
+					if (!place.geometry.viewport) 
+					{
+						window.alert("Error al mostrar el lugar");
+						return;
+					}
+					if (place.geometry.viewport) 
+					{
+						mapa.fitBounds(place.geometry.viewport);
+					}
+					else
+					{
+						mapa.setCenter(place.geometry.location);
+						mapa.setZoom(18);
+					}
+
+					destinoValue = place.geometry.location;
+					latDestino= ''+destinoValue.lat();
+					lngDestino= ''+destinoValue.lng();
+
+					marcadorDestino.setPosition(place.geometry.location);
+					marcadorDestino.setVisible(true);
+
+					var address = "";
+
+					if (place.address_components) 
+					{
+						address = [
+							(place.address_components[0] && place.address_components[0].short_name || ''),
+							(place.address_components[1] && place.address_components[1].short_name || ''),
+							(place.address_components[2] && place.address_components[2].short_name || '')
+						];
+					}
+
+					informacionDestino.setContent('<div><strong>'+ place.name + '</strong><br>'+address);
+					informacionDestino.open(map,marcadorDestino);
+					trazarTrayectoria(dr, ds);
+				});
+				/*--------------------------------------------------------------------------------------*/
+
+				if(marcar==1)
+				{
+					//alert("creo que entra 2: " + origenValue);
+					var objConfigDS={
+						origin: origenValue,
+						destination: destinoValue,
+						travelMode: google.maps.TravelMode.DRIVING
+					}
+
+					//alert("creo que entra 2: " + origenValue);
+
+					ds.route(objConfigDS, funRutear);
+
+					function funRutear(resultados, status)
+					{
+
+
+						if (status=='OK') 
+						{
+							dr.setDirections(resultados);
+							distanciaYtiempo()
+						}
+						else
+						{
+							alert('Error'+status);
+						}
+					}
+					
+					marcar=0;
+				}
+
+				function trazarTrayectoria(dr, ds)
+				{
+					if(origenValue!=null && destinoValue!=null)
+					{
+						
+						var objConfigDS={
+							origin: origenValue,
+							destination: destinoValue,
+							travelMode: google.maps.TravelMode.DRIVING
+						}
+
+						ds.route(objConfigDS, fnRutear);
+
+						function fnRutear(resultados, status)
+						{
+							if (status=='OK') 
+							{
+								marcadorInicio.setVisible(false);
+								marcadorDestino.setVisible(false);
+								dr.setDirections(resultados);
+								distanciaYtiempo()
+							}
+							else
+							{
+								alert('Error'+status);
+							}
+						}
+					}
+				}
+
+
+				function distanciaYtiempo()
+				{
+					var origin1 = origenValue;
+	        		var destinationA = destinoValue;
+
+	        		var configSevice = {
+			          	origins: [origin1],
+			          	destinations: [destinationA],
+			          	travelMode: 'DRIVING',
+			          	unitSystem: google.maps.UnitSystem.METRIC,
+			          	avoidHighways: false,
+			          	avoidTolls: false
+			        	}
+
+					service.getDistanceMatrix(configSevice, calcular);
+
+					function calcular(response, status) 
+					{
+		          		if (status !== 'OK') 
+		          		{
+		            		alert('El error fue: ' + status);
+		          		} 
+		          		else 
+		          		{
+				            var originList = response.originAddresses;
+				            var destinationList = response.destinationAddresses;
+				            var distanciaTex = document.getElementById('distancia');
+	            			var tiempo = document.getElementById('tiempo');
+	            			var dinero = document.getElementById('dinero');
+				            distanciaTex.innerHTML = '';
+	            			tiempo.innerHTML = '';
+	            			dinero.innerHTML = '';
+
+				            for (var i = 0; i < originList.length; i++) 
+				            {
+				              	var results = response.rows[i].elements;
+				              	for (var j = 0; j < results.length; j++) 
+				              	{
+				              		distanciaTex.innerHTML+=results[j].distance.text;
+				              		tiempo.innerHTML+=results[j].duration.text;
+				                	distanciaValue= results[j].distance.value;
+				                	tiempoValue = results[j].duration.text;
+				                	tiempoInt = results[j].duration.value;
+
+				              	}
+				            }
+
+
+				            if(distanciaValue>=200)
+			                {
+			                    var num = distanciaValue/200;
+
+			                    calculaCosto = costoInicial+(num*costoMetro); //calculo aproximado de recorrido
+			                    calculaCosto = parseInt(calculaCosto);
+			                    //alert("calculoCosto: "+calculaCosto);
+			                }
+
+
+			                //alert("costo: "+calculoCosto);
+
+			                dinero.innerHTML += "$"+calculaCosto.toString();
+
+			                tiempoInt += tiempoLlegadaTaxi;
+
+			                //alert("tiempoInt: "+tiempoInt);
+
+			                var hours = Math.floor((tiempoInt % (60 * 60 * 24)) / (60 * 60));
+							var minutes = Math.floor((tiempoInt % (60 * 60)) / (60));
+							var seconds = Math.floor(tiempoInt % 60);
+
+							if(hours<10){
+							    hours='0'+hours;
+							} 
+							if(minutes<10){
+							    minutes='0'+minutes;
+							}
+							if(seconds<10){
+							    seconds='0'+seconds;
+							}
+
+
+							tiempoString =hours+":"+minutes+":"+seconds;
+							//alert("tiempo: "+tiempoString);
+
+				        }
+			        }
+				}
+
+			});
+	});
 
 }
 

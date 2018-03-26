@@ -89,8 +89,6 @@ function mostrarAlerta2()
 	
 			if (confirm("¿Seguro que desean enviar la solicitud?")) 
 			{
-
-
 			    $.post("EnvioSolicitudTaxiEditar.php",{idPedido: idValue,nombre: nombreValue, apellido: apellidoValue, 
 			    	telefono: telefonoValue, fecha: fechaValue, hora: horaValue, 
 			    	latOrigen: latOrigen, lngOrigen: lngOrigen, latDestino: latDestino, lngDestino: lngDestino, 
@@ -178,12 +176,9 @@ function mostrarDatos2(numeroPedido, nombreCliente, apellidoCliente, direccionIn
 	tiempoString = tiempoEst;
 	calculaCosto = costoEst
 	tiempoInt = segundosEst;
-
 	origenValue = new google.maps.LatLng(latOrigen, lngOrigen);
 	destinoValue = new google.maps.LatLng(latDestino, lngDestino);
-	
 	marcar=1;
-	
 	mostrarDatosMapa();
 }
 
